@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://topik-study.pages.dev/sitemap.xml
