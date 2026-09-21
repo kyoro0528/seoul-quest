@@ -40,5 +40,6 @@
     function renderWords(){const query=search.value.trim().toLowerCase();const visible=all.filter(({category,word})=>(selected==='すべて'||category===selected)&&(!query||word.some(value=>value.toLowerCase().includes(query))));heading.textContent=query?'検索結果':selected==='すべて'?'すべての単語':selected;count.textContent=visible.length+'語';words.innerHTML='';if(!visible.length){words.innerHTML='<div class="empty">該当する単語がありません。検索語を変えてみてください。</div>';return}visible.forEach(({word})=>{const row=document.createElement('article');row.className='word';row.innerHTML=`<div><div class="ko" lang="ko">${word[0]}</div><div class="kana">${word[1]}</div><div class="jp">${word[2]}</div></div>`;const button=document.createElement('button');button.className='speak';button.type='button';button.setAttribute('aria-label',word[0]+'の発音を聞く');button.textContent='🔊';button.onclick=()=>speak(word[0],button);row.append(button);words.append(row)})}
     search.addEventListener('input',renderWords);renderTabs();renderWords();
   </script>
+  <script src="./site-footer.js"></script>
 </body>
 </html>
