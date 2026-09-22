@@ -1,0 +1,16 @@
+{
+  "name": "TOPIK Study - 韓国語学習",
+  "short_name": "TOPIK Study",
+  "description": "単語・文法・読解・聞き取りを毎日10問ずつ学べる韓国語学習アプリ",
+  "lang": "ja",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f8fafc",
+  "theme_color": "#102a43",
+  "icons": [
+    {"src": "/app-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "/app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}
