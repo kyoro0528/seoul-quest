@@ -694,6 +694,7 @@
     h:['ハ','ヘ','ヒャ','ヒェ','ホ','ヘ','ヒョ','ヒェ','ホ','ファ','フェ','フェ','ヒョ','フ','フォ','フェ','フィ','ヒュ','フ','フィ','ヒ']
   };
   function kana(text){return [...text].map(ch=>{const code=ch.charCodeAt(0)-44032;if(code<0||code>11171)return ch===' '?' ':ch;const l=Math.floor(code/588),v=Math.floor(code%588/28),t=code%28;let key=initial[l];if(['kk','tt','pp','ss','jj'].includes(key))key={kk:'k',tt:'t',pp:'p',ss:'s',jj:'ch'}[key];return(bases[key]||bases[''])[v]+finals[t]}).join('')}
+  window.KoreanKana=kana;
   const existing=new Set(Object.values(window.V).flat().map(x=>x[0]));
   let needed=800-existing.size;
   for(const [category,text] of Object.entries(groups)){
