@@ -1,4 +1,4 @@
-const CACHE_NAME = 'topik-study-v1';
+const CACHE_NAME = 'topik-study-v2';
 const CORE_FILES = [
   '/', '/index.html', '/manifest.webmanifest', '/app-icon-192.png',
   '/app-icon-512.png', '/apple-touch-icon.png', '/cafe-scene.png',
