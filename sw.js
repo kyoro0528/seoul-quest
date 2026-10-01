@@ -1,11 +1,11 @@
-const CACHE_NAME = 'topik-study-v3';
+const CACHE_NAME = 'topik-study-v4';
 const CORE_FILES = [
   '/', '/index.html', '/manifest.webmanifest', '/app-icon-192.png',
   '/app-icon-512.png', '/apple-touch-icon.png', '/cafe-scene.png',
   '/vocab.js', '/vocab-extra.js', '/vocab-level2.js',
-  '/roadmap-questions.js', '/site-footer.js', '/learning-storage.js', '/topik1-vocabulary.html',
-  '/topik1-practice.html', '/topik1-grammar.html', '/topik1-reading.html',
-  '/topik1-listening.html', '/topik-guide.html'
+  '/roadmap-questions.js', '/site-footer.js', '/learning-storage.js', '/topik1-vocabulary',
+  '/topik1-practice', '/topik1-grammar', '/topik1-reading',
+  '/topik1-listening', '/topik-guide'
 ];
 
 self.addEventListener('install', event => {
