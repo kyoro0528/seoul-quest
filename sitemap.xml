@@ -38,6 +38,30 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://topik-study.pages.dev/topik1-vocabulary-guide.html</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://topik-study.pages.dev/topik1-grammar-guide.html</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://topik-study.pages.dev/topik1-listening-guide.html</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://topik-study.pages.dev/topik1-reading-guide.html</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://topik-study.pages.dev/topik1-practice.html</loc>
     <lastmod>2026-09-21</lastmod>
     <changefreq>weekly</changefreq>
