@@ -16,7 +16,7 @@
 <section class="result" id="result"><span class="eyebrow">RESULT</span><h1 id="resultTitle">結果</h1><div class="score"><span id="score">0</span><small> / 20</small></div><p id="resultText"></p><div class="result-actions"><button class="primary" id="retry">もう一度20問</button><button class="secondary" id="reviewResult">間違えた問題を復習</button></div><div class="related"><strong>次の学習へ</strong><a href="./topik1-vocabulary.html">単語200</a><a href="./topik1-grammar.html">文法30</a><a href="./topik1-practice.html">総合問題50問</a></div></section></main></div>
 <script>
 const Q=[
-{id:'l01',t:'応答',i:'音声に続く返事として最もよいものを選んでください。',s:'안녕하세요?',a:'네, 안녕하세요?',o:['네, 안녕하세요?','잘 먹었습니다.','미안합니다.','축하합니다.'],j:'こんにちは。',e:'挨拶には同じ挨拶を返せます。'},
+{id:'l01',t:'応答',i:'音声に続く返事として最もよいものを選んでください。',s:'안녕하세요.',a:'네, 안녕하세요.',o:['네, 안녕하세요.','잘 먹었습니다.','미안합니다.','축하합니다.'],j:'こんにちは。',e:'挨拶には同じ挨拶を返せます。'},
 {id:'l02',t:'応答',i:'音声に続く返事として最もよいものを選んでください。',s:'이름이 뭐예요?',a:'김민수예요.',o:['김민수예요.','학생이 있어요.','서울에 가요.','스무 살이에요.'],j:'お名前は何ですか。',e:'名前を尋ねているので、名前で答えます。'},
 {id:'l03',t:'応答',i:'音声に続く返事として最もよいものを選んでください。',s:'어디에 가요?',a:'학교에 가요.',o:['학교에 가요.','책을 읽어요.','친구가 와요.','아홉 시예요.'],j:'どこへ行きますか。',e:'어디は場所を尋ねる言葉です。'},
 {id:'l04',t:'応答',i:'音声に続く返事として最もよいものを選んでください。',s:'무엇을 먹어요?',a:'김밥을 먹어요.',o:['김밥을 먹어요.','물을 마셔요.','식당에 가요.','요리를 해요.'],j:'何を食べますか。',e:'무엇을 먹어요?には食べ物で答えます。'},
@@ -36,7 +36,31 @@ const Q=[
 {id:'l18',t:'家族',i:'音声を聞いて、家族の人数を選んでください。',s:'우리 가족은 아버지, 어머니, 동생, 그리고 저입니다.',a:'네 명',o:['두 명','세 명','네 명','다섯 명'],j:'私の家族は父、母、弟（妹）、そして私です。',e:'合計4人なので네 명です。'},
 {id:'l19',t:'過去',i:'音声を聞いて、昨日したことを選んでください。',s:'어제 도서관에 가서 한국어 책을 읽었습니다.',a:'도서관에서 책을 읽었습니다.',o:['집에서 잤습니다.','도서관에서 책을 읽었습니다.','서점에서 책을 샀습니다.','학교에서 공부했습니다.'],j:'昨日、図書館へ行って韓国語の本を読みました。',e:'도서관에 가서 책을 읽었습니다が要点です。'},
 {id:'l20',t:'予定',i:'音声を聞いて、明日の予定を選んでください。',s:'내일 친구와 박물관에 갈 거예요. 두 시에 만날 거예요.',a:'친구와 박물관에 갑니다.',o:['혼자 영화를 봅니다.','친구와 박물관에 갑니다.','두 시에 학교에 갑니다.','오늘 박물관에 갑니다.'],j:'明日、友達と博物館へ行く予定です。2時に会う予定です。',e:'내일 친구와 박물관에 갈 거예요と言っています。'}];
-Q.forEach(x=>{const n=Number(x.id.slice(1));x.level=n<=8?'1級':'2級';x.field='リスニング';x.difficulty=n<=6?'基礎':n<=14?'標準':'応用';x.subtype=x.t});
+const LISTENING_EXPLANATIONS={
+l01:'正解は「네, 안녕하세요.」です。안녕하세요という挨拶には同じ挨拶で自然に返せます。잘 먹었습니다は食後、미안합니다は謝罪、축하합니다はお祝いの表現です。',
+l02:'正解は「김민수예요.」です。이름이 뭐예요?は名前を尋ねています。학생이 있어요は人の存在、서울에 가요は行き先、스무 살이에요は年齢の答えです。',
+l03:'正解は「학교에 가요.」です。어디は場所を尋ねるため、学校という行き先で答えます。ほかは読書、友達の来訪、時刻についての文です。',
+l04:'正解は「김밥을 먹어요.」です。무엇을 먹어요?は食べる物を尋ねています。水は「飲む」、食堂は場所、料理をするは行動で、質問への直接の答えではありません。',
+l05:'正解は「세 시에 만나요.」です。音声の세 시は3時です。한 시は1時、두 시は2時、네 시は4時なので数字が異なります。',
+l06:'正解は「화요일입니다.」です。最初に오늘은 화요일입니다と明示されています。월요일は月曜、수요일は明日の水曜、목요일は木曜です。',
+l07:'正解は「우산을 가져갑니다.」です。비가 옵니다と우산을 가져가세요が根拠です。帽子を買う、窓を開ける、水を飲むという行動は述べられていません。',
+l08:'正解は「사과를 두 개 삽니다.」です。사과はリンゴ、두 개は2個です。1個ではなく、牛乳やパンを買う話でもありません。',
+l09:'正解は「버스를 타고 회사에 갑니다.」です。毎日バスで会社へ行くと述べています。徒歩、地下鉄で学校、在宅勤務はいずれも音声と異なります。',
+l10:'正解は「수업은 열 시에 시작합니다.」です。現在は9時半ですが、授業開始は10時です。現在時刻と開始時刻を入れ替えないことがポイントです。授業はまだ終わっていません。',
+l11:'正解は「약국 옆에 있습니다.」です。最初の文が銀行は薬局の隣と直接説明しています。コンビニの中、学校の後ろ、病院の前という場所は出てきません。',
+l12:'正解は「집에서 쉽니다.」です。日曜について일요일에는 집에서 쉽니다と述べています。山へ行くのは土曜で、会社や友達の話はありません。',
+l13:'正解は「커피」です。コーヒー4,000ウォン、ジュース5,000ウォンなのでコーヒーが1,000ウォン安いです。同額ではなく、価格は音声から判断できます。',
+l14:'正解は「월요일에는 문을 닫습니다.」です。월요일에 쉽니다は月曜休館という意味です。日曜を含む火曜〜日曜は開館するため、他の休館日の選択肢は誤りです。',
+l15:'正解は「두 사람은 영화를 봅니다.」です。映画への提案に좋아요. 같이 봐요と同意しています。勉強、映画嫌い、週末の仕事という情報はありません。',
+l16:'正解は「010-2345-6789」です。공일공、이삼사오、육칠팔구を順に数字へ直します。他の選択肢は数字の順序または局番が異なります。',
+l17:'正解は「5월 10일」です。오월は5月、십 일は10日です。4月、5日、10月ではありません。月と日の順序に注意します。',
+l18:'正解は「네 명」です。父、母、弟／妹、話し手の合計4人です。家族として列挙された人物を一人ずつ数えます。',
+l19:'正解は「도서관에서 책을 읽었습니다.」です。어제、도서관에 가서、책을 읽었습니다が根拠です。家で寝る、書店で買う、学校で勉強するとは述べていません。',
+l20:'正解は「친구와 박물관에 갑니다.」です。내일 친구와 박물관に行く予定です。2時は友達と会う時刻で学校へ行く時刻ではなく、今日や一人の予定でもありません。'
+};
+function validateListening(items){const ids=new Set(),errors=[];items.forEach(x=>{if(ids.has(x.id))errors.push(`${x.id}: ID重複`);ids.add(x.id);if(!x.s||!x.a||!x.j||!LISTENING_EXPLANATIONS[x.id])errors.push(`${x.id}: 必須項目不足`);if(!Array.isArray(x.o)||x.o.length!==4||new Set(x.o).size!==4||!x.o.includes(x.a))errors.push(`${x.id}: 選択肢・正解不整合`)});if(items.length!==20)errors.push(`問題数: ${items.length}`);return errors}
+const LISTENING_ERRORS=validateListening(Q);if(LISTENING_ERRORS.length)console.error('聞き取り問題データの検査エラー',LISTENING_ERRORS);
+Q.forEach(x=>{const n=Number(x.id.slice(1));x.level=n<=8?'1級':'2級';x.field='リスニング';x.difficulty=n<=6?'基礎':n<=14?'標準':'応用';x.subtype=x.t;x.e=LISTENING_EXPLANATIONS[x.id]});
 const $=s=>document.querySelector(s);let queue=[],pos=0,score=0,answered=false,wrong=new Set(),mode='full';function send(n,p={}){if(typeof gtag==='function')gtag('event',n,p)}function shuffle(a){a=[...a];for(let i=a.length-1;i;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}function saved(){try{return new Set(JSON.parse(localStorage.getItem('topikListeningWrong')||'[]'))}catch{return new Set()}}function save(){localStorage.setItem('topikListeningWrong',JSON.stringify([...wrong]))}function updateReview(){const n=saved().size;$('#reviewStart').textContent=n?`間違いを復習（${n}問）`:'間違いを復習';$('#reviewStart').disabled=!n}function selectedQuestions(){const l=$('#levelFilter').value,d=$('#difficultyFilter').value;return Q.filter(x=>(l==='すべて'||x.level===l)&&(d==='すべて'||x.difficulty===d))}function updateQuestionCount(){const n=selectedQuestions().length;$('#questionCount').textContent=`${n}問が対象です`;$('#start').textContent=`${n}問を始める`;$('#start').disabled=!n}
 function begin(review=false){const old=saved();queue=(review?Q.filter(x=>old.has(x.id)):selectedQuestions()).map(x=>({...x,shown:shuffle(x.o)}));if(!queue.length)return;pos=score=0;answered=false;wrong=review?new Set(old):new Set();mode=review?'review':'filtered';$('#intro').style.display='none';$('#result').classList.remove('show');$('#quiz').classList.add('show');send(review?'listening_review_start':'listening_start',{question_count:queue.length,topik_level:review?'復習':$('#levelFilter').value,question_field:'リスニング',difficulty:review?'復習':$('#difficultyFilter').value});send('practice_start',{practice_type:'listening',practice_mode:mode,content_id:'topik1_listening',question_count:queue.length});render()}
 function render(){window.speechSynthesis?.cancel();answered=false;const x=queue[pos];$('#type').textContent=`${x.level} · ${x.field} · ${x.difficulty}`;$('#counter').textContent=`${pos+1} / ${queue.length}`;$('#bar').style.width=`${pos/queue.length*100}%`;$('#instruction').textContent=x.i;$('#playLabel').textContent='押して音声を聞く';$('#options').innerHTML='';x.shown.forEach(v=>{const b=document.createElement('button');b.className='option';b.textContent=v;b.onclick=()=>answer(b,v);$('#options').append(b)});$('#feedback').className='feedback';$('#next').disabled=true;$('#next').textContent=pos===queue.length-1?'結果を見る':'次の問題へ'}
