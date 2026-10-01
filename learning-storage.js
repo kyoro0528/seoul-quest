@@ -10,7 +10,7 @@
     'sqWrong', 'studySeconds', 'studyByDay', 'studyCount', 'streak', 'last',
     'topikVocabState', 'topikVocabStateBackup', 'topikGrammarMastered',
     'topikListeningWrong', 'topikReadingWrong', 'topikPracticeWrong',
-    'topikPracticeStats', 'topikDailyHistory'
+    'topikPracticeStats', 'topikDailyHistory', 'topikActivityStats'
   ]);
 
   function isLearningKey(key) {
@@ -26,6 +26,7 @@
       }
     } catch (error) {
       console.warn('学習データを読み取れませんでした', error);
+      throw error;
     }
     return items;
   }
@@ -64,6 +65,7 @@
       };
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject(request.error);
+      request.onblocked = () => reject(new Error('保存データベースを開けませんでした'));
     });
   }
 
@@ -99,14 +101,38 @@
     });
   }
 
+  let writes = Promise.resolve();
+  let booting = true;
+  function reportFailure(message) {
+    const show = () => {
+      let notice = document.getElementById('learning-save-error');
+      if (!notice) {
+        notice = document.createElement('p');
+        notice.id = 'learning-save-error';
+        notice.setAttribute('role', 'alert');
+        notice.style.cssText = 'position:fixed;z-index:10000;bottom:12px;left:12px;right:12px;padding:16px;background:#fff1f1;color:#8c2020;border:2px solid #c33;border-radius:10px;font:14px/1.6 sans-serif';
+        document.body.appendChild(notice);
+      }
+      notice.textContent = message || '学習記録を保存できませんでした。画面を閉じず、バックアップを書き出してください。';
+    };
+    if (document.body) show();
+    else document.addEventListener('DOMContentLoaded', show, { once: true });
+  }
+
   async function syncNow() {
+    if (booting) return collect();
     const items = collect();
-    await writeSnapshot(items);
+    const task = writes.catch(() => {}).then(() => writeSnapshot(items));
+    writes = task;
+    await task;
     return items;
   }
 
   async function createBackup() {
-    const items = await syncNow();
+    await ready;
+    let items;
+    try { items = await syncNow(); }
+    catch (_) { items = collect(); }
     return {
       app: 'TOPIK Study',
       version: BACKUP_VERSION,
@@ -133,6 +159,7 @@
   }
 
   async function importBackup(payload) {
+    await ready;
     const items = backupItems(payload);
     for (const [key, value] of Object.entries(items)) {
       if (isLearningKey(key) && typeof value === 'string') localStorage.setItem(key, value);
@@ -141,12 +168,69 @@
   }
 
   async function clearAll() {
+    await ready;
+    await writes.catch(() => {});
     for (const key of Object.keys(collect())) localStorage.removeItem(key);
     await deleteSnapshot();
   }
 
   function isStandalone() {
     return matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  }
+
+  function readJSON(key, fallback) {
+    try { return JSON.parse(localStorage.getItem(key)) || fallback; }
+    catch (_) { return fallback; }
+  }
+
+  function summary() {
+    const vocabRaw = readJSON('topikVocabState', readJSON('topikVocabStateBackup', {}));
+    const vocab = vocabRaw.data || vocabRaw;
+    const activity = readJSON('topikActivityStats', {});
+    const days = { ...readJSON('studyByDay', {}) };
+    let answers = Number(localStorage.getItem('studyCount')) || 0;
+    answers += Object.values(vocab.words || {}).reduce((n, w) => n + (Number(w.correct) || 0) + (Number(w.wrong) || 0), 0);
+    for (const [day, item] of Object.entries(activity)) {
+      answers += Number(item.answers) || 0;
+      days[day] = (Number(days[day]) || 0) + (Number(item.seconds) || 0);
+    }
+    for (const [day, item] of Object.entries(vocab.history || {})) {
+      days[day] = (Number(days[day]) || 0) + (Number(item.seconds) || 0);
+    }
+    const dates = new Set([
+      ...Object.keys(vocab.history || {}), ...Object.keys(activity),
+      ...Object.keys(readJSON('studyByDay', {})),
+      localStorage.getItem('last'), vocab.streak && vocab.streak.last
+    ].filter(Boolean));
+    const dayKey = d => d.toLocaleDateString('sv-SE');
+    const cursor = new Date();
+    cursor.setHours(12, 0, 0, 0);
+    if (!dates.has(dayKey(cursor))) cursor.setDate(cursor.getDate() - 1);
+    let streak = 0;
+    while (dates.has(dayKey(cursor))) { streak++; cursor.setDate(cursor.getDate() - 1); }
+    // Preserve historical streaks from before day-by-day recording was available.
+    const today = dayKey(new Date()), yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    if ([today, dayKey(yesterday)].includes(localStorage.getItem('last'))) streak = Math.max(streak, Number(localStorage.getItem('streak')) || 0);
+    if (vocab.streak && [today, dayKey(yesterday)].includes(vocab.streak.last)) streak = Math.max(streak, Number(vocab.streak.count) || 0);
+    const seconds = Math.max(Number(localStorage.getItem('studySeconds')) || 0, Object.values(readJSON('studyByDay', {})).reduce((n, x) => n + Number(x || 0), 0)) +
+      Object.values(activity).reduce((n, x) => n + Number(x.seconds || 0), 0) +
+      Object.values(vocab.history || {}).reduce((n, x) => n + Number(x.seconds || 0), 0);
+    return { answers, seconds, streak, days };
+  }
+
+  let lastAnswerAt = Date.now();
+  function recordAnswer(correct) {
+    try {
+      const stats = readJSON('topikActivityStats', {});
+      const day = new Date().toLocaleDateString('sv-SE');
+      const entry = stats[day] || { answers: 0, correct: 0, seconds: 0 };
+      entry.answers++; entry.correct += correct ? 1 : 0;
+      entry.seconds += Math.max(0, Math.min(300, Math.round((Date.now() - lastAnswerAt) / 1000)));
+      lastAnswerAt = Date.now(); stats[day] = entry;
+      localStorage.setItem('topikActivityStats', JSON.stringify(stats));
+      syncNow().catch(() => reportFailure());
+    } catch (_) { reportFailure(); }
   }
 
   function showRestoreNotice() {
@@ -186,29 +270,38 @@
         for (const [key, value] of Object.entries(snapshot.items)) {
           if (isLearningKey(key) && typeof value === 'string') localStorage.setItem(key, value);
         }
-        if (!sessionStorage.getItem('topikStorageRestored')) {
-          sessionStorage.setItem('topikStorageRestored', '1');
-          location.reload();
-          return;
-        }
       } else if (snapshot && snapshot.items) {
         for (const [key, value] of Object.entries(snapshot.items)) {
-          if (isLearningKey(key) && localStorage.getItem(key) === null && typeof value === 'string') {
+          const current = localStorage.getItem(key);
+          let invalid = current === null;
+          if (current !== null && key !== 'last') {
+            try {
+              if (key.startsWith('best_') || ['studySeconds', 'studyCount', 'streak'].includes(key)) invalid = !Number.isFinite(Number(current));
+              else JSON.parse(current);
+            } catch (_) { invalid = true; }
+          }
+          if (isLearningKey(key) && invalid && typeof value === 'string') {
             localStorage.setItem(key, value);
           }
         }
       }
+      booting = false;
       await syncNow();
     } catch (error) {
       console.warn('学習データの自動復旧を利用できませんでした', error);
+      booting = false;
+      reportFailure('予備保存を利用できません。学習記録のバックアップを書き出して保管してください。');
     }
   }
 
   const ready = boot();
   window.TopikLearningStorage = {
-    ready, collect, hasMeaningfulData, syncNow, createBackup, importBackup, clearAll, isStandalone
+    ready, collect, hasMeaningfulData, syncNow, createBackup, importBackup, clearAll, isStandalone, reportFailure, summary, recordAnswer
   };
 
+  addEventListener('error', event => {
+    if (event.error && ['QuotaExceededError', 'SecurityError'].includes(event.error.name)) reportFailure();
+  });
   addEventListener('pagehide', () => { syncNow().catch(() => {}); });
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'hidden') syncNow().catch(() => {});
