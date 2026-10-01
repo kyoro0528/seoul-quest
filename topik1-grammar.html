@@ -55,20 +55,54 @@ const DATA=[
 {id:'g23',g:'接続',f:'-아 / 어서',m:'〜ので／〜して',r:'理由や、続けて起こる動作を表します。命令・勧誘の理由には通常使いません。',ex:'배가 아파서 병원에 갔어요.',jp:'お腹が痛くて病院へ行きました。',q:'피곤해(　　) 일찍 잤어요.',a:'서',o:['서','지만','면','도']},
 {id:'g24',g:'接続',f:'-(으)니까',m:'〜ので／〜から',r:'理由や根拠を表します。後ろに命令や提案も置けます。',ex:'늦었으니까 택시를 타세요.',jp:'遅れたので、タクシーに乗ってください。',q:'비가 오(　　) 우산을 가져가세요.',a:'니까',o:['니까','지만','거나','고']},
 {id:'g25',g:'接続',f:'-(으)면',m:'〜なら／〜すると',r:'条件や仮定を表します。',ex:'시간이 있으면 만나요.',jp:'時間があれば会いましょう。',q:'날씨가 좋으(　　) 공원에 가요.',a:'면',o:['면','고','지만','서']},
-{id:'g26',g:'比較',f:'보다',m:'〜より',r:'比較の基準となる名詞の後につけます。',ex:'오늘은 어제보다 따뜻해요.',jp:'今日は昨日より暖かいです。',q:'버스보다 지하철(　　) 빨라요.',a:'이',o:['이','를','에','와']},
-{id:'g27',g:'比較',f:'제일 / 가장',m:'いちばん／最も',r:'三つ以上の中で最上級であることを表します。',ex:'딸기를 제일 좋아해요.',jp:'イチゴがいちばん好きです。',q:'한국 음식 중에서 불고기를 (　　) 좋아해요.',a:'가장',o:['가장','아주도','보다','먼저에']},
+{id:'g26',g:'比較',f:'보다',m:'〜より',r:'比較の基準となる名詞の後につけます。',ex:'오늘은 어제보다 따뜻해요.',jp:'今日は昨日より暖かいです。',q:'버스(　　) 지하철이 빨라요.',a:'보다',o:['보다','부터','까지','하고']},
+{id:'g27',g:'比較',f:'제일 / 가장',m:'いちばん／最も',r:'三つ以上の中で最上級であることを表します。',ex:'딸기를 제일 좋아해요.',jp:'イチゴがいちばん好きです。',q:'한국 음식 중에서 불고기를 (　　) 좋아해요. 불고기가 일등이에요.',a:'가장',o:['가장','같이','다시','아직']},
 {id:'g28',g:'表現',f:'-(으)ㄹ 수 있어요 / 없어요',m:'〜できます／できません',r:'能力や可能性の有無を表します。',ex:'한국어를 읽을 수 있어요.',jp:'韓国語を読むことができます。',q:'저는 수영할 수 (　　).',a:'있어요',o:['있어요','싶어요','주세요','마세요']},
 {id:'g29',g:'表現',f:'-아 / 어도 돼요',m:'〜してもいいです',r:'許可を表します。質問にすると許可を求める表現になります。',ex:'여기에 앉아도 돼요?',jp:'ここに座ってもいいですか。',q:'사진을 찍어도 (　　)?',a:'돼요',o:['돼요','마세요','싶어요','없어요']},
 {id:'g30',g:'表現',f:'-(으)면 안 돼요',m:'〜してはいけません',r:'禁止を表します。',ex:'여기에서 담배를 피우면 안 돼요.',jp:'ここでたばこを吸ってはいけません。',q:'수업 시간에 이야기하(　　) 안 돼요.',a:'면',o:['면','고','지만','서']}
 ];
-DATA.forEach(x=>{const n=Number(x.id.slice(1));x.level=n<=16?'1級':'2級';x.field='文法';x.difficulty=n<=10?'基礎':n<=22?'標準':'応用'});
+const GRAMMAR_EXPLANATIONS={
+g01:'正解は입니다です。名詞「일본 사람」の後で「〜です」を表します。갑니다は「行きます」、먹습니다は「食べます」、있습니다は「います／あります」で、名詞を説明する語尾ではありません。',
+g02:'正解は는です。저は母音で終わるため、話題を示す는を付けます。를は目的語、가は主語、에は時・行き先を示すので入りません。',
+g03:'正解は가です。비は母音で終わり、「雨が降る」の主語なので가を使います。를は目的語、는は話題、에서は動作の場所を示します。',
+g04:'正解は을です。책は子音で終わり、「本を読む」の目的語なので을を使います。이は主語、은は話題、에は場所・時を示します。',
+g05:'正解は에です。서울は「行く」目的地なので에を使います。를は目的語、와は「〜と」、보다は「〜より」です。',
+g06:'正解は에서です。食事をする動作の場所が식당なので에서を使います。에게は相手、까지は終点、의は所有を示します。',
+g07:'正解は하고です。빵と우유という二つの名詞を並べています。부터は始点、만は限定、보다は比較を表します。',
+g08:'正解は도です。「弟／妹も学生です」と同じ内容を追加します。를は目的語、에서は動作場所、까지は終点なので意味が合いません。',
+g09:'正解は의です。「韓国の首都」という所属関係を示します。를は目的語、와は並列、부터は始点を表します。',
+g10:'正解は까지です。월요일부터と対になり「月曜から金曜まで」を表します。에서は場所・出発点、보다は比較、하고は並列です。',
+g11:'正解は어요です。먹다の語幹먹-はㅏ・ㅗ以外なので어요を付けて먹어요になります。아요は母音調和が合わず、지만は対比、으면は条件です。',
+g12:'正解は니다です。母音で終わる語幹가-にㅂ니다が付き、갑니다になります。어요は会話体、지만は対比、세요は依頼・命令です。',
+g13:'正解は어요です。만나다の過去形は만났어요で、「昨日会いました」となります。을까요は提案、고は並列、으면は条件です。',
+g14:'正解は거예요です。공부할 거예요で週末の予定を表します。수 있어요は可能、때문이에요は理由、적이 있어요は経験です。',
+g15:'正解は싶어요です。먹고 싶어요で話し手の希望「食べたいです」を表します。있어요は存在、주세요は依頼、마세요は禁止です。',
+g16:'正解は으세요です。읽다は子音で終わるため읽으세요となります。을까요は提案、었어요は過去、지만は対比です。',
+g17:'正解は마세요です。걱정하지 마세요で「心配しないでください」という禁止・制止になります。주세요は依頼、싶어요は希望、있어요は存在です。',
+g18:'正解は주세요です。열어 주세요で「開けてください」という依頼です。마세요は禁止、있어요は存在、보세요は「試しに〜してください」の意味になります。',
+g19:'正解は까요です。볼까요?で相手への提案「見ましょうか」を表します。게요は話し手の意思、지만は対比、어서は理由・順序です。',
+g20:'正解は시다です。쉬다は母音で終わるため쉽시다となり「休みましょう」です。니다は叙述、세요は依頼、어요は通常の丁寧形です。',
+g21:'正解は고です。책을 읽고 음악을 들어요で二つの動作を並べます。지만は対比、니까は理由、으면は条件です。',
+g22:'正解は지만です。「寒いですが、よいです」と反対方向の内容を結びます。고は並列、어서は理由、거나は選択です。',
+g23:'正解は서です。피곤해서で「疲れたので」と早く寝た理由を表します。지만は対比、면は条件、도は「〜も」です。',
+g24:'正解は니까です。後ろが우산을 가져가세요という命令なので、理由を表し命令とも使える-(으)니까が適切です。지만は対比、거나は選択、고は並列です。',
+g25:'正解は면です。날씨가 좋으면で「天気がよければ」という条件です。고は並列、지만は対比、서は理由・順序です。',
+g26:'正解は보다です。버스보다で「バスより」を表し、比較の基準を示します。부터は「〜から」、까지は「〜まで」、하고は「〜と」です。',
+g27:'正解は가장です。중에서と共に使い「韓国料理の中で最も好き」を表します。같이は「一緒に」、다시は「再び」、아직は「まだ」で最上級になりません。',
+g28:'正解は있어요です。수 있어요で能力・可能「泳げます」を表します。싶어요は希望、주세요は依頼、마세요は禁止です。',
+g29:'正解は돼요です。찍어도 돼요?で許可「撮ってもいいですか」を尋ねます。마세요は禁止、싶어요は希望、없어요は不可能を表す形の一部です。',
+g30:'正解は면です。이야기하면 안 돼요で「話してはいけません」という禁止です。고は並列、지만は対比、서は理由・順序です。'
+};
+function validateGrammar(items){const ids=new Set(),errors=[];items.forEach(x=>{if(ids.has(x.id))errors.push(`${x.id}: ID重複`);ids.add(x.id);if(!x.q||!x.a||!x.ex||!x.jp||!GRAMMAR_EXPLANATIONS[x.id])errors.push(`${x.id}: 必須項目不足`);if(!Array.isArray(x.o)||x.o.length!==4||new Set(x.o).size!==4||!x.o.includes(x.a))errors.push(`${x.id}: 選択肢・正解不整合`)});if(items.length!==30)errors.push(`問題数: ${items.length}`);return errors}
+const GRAMMAR_ERRORS=validateGrammar(DATA);if(GRAMMAR_ERRORS.length)console.error('文法問題データの検査エラー',GRAMMAR_ERRORS);
+DATA.forEach(x=>{const n=Number(x.id.slice(1));x.level=n<=16?'1級':'2級';x.field='文法';x.difficulty=n<=10?'基礎':n<=22?'標準':'応用';x.e=GRAMMAR_EXPLANATIONS[x.id]});
 const GROUPS=['すべて','助詞','活用','時制','表現','接続','比較','基本'],$=s=>document.querySelector(s);let active='すべて';
 function send(name,params={}){if(typeof gtag==='function')gtag('event',name,params)}function mastered(){try{return new Set(JSON.parse(localStorage.getItem('topikGrammarMastered')||'[]'))}catch{return new Set()}}function save(set){localStorage.setItem('topikGrammarMastered',JSON.stringify([...set]))}function shuffle(a){a=[...a];for(let i=a.length-1;i;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function filters(){GROUPS.forEach(g=>{const b=document.createElement('button');b.className='filter'+(g===active?' active':'');b.textContent=g;b.onclick=()=>{active=g;filtersRefresh();render();send('grammar_filter',{grammar_group:g})};$('#filters').append(b)})}function filtersRefresh(){[...$('#filters').children].forEach(b=>b.classList.toggle('active',b.textContent===active))}
 function render(){const query=$('#search').value.trim().toLowerCase(),level=$('#levelFilter').value,difficulty=$('#difficultyFilter').value,done=mastered(),rows=DATA.filter(x=>(active==='すべて'||x.g===active)&&(level==='すべて'||x.level===level)&&(difficulty==='すべて'||x.difficulty===difficulty)&&(!query||[x.f,x.m,x.r,x.ex,x.jp].join(' ').toLowerCase().includes(query)));$('#mastered').textContent=done.size;$('#list').innerHTML='';$('#empty').style.display=rows.length?'none':'block';rows.forEach(x=>{$('#list').append(card(x,done.has(x.id)))})}
 function card(x,isDone){const el=document.createElement('article');el.className='card';el.innerHTML=`<div class="card-head"><span class="num">${x.id.slice(1)}</span><div><span class="group">${x.level} · ${x.field} · ${x.difficulty} · ${x.g}</span><h2 class="form">${x.f}</h2><div class="meaning">${x.m}</div></div><span class="done">${isDone?'✓':''}</span></div><div class="body"><div class="rule">${x.r}</div><p class="example" lang="ko">${x.ex}</p><div class="actions"><button class="small-btn sound">🔊 音声</button><button class="small-btn reveal">日本語訳を見る</button><button class="small-btn quiz-toggle">1問解く</button></div><p class="translation">${x.jp}</p><div class="quiz"><p lang="ko">${x.q}</p><div class="options"></div><div class="feedback"></div></div></div>`;el.querySelector('.sound').onclick=()=>speak(x);el.querySelector('.reveal').onclick=e=>{const p=el.querySelector('.translation');p.classList.toggle('show');e.currentTarget.textContent=p.classList.contains('show')?'日本語訳を隠す':'日本語訳を見る';if(p.classList.contains('show'))send('translation_reveal',{grammar_id:x.id})};el.querySelector('.quiz-toggle').onclick=()=>{const q=el.querySelector('.quiz');q.classList.toggle('show');if(q.classList.contains('show')&&!q.dataset.ready)makeQuiz(el,x)};return el}
 function makeQuiz(el,x){const area=el.querySelector('.quiz'),box=el.querySelector('.options');area.dataset.ready='1';shuffle(x.o).forEach(v=>{const b=document.createElement('button');b.className='option';b.textContent=v;b.onclick=()=>answer(el,x,b,v);box.append(b)})}
-function answer(el,x,clicked,value){const buttons=[...el.querySelectorAll('.option')],ok=value===x.a,set=mastered();ok?set.add(x.id):set.delete(x.id);save(set);buttons.forEach(b=>{b.disabled=true;if(b.textContent===x.a)b.classList.add('correct');else if(b===clicked)b.classList.add('wrong');else b.classList.add('dim')});const f=el.querySelector('.feedback');f.textContent=ok?`正解：${x.a}`:`正解は「${x.a}」です。`;f.classList.add('show');el.querySelector('.done').textContent=ok?'✓':'';$('#mastered').textContent=set.size;send('grammar_quiz_answer',{grammar_id:x.id,grammar_group:x.g,topik_level:x.level,question_field:x.field,difficulty:x.difficulty,correct:ok})}
+function answer(el,x,clicked,value){const buttons=[...el.querySelectorAll('.option')],ok=value===x.a,set=mastered();ok?set.add(x.id):set.delete(x.id);save(set);buttons.forEach(b=>{b.disabled=true;if(b.textContent===x.a)b.classList.add('correct');else if(b===clicked)b.classList.add('wrong');else b.classList.add('dim')});const f=el.querySelector('.feedback');f.textContent=(ok?'正解です。':'不正解です。')+' '+x.e;f.classList.add('show');el.querySelector('.done').textContent=ok?'✓':'';$('#mastered').textContent=set.size;send('grammar_quiz_answer',{grammar_id:x.id,grammar_group:x.g,topik_level:x.level,question_field:x.field,difficulty:x.difficulty,correct:ok})}
 function speak(x){if(!('speechSynthesis'in window))return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(x.ex);u.lang='ko-KR';u.rate=.82;window.speechSynthesis.speak(u);send('audio_play',{content_type:'grammar',grammar_id:x.id})}
 $('#search').addEventListener('input',render);$('#levelFilter').onchange=render;$('#difficultyFilter').onchange=render;filters();render();
 </script><script src="./site-footer.js"></script></body></html>
