@@ -185,7 +185,11 @@
     (k,j)=>[p(k,'을','를')+' 사러 가요',j+'を買いに行きます'],
     (k,j)=>[p(k,'이','가')+' 맛있어요',j+'がおいしいです']
   ];
-  foods.forEach(([k,j])=>foodPatterns.forEach(fn=>{const [ko,jp]=fn(k,j);add('2級・食事表現',ko,jp)}));
+  const specialFoodPatterns={
+    '꿀':[['꿀을 넣어요','蜂蜜を入れます'],['꿀을 좋아해요','蜂蜜が好きです'],['꿀을 조금 넣어 주세요','蜂蜜を少し入れてください'],['꿀을 더 주세요','蜂蜜をもっとください'],['꿀을 사러 가요','蜂蜜を買いに行きます'],['꿀이 달아요','蜂蜜は甘いです']],
+    '후추':[['후추를 넣어요','こしょうを入れます'],['후추를 조금 넣어 주세요','こしょうを少し入れてください'],['후추를 뿌려요','こしょうを振りかけます'],['후추가 필요해요','こしょうが必要です'],['후추를 사러 가요','こしょうを買いに行きます'],['후추를 사용해요','こしょうを使います']]
+  };
+  foods.forEach(([k,j])=>(specialFoodPatterns[k]||foodPatterns.map(fn=>fn(k,j))).forEach(([ko,jp])=>add('2級・食事表現',ko,jp)));
 
   const topics=parse(`경험|経験
 기회|機会
@@ -240,13 +244,16 @@
   const topicPatterns=[
     (k,j)=>[p(k,'에 대해','에 대해')+' 생각해요',j+'について考えます'],
     (k,j)=>[p(k,'에 대해','에 대해')+' 이야기해요',j+'について話します'],
-    (k,j)=>[p(k,'을','를')+' 이해했어요',j+'を理解しました'],
-    (k,j)=>[p(k,'이','가')+' 중요해요',j+'が重要です'],
+    (k,j)=>[p(k,'에 관한','에 관한')+' 글을 읽었어요',j+'に関する文章を読みました'],
+    (k,j)=>[p(k,'에 대한','에 대한')+' 정보가 필요해요',j+'についての情報が必要です'],
     (k,j)=>[p(k,'에 관심이','에 관심이')+' 있어요',j+'に関心があります'],
     (k,j)=>[p(k,'에 대해','에 대해')+' 더 알고 싶어요',j+'についてもっと知りたいです']
   ];
   topics.forEach(([k,j])=>topicPatterns.forEach(fn=>{const [ko,jp]=fn(k,j);add('2級・抽象語表現',ko,jp)}));
 
-  const total=Object.values(window.V).flat().length;
-  if(total!==2000)console.warn('語彙数が2000ではありません: '+total);
+  const all=Object.entries(window.V).flatMap(([category,words])=>words.map(word=>({category,ko:word[0],kana:word[1],jp:word[2]})));
+  const seen=new Set(),errors=[];
+  all.forEach((x,i)=>{if(!x.ko||!x.kana||!x.jp)errors.push(`${i+1}: 必須項目不足`);if(x.ko!==x.ko.trim()||x.kana!==x.kana.trim()||x.jp!==x.jp.trim())errors.push(`${i+1}: 前後空白`);if(seen.has(x.ko))errors.push(`${i+1}: 韓国語重複 ${x.ko}`);seen.add(x.ko);if(!/[가-힣]/.test(x.ko))errors.push(`${i+1}: ハングルなし ${x.ko}`)});
+  if(all.length!==2000)errors.push(`項目数: ${all.length}`);
+  if(errors.length)console.error('語彙データの検査エラー',errors);
 })();
