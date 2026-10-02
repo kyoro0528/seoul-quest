@@ -139,3 +139,14 @@ test('damaged JSON is restored before application parses it', async () => {
   await x.c.TopikLearningStorage.ready;
   assert.equal(x.c.localStorage.getItem('sqWrong'), '["a1"]');
 });
+
+test('exam results survive backup, import, reload recovery and full reset', async () => {
+  const value=JSON.stringify({version:1,goal:140,records:[{id:'attempt1',listening:70,reading:80}]});
+  const x=setup({topikExamResults:value});await x.c.TopikLearningStorage.ready;
+  const backup=await x.c.TopikLearningStorage.createBackup();assert.equal(backup.storage.topikExamResults,value);
+  const imported=setup();await imported.c.TopikLearningStorage.ready;await imported.c.TopikLearningStorage.importBackup(backup);
+  assert.equal(imported.c.localStorage.getItem('topikExamResults'),value);
+  const recovered=setup({},imported.snapshot);await recovered.c.TopikLearningStorage.ready;
+  assert.equal(recovered.c.localStorage.getItem('topikExamResults'),value);
+  await recovered.c.TopikLearningStorage.clearAll();assert.equal(recovered.c.localStorage.getItem('topikExamResults'),null);
+});

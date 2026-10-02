@@ -10,7 +10,7 @@
     'sqWrong', 'studySeconds', 'studyByDay', 'studyCount', 'streak', 'last',
     'topikVocabState', 'topikVocabStateBackup', 'topikGrammarMastered',
     'topikListeningWrong', 'topikReadingWrong', 'topikPracticeWrong',
-    'topikPracticeStats', 'topikDailyHistory', 'topikActivityStats'
+    'topikPracticeStats', 'topikDailyHistory', 'topikActivityStats', 'topikExamResults'
   ]);
 
   function isLearningKey(key) {
