@@ -13,3 +13,5 @@
 .seo-faq summary{cursor:pointer;color:var(--ink);font-size:14px;font-weight:900}
 .seo-faq details p{margin-top:7px;font-size:13px}
 @media(max-width:430px){.seo-link-grid{grid-template-columns:1fr}}
+
+.learning-intro{margin:20px 0;padding:18px;border:1px solid #d9e2ec;border-radius:12px;background:#fff;color:#102a43;font-size:14px;line-height:1.85;overflow-wrap:anywhere}.learning-intro h2{font-size:20px;line-height:1.5;margin:0 0 12px}.learning-intro h3{font-size:16px;margin:18px 0 8px}.learning-intro p{margin:9px 0}.learning-intro a{color:#1756a9;text-underline-offset:3px}.learning-intro li+li{margin-top:8px}.learning-intro details{margin-top:12px}.learning-intro summary{cursor:pointer;min-height:44px;padding:10px 0;font-weight:700}.learning-intro nav{display:flex;flex-wrap:wrap;gap:8px 16px}.learning-intro nav a{padding:8px 0}.learning-intro [lang=ko]{font-size:16px}
