@@ -37,7 +37,7 @@ function setup(initial = {}, snapshot = null) {
     localStorage: storage(initial), sessionStorage: storage(), console: { warn() {}, error() {} },
     Date, JSON, Set, Promise, Event, URLSearchParams,
     location: { search: '', reload() { throw Error('Unexpected reload'); } },
-    navigator: {}, matchMedia: () => ({ matches: false }), setInterval() {}, setTimeout() {},
+    navigator: {}, matchMedia: () => ({ matches: false }), setInterval() {}, clearInterval() {}, setTimeout() {},
     addEventListener() {}, dispatchEvent() {}, scrollTo() {},
     document: {
       body: element(), head: element(), addEventListener() {},
@@ -132,6 +132,20 @@ test('homepage boots with restored records before roadmap generation', async () 
   vm.runInContext(fs.readFileSync(path.join(root, 'roadmap-questions.js'), 'utf8'), x.c);
   assert.equal(x.c.localStorage.getItem('sqWrong'), '["a1"]');
   assert.equal(String(x.elements.get('#studyCount').textContent), '2');
+});
+
+test('homepage mock exam starts and automatically saves a scored result', async () => {
+  const x=setup();await x.c.TopikLearningStorage.ready;
+  vm.runInContext(fs.readFileSync(path.join(root,'vocab.js'),'utf8'),x.c);
+  vm.runInContext(fs.readFileSync(path.join(root,'mock-exam.js'),'utf8'),x.c);
+  const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
+  const inline=[...html.matchAll(/<script[^>]*data-learning-app[^>]*>([\s\S]*?)<\/script>/g)].map(m=>m[1]).find(Boolean);
+  vm.runInContext(inline,x.c);vm.runInContext(fs.readFileSync(path.join(root,'roadmap-questions.js'),'utf8'),x.c);
+  vm.runInContext("startMockCourse('quick10');mockAnswers=qs.map(q=>({section:q.mockSection,field:q.mockField,correct:true}));done()",x.c);
+  const saved=JSON.parse(x.c.localStorage.getItem('topikExamResults'));
+  assert.equal(saved.records.length,1);assert.equal(saved.records[0].listening,100);assert.equal(saved.records[0].reading,100);
+  assert.equal(saved.records[0].fields.vocabulary.total,2);assert.equal(saved.records[0].fields.grammar.total,1);assert.equal(saved.records[0].fields.reading.total,2);assert.equal(saved.records[0].fields.other.total,1);
+  assert.match(x.elements.get('#resultText').innerHTML,/自動保存しました/);
 });
 
 test('damaged JSON is restored before application parses it', async () => {
