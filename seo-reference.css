@@ -1,0 +1,10 @@
+.seo-reference{margin:18px 0;padding:0;background:#fff;border:1px solid #d9e2ec;border-radius:10px;overflow:hidden;color:#102a43}
+.seo-reference details{padding:0;border:0}
+.seo-reference summary{padding:16px 18px;font-weight:900;cursor:pointer;list-style-position:inside;background:#edf4fb}
+.seo-reference details>p{margin:0;padding:14px 18px;color:#486581;font-size:13px;line-height:1.75}
+.seo-reference-scroll{overflow-x:auto;padding:0 14px 16px}
+.seo-reference table{width:100%;min-width:620px;border-collapse:collapse;font-size:13px;background:#fff}
+.seo-reference th,.seo-reference td{padding:9px;border:1px solid #d9e2ec;text-align:left;vertical-align:top;line-height:1.55}
+.seo-reference th{background:#f5f8fb;color:#173f6b;white-space:nowrap}
+.seo-reference td[lang=ko]{font-size:15px}
+@media(max-width:480px){.seo-reference summary{padding:14px}.seo-reference details>p{padding:12px 14px}.seo-reference-scroll{padding:0 10px 13px}}
