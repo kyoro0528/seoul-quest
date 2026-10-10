@@ -86,7 +86,7 @@
       const tx = db.transaction(OBJECT_STORE, 'readwrite');
       tx.objectStore(OBJECT_STORE).put({ version: BACKUP_VERSION, savedAt: Date.now(), items }, SNAPSHOT_KEY);
       tx.oncomplete = () => { db.close(); resolve(); };
-      tx.onerror = () => { db.close(); reject(tx.error); };
+      tx.onerror = tx.onabort = () => { db.close(); reject(tx.error || new Error('保存処理が中断されました')); };
     });
   }
 
@@ -97,7 +97,7 @@
       const tx = db.transaction(OBJECT_STORE, 'readwrite');
       tx.objectStore(OBJECT_STORE).delete(SNAPSHOT_KEY);
       tx.oncomplete = () => { db.close(); resolve(); };
-      tx.onerror = () => { db.close(); reject(tx.error); };
+      tx.onerror = tx.onabort = () => { db.close(); reject(tx.error || new Error('保存処理が中断されました')); };
     });
   }
 
@@ -158,13 +158,63 @@
     throw new Error('対応していないバックアップ形式です');
   }
 
+  function validateBackupItems(payload) {
+    if (payload && payload.app && !['TOPIK Study', 'TOPIK I 単語トレーニング'].includes(payload.app)) {
+      throw new Error('TOPIK Studyのバックアップを選んでください');
+    }
+    const raw = backupItems(payload), items = {};
+    if (Array.isArray(raw)) throw new Error('バックアップ形式が不正です');
+    for (const [key, value] of Object.entries(raw)) {
+      if (!isLearningKey(key)) continue;
+      if (typeof value !== 'string') throw new Error('保存データの形式が不正です');
+      if (key === 'last') {
+        if (value && !/^\d{4}-\d{2}-\d{2}$/.test(value)) throw new Error('学習日が不正です');
+      } else if (key.startsWith('best_') || ['studySeconds', 'studyCount', 'streak'].includes(key)) {
+        if (!value.trim() || !Number.isFinite(Number(value)) || Number(value) < 0) throw new Error('学習数値が不正です');
+      } else {
+        const data = JSON.parse(value);
+        const arrays = ['sqWrong', 'topikGrammarMastered', 'topikListeningWrong', 'topikReadingWrong', 'topikPracticeWrong'];
+        if (arrays.includes(key)) {
+          if (!Array.isArray(data)) throw new Error('問題履歴の形式が不正です');
+        } else {
+          if (!data || typeof data !== 'object' || Array.isArray(data)) throw new Error('学習記録の形式が不正です');
+          if (key === 'topikExamResults' && !Array.isArray(data.records)) throw new Error('模試結果の形式が不正です');
+          if (key === 'topikVocabState' || key === 'topikVocabStateBackup') {
+            const vocab = data.data || data;
+            if (!vocab.words || typeof vocab.words !== 'object' || Array.isArray(vocab.words) ||
+                !vocab.sessions || typeof vocab.sessions !== 'object' || Array.isArray(vocab.sessions)) throw new Error('単語記録の形式が不正です');
+          }
+        }
+      }
+      items[key] = value;
+    }
+    if (!Object.keys(items).length) throw new Error('復元できる学習記録がありません');
+    return items;
+  }
+
   async function importBackup(payload) {
     await ready;
-    const items = backupItems(payload);
-    for (const [key, value] of Object.entries(items)) {
-      if (isLearningKey(key) && typeof value === 'string') localStorage.setItem(key, value);
+    const items = validateBackupItems(payload);
+    await writes.catch(() => {});
+    const previous = {}, changed = [];
+    try {
+      for (const [key, value] of Object.entries(items)) {
+        previous[key] = localStorage.getItem(key);
+        localStorage.setItem(key, value);
+        changed.push(key);
+      }
+    } catch (error) {
+      for (const key of changed.reverse()) {
+        try {
+          if (previous[key] === null) localStorage.removeItem(key);
+          else localStorage.setItem(key, previous[key]);
+        } catch (_) { reportFailure('復元を完了できませんでした。画面を閉じず、元のバックアップを保管してください。'); }
+      }
+      throw error;
     }
-    await syncNow();
+    // Primary storage has succeeded; reserve-storage failure must not claim that import failed.
+    try { await syncNow(); }
+    catch (_) { reportFailure('学習記録は復元しましたが、予備保存に失敗しました。バックアップを保管してください。'); }
   }
 
   async function clearAll() {

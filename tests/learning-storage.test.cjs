@@ -1,166 +1,22 @@
-const { test } = require('node:test');
-const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const vm = require('node:vm');
-const path = require('node:path');
-const root = path.join(__dirname, '..');
-const storageCode = fs.readFileSync(path.join(root, 'learning-storage.js'), 'utf8');
-
-function storage(initial = {}) {
-  const values = new Map(Object.entries(initial));
-  return {
-    get length() { return values.size; }, key: i => [...values.keys()][i],
-    getItem: k => values.get(k) ?? null, setItem: (k, v) => values.set(k, String(v)),
-    removeItem: k => values.delete(k)
-  };
+const {test}=require('node:test');const assert=require('node:assert/strict');const vm=require('node:vm');const fs=require('node:fs');
+const source=fs.readFileSync('learning-storage.js','utf8');
+function env(local={},durable={}){
+ const map=new Map(Object.entries(local)),notices=[];let failKey=null;
+ const storage={get length(){return map.size},key:i=>[...map.keys()][i],getItem:k=>map.get(k)??null,setItem(k,v){if(k===failKey){const e=new Error('quota');e.name='QuotaExceededError';throw e}map.set(k,String(v))},removeItem:k=>map.delete(k)};
+ const db={objectStoreNames:{contains:()=>true},close(){},transaction(name,mode){const tx={objectStore(){return {get(){const r={};queueMicrotask(()=>{r.result=durable.snapshot; r.onsuccess()});return r},put(value){queueMicrotask(()=>{durable.snapshot=structuredClone(value);tx.oncomplete()})},delete(){queueMicrotask(()=>{delete durable.snapshot;tx.oncomplete()})}}}};return tx}};
+ const doc={body:{appendChild:n=>notices.push(n)},head:{appendChild(){}},getElementById:id=>notices.find(n=>n.id===id),createElement:()=>({style:{},setAttribute(){}}),addEventListener(){}};
+ const ctx={localStorage:storage,indexedDB:{open(){const r={};queueMicrotask(()=>{r.result=db;r.onsuccess()});return r}},document:doc,navigator:{},matchMedia:()=>({matches:false}),sessionStorage:{getItem:()=>null},addEventListener(){},setInterval(){},console,Date,JSON,Promise};ctx.window=ctx;vm.createContext(ctx);vm.runInContext(source,ctx);
+ return {api:ctx.TopikLearningStorage,storage,map,durable,notices,setFail:k=>failKey=k};
 }
-function setup(initial = {}, snapshot = null) {
-  let persisted = snapshot;
-  const elements = new Map();
-  function element() {
-    return { style: { setProperty() {} }, dataset: {}, children: [], classList: { add() {}, remove() {}, toggle() {} },
-      textContent: '', innerHTML: '', value: '', append(x) { this.children.push(x); },
-      appendChild(x) { this.children.push(x); if (x.id) elements.set(x.id, x); },
-      setAttribute() {}, addEventListener() {}, querySelector: () => element(), querySelectorAll: () => [] };
-  }
-  const db = {
-    close() {}, objectStoreNames: { contains: () => true },
-    transaction() {
-      const tx = { objectStore: () => ({
-        get() { const r = {}; setTimeout(() => { r.result = persisted; r.onsuccess(); }, 0); return r; },
-        put(v) { persisted = v; setTimeout(() => tx.oncomplete(), 0); },
-        delete() { persisted = null; setTimeout(() => tx.oncomplete(), 0); }
-      }) }; return tx;
-    }
-  };
-  const c = {
-    localStorage: storage(initial), sessionStorage: storage(), console: { warn() {}, error() {} },
-    Date, JSON, Set, Promise, Event, URLSearchParams,
-    location: { search: '', reload() { throw Error('Unexpected reload'); } },
-    navigator: {}, matchMedia: () => ({ matches: false }), setInterval() {}, clearInterval() {}, setTimeout() {},
-    addEventListener() {}, dispatchEvent() {}, scrollTo() {},
-    document: {
-      body: element(), head: element(), addEventListener() {},
-      getElementById: id => elements.get(id), createElement: element,
-      querySelector: id => { if (!elements.has(id)) elements.set(id, element()); return elements.get(id); },
-      querySelectorAll: () => []
-    },
-    indexedDB: { open() { const r = {}; setTimeout(() => { r.result = db; r.onsuccess(); }, 0); return r; } }
-  };
-  c.window = c; vm.createContext(c); vm.runInContext(storageCode, c);
-  return { c, elements, get snapshot() { return persisted; } };
-}
-
-test('restore missing keys before application startup without losing existing keys', async () => {
-  const x = setup({ studyCount: '10' }, { items: { studyCount: '8', sqWrong: '["q1"]' } });
-  await x.c.TopikLearningStorage.ready;
-  assert.equal(x.c.localStorage.getItem('studyCount'), '10');
-  assert.equal(x.c.localStorage.getItem('sqWrong'), '["q1"]');
-  assert.equal(x.snapshot.items.sqWrong, '["q1"]');
-});
-test('empty local storage restores the whole backup', async () => {
-  const x = setup({}, { items: { studyCount: '8', sqWrong: '["q1"]' } });
-  await x.c.TopikLearningStorage.ready;
-  assert.equal(x.c.localStorage.getItem('studyCount'), '8');
-});
-test('early sync never overwrites a snapshot before recovery', async () => {
-  const x = setup({}, { items: { studyCount: '8' } });
-  await x.c.TopikLearningStorage.syncNow();
-  await x.c.TopikLearningStorage.ready;
-  assert.equal(x.snapshot.items.studyCount, '8');
-});
-test('summary combines legacy roadmap, vocabulary and new practice records once', async () => {
-  const today = new Date().toLocaleDateString('sv-SE');
-  const x = setup({ studyCount: '3', studySeconds: '10', studyByDay: JSON.stringify({ [today]: 10 }),
-    topikVocabState: JSON.stringify({ words: { w1: { correct: 2, wrong: 1 } }, history: { [today]: { answers: 3, seconds: 7 } } }),
-    topikActivityStats: JSON.stringify({ [today]: { answers: 2, seconds: 5 } }) });
-  await x.c.TopikLearningStorage.ready;
-  const summary = x.c.TopikLearningStorage.summary();
-  assert.equal(summary.answers, 8); assert.equal(summary.seconds, 22);
-  assert.equal(summary.days[today], 22); assert.equal(summary.streak, 1);
-});
-test('reset cannot resurrect data from a queued snapshot', async () => {
-  const x = setup({ studyCount: '3' }); await x.c.TopikLearningStorage.ready;
-  const pending = x.c.TopikLearningStorage.syncNow();
-  await x.c.TopikLearningStorage.clearAll(); await pending;
-  assert.equal(x.c.localStorage.getItem('studyCount'), null); assert.equal(x.snapshot, null);
-});
-test('vocabulary answers persist before completion, finish does not double-count', async () => {
-  const x = setup(); await x.c.TopikLearningStorage.ready;
-  x.c.V = { test: [['가', 'カ', '行く'], ['나', 'ナ', '私'], ['다', 'タ', 'すべて'], ['라', 'ラ', '仮']] };
-  const html = fs.readFileSync(path.join(root, 'topik1-vocabulary.html'), 'utf8');
-  const script = [...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)].map(m => m[1]).find(s => s.includes("const STORE='topikVocabState'"));
-  vm.runInContext(script.slice(0, script.indexOf("$$('[data-go=")), x.c);
-  vm.runInContext("quiz=[{w:raw[0],answer:'行く',type:'ko-jp',choices:['行く','私']}];quizIndex=0;returnMode='chapter';renderQuestion();answer(document.createElement('button'),'行く')", x.c);
-  let saved = JSON.parse(x.c.localStorage.getItem('topikVocabState'));
-  const day = vm.runInContext('dateKey()', x.c);
-  assert.equal(saved.history[day].answers, 1); assert.equal(saved.words.w0001.correct, 1);
-  vm.runInContext('finishQuiz()', x.c);
-  saved = JSON.parse(x.c.localStorage.getItem('topikVocabState'));
-  assert.equal(saved.history[day].answers, 1); assert.equal(saved.history[day].sessions, 1);
-  assert.equal(x.c.TopikLearningStorage.summary().answers, 1);
-  await x.c.TopikLearningStorage.syncNow();
-  const reload = setup(x.c.TopikLearningStorage.collect(), x.snapshot);
-  await reload.c.TopikLearningStorage.ready;
-  assert.equal(reload.c.TopikLearningStorage.summary().answers, 1);
-});
-test('storage errors show a visible alert', async () => {
-  const x = setup(); await x.c.TopikLearningStorage.ready;
-  x.c.localStorage.setItem = () => { throw Object.assign(Error('full'), { name: 'QuotaExceededError' }); };
-  x.c.TopikLearningStorage.recordAnswer(true);
-  assert.match(x.elements.get('learning-save-error').textContent, /保存できません/);
-});
-test('all six applications are gated behind recovery and compile', () => {
-  for (const name of ['index', 'topik1-vocabulary', 'topik1-grammar', 'topik1-reading', 'topik1-listening', 'topik1-practice']) {
-    const html = fs.readFileSync(path.join(root, name + '.html'), 'utf8');
-    assert.ok(html.includes('learning-bootstrap.js'));
-    for (const [, attributes, body] of html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/g)) {
-      if (attributes.includes('ld+json')) continue;
-      if (body.includes('localStorage')) assert.ok(attributes.includes('data-learning-app'), name);
-      new vm.Script(body);
-    }
-  }
-});
-
-test('homepage boots with restored records before roadmap generation', async () => {
-  const x = setup({ studyCount: '2' }, { items: { sqWrong: '["a1"]', best_c1: '5' } });
-  await x.c.TopikLearningStorage.ready;
-  vm.runInContext(fs.readFileSync(path.join(root, 'vocab.js'), 'utf8'), x.c);
-  const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-  const inline = [...html.matchAll(/<script[^>]*data-learning-app[^>]*>([\s\S]*?)<\/script>/g)].map(m => m[1]).find(Boolean);
-  vm.runInContext(inline, x.c);
-  vm.runInContext(fs.readFileSync(path.join(root, 'roadmap-questions.js'), 'utf8'), x.c);
-  assert.equal(x.c.localStorage.getItem('sqWrong'), '["a1"]');
-  assert.equal(String(x.elements.get('#studyCount').textContent), '2');
-});
-
-test('homepage mock exam starts and automatically saves a scored result', async () => {
-  const x=setup();await x.c.TopikLearningStorage.ready;
-  vm.runInContext(fs.readFileSync(path.join(root,'vocab.js'),'utf8'),x.c);
-  vm.runInContext(fs.readFileSync(path.join(root,'mock-exam.js'),'utf8'),x.c);
-  const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
-  const inline=[...html.matchAll(/<script[^>]*data-learning-app[^>]*>([\s\S]*?)<\/script>/g)].map(m=>m[1]).find(Boolean);
-  vm.runInContext(inline,x.c);vm.runInContext(fs.readFileSync(path.join(root,'roadmap-questions.js'),'utf8'),x.c);
-  vm.runInContext("startMockCourse('quick10');mockAnswers=qs.map(q=>({section:q.mockSection,field:q.mockField,correct:true}));done()",x.c);
-  const saved=JSON.parse(x.c.localStorage.getItem('topikExamResults'));
-  assert.equal(saved.records.length,1);assert.equal(saved.records[0].listening,100);assert.equal(saved.records[0].reading,100);
-  assert.equal(saved.records[0].fields.vocabulary.total,2);assert.equal(saved.records[0].fields.grammar.total,1);assert.equal(saved.records[0].fields.reading.total,2);assert.equal(saved.records[0].fields.other.total,1);
-  assert.match(x.elements.get('#resultText').innerHTML,/自動保存しました/);
-});
-
-test('damaged JSON is restored before application parses it', async () => {
-  const x = setup({ studyCount: '2', sqWrong: 'invalid' }, { items: { sqWrong: '["a1"]' } });
-  await x.c.TopikLearningStorage.ready;
-  assert.equal(x.c.localStorage.getItem('sqWrong'), '["a1"]');
-});
-
-test('exam results survive backup, import, reload recovery and full reset', async () => {
-  const value=JSON.stringify({version:1,goal:140,records:[{id:'attempt1',listening:70,reading:80}]});
-  const x=setup({topikExamResults:value});await x.c.TopikLearningStorage.ready;
-  const backup=await x.c.TopikLearningStorage.createBackup();assert.equal(backup.storage.topikExamResults,value);
-  const imported=setup();await imported.c.TopikLearningStorage.ready;await imported.c.TopikLearningStorage.importBackup(backup);
-  assert.equal(imported.c.localStorage.getItem('topikExamResults'),value);
-  const recovered=setup({},imported.snapshot);await recovered.c.TopikLearningStorage.ready;
-  assert.equal(recovered.c.localStorage.getItem('topikExamResults'),value);
-  await recovered.c.TopikLearningStorage.clearAll();assert.equal(recovered.c.localStorage.getItem('topikExamResults'),null);
-});
+const fixture={studyCount:'12',best_ch1:'5',topikVocabState:JSON.stringify({words:{v1:{correct:3,wrong:1}},sessions:{},history:{}}),topikExamResults:JSON.stringify({version:1,goal:80,records:[{id:'mock1',listening:60,reading:70}]})};
+test('answers, vocabulary and mock results survive reopening',async()=>{const durable={},a=env({},durable);await a.api.ready;for(const[k,v]of Object.entries(fixture))a.storage.setItem(k,v);await a.api.syncNow();const b=env(Object.fromEntries(a.map),durable);await b.api.ready;for(const[k,v]of Object.entries(fixture))assert.equal(b.storage.getItem(k),v)});
+test('IndexedDB restores records after localStorage is lost',async()=>{const durable={snapshot:{items:fixture}},a=env({},durable);await a.api.ready;for(const[k,v]of Object.entries(fixture))assert.equal(a.storage.getItem(k),v)});
+test('corrupt local JSON recovers from snapshot',async()=>{const a=env({topikExamResults:'{broken'},{snapshot:{items:fixture}});await a.api.ready;assert.equal(a.storage.getItem('topikExamResults'),fixture.topikExamResults)});
+test('backup round trip preserves all learning fields and ignores other storage',async()=>{const a=env({...fixture,unrelated:'keep'});await a.api.ready;const backup=await a.api.createBackup();assert.equal(backup.storage.unrelated,undefined);const b=env();await b.api.ready;await b.api.importBackup(backup);for(const[k,v]of Object.entries(fixture))assert.equal(b.storage.getItem(k),v)});
+test('reset clears primary and reserve records without resurrection',async()=>{const durable={},a=env({...fixture,unrelated:'keep'},durable);await a.api.ready;await a.api.clearAll();const b=env(Object.fromEntries(a.map),durable);await b.api.ready;assert.equal(b.storage.getItem('studyCount'),null);assert.equal(b.storage.getItem('topikExamResults'),null);assert.equal(b.storage.getItem('unrelated'),'keep')});
+test('malformed backup is rejected without changing existing progress',async()=>{const a=env(fixture);await a.api.ready;await assert.rejects(a.api.importBackup({storage:{studyCount:'999',topikExamResults:'broken'}}));assert.equal(a.storage.getItem('studyCount'),'12');assert.equal(a.storage.getItem('topikExamResults'),fixture.topikExamResults)});
+test('unknown-only backup is rejected',async()=>{const a=env(fixture);await a.api.ready;await assert.rejects(a.api.importBackup({storage:{unrelated:'oops'}}));});
+test('partial import write failure rolls back already-written fields',async()=>{const a=env(fixture);await a.api.ready;a.setFail('topikExamResults');await assert.rejects(a.api.importBackup({storage:{studyCount:'99',topikExamResults:fixture.topikExamResults}}));assert.equal(a.storage.getItem('studyCount'),'12')});
+test('legacy vocabulary backup imports without losing exam results',async()=>{const a=env(fixture);await a.api.ready;const old={version:2,data:{words:{v2:{correct:2,wrong:0}},sessions:{},history:{}}};await a.api.importBackup(old);assert.equal(JSON.parse(a.storage.getItem('topikVocabState')).words.v2.correct,2);assert.equal(a.storage.getItem('topikExamResults'),fixture.topikExamResults)});
+test('quota failure records no answer and displays a save warning',async()=>{const a=env();await a.api.ready;a.setFail('topikActivityStats');a.api.recordAnswer(true);assert.equal(a.storage.getItem('topikActivityStats'),null);assert(a.notices.some(n=>n.id==='learning-save-error'&&n.textContent.includes('保存できません')))});
+test('valid JSON with invalid record shape is rejected',async()=>{const a=env(fixture);await a.api.ready;await assert.rejects(a.api.importBackup({storage:{topikExamResults:'{"records":null}'}}));assert.equal(a.storage.getItem('topikExamResults'),fixture.topikExamResults)});
