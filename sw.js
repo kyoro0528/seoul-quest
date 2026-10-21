@@ -1,6 +1,6 @@
-const CACHE_NAME = 'topik-study-v16';
+const CACHE_NAME = 'topik-study-v17';
 const CORE_FILES = [
-  '/', '/index.html', '/homepage-seo.css', '/seo-reference.css', '/manifest.webmanifest', '/app-icon-192.png',
+  '/', '/index.html', '/home-navigation.css', '/homepage-seo.css', '/seo-reference.css', '/manifest.webmanifest', '/app-icon-192.png',
   '/app-icon-512.png', '/apple-touch-icon.png', '/cafe-scene.png',
   '/vocab.js', '/vocab-extra.js', '/vocab-level2.js',
   '/study-explanations.js', '/roadmap-questions.js', '/mock-exam.js', '/exam-pdf.js', '/site-footer.js', '/learning-storage.js', '/learning-bootstrap.js', '/topik1-vocabulary',
