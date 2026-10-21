@@ -21,6 +21,7 @@
 @media(max-width:360px){.purpose-grid{gap:8px}.purpose-grid a{padding:14px 10px}.purpose-grid strong{font-size:16px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.screen.show{animation:none}}
 .home-view .site-legal-footer .study-links{display:none}
+.dashboard::before{content:none;display:none}
 #home .site-intro h1{font-size:27px;line-height:1.4;margin:8px 0}
 #home .site-intro p{font-size:14px;margin:0 0 14px}
 #home .dashboard{padding:16px}
@@ -39,6 +40,9 @@
 .learning-menu-card,.menu-screen .exam-strip,.menu-screen .past-paper-launch{min-height:84px;margin:10px 0;gap:10px}
 .learning-menu-card strong,.menu-screen .exam-strip strong{font-size:16px;line-height:1.5}
 .learning-menu-card small,.menu-screen .exam-strip small{font-size:12px;line-height:1.7;color:#52677d}
+.menu-screen .priority-actions{grid-template-columns:1fr}
+.menu-screen .priority-actions .exam-strip{background:#fff;color:#102a43;box-shadow:none;border:1px solid #cbd8e6;border-left:4px solid #1756a9}
+.menu-screen .priority-actions .exam-strip .card-action{color:#1756a9}
 .card-action{display:inline-flex;flex-direction:column;justify-content:center;align-items:center;white-space:nowrap;min-width:60px;min-height:38px;padding:8px;border-radius:8px;background:#edf4fb;color:#1756a9;font-size:13px;font-style:normal;font-weight:800}
 .card-action small{font-size:10px;color:#52677d;margin-top:3px}
 .plan-card,.chapter,.stage{grid-template-columns:42px minmax(0,1fr) auto;gap:10px;text-align:left;min-height:90px}
