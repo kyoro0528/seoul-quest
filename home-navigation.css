@@ -1,3 +1,6 @@
+/* A quiet, full-viewport Seoul backdrop behind the centered learning panel. */
+body{background-color:#eaf1f5!important;background-image:linear-gradient(rgba(234,241,245,.72),rgba(234,241,245,.72)),url('./seoul-map-background.svg')!important;background-position:center,center!important;background-size:cover,cover!important;background-repeat:no-repeat!important;background-attachment:fixed!important}
+@media(max-width:640px){body{background-attachment:scroll!important}}
 .organized-home{overflow-wrap:anywhere}
 .purpose-nav{margin:0 0 24px}
 .purpose-nav h2,.home-group h2{font-size:21px;line-height:1.4;margin:0 0 8px;color:#102a43}
