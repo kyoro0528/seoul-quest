@@ -71,3 +71,5 @@ body{background-color:#eaf1f5!important;background-image:linear-gradient(rgba(23
 .stage .stars{display:block;margin-top:4px;font-size:11px;color:#52677d}
 .menu-screen a:focus-visible,.menu-screen button:focus-visible,.menu-screen summary:focus-visible,.stage:focus-visible{outline:3px solid #1756a9;outline-offset:3px}
 @media(max-width:360px){#home .purpose-grid a{padding:12px 10px;min-height:100px}.plan-card,.chapter,.stage{grid-template-columns:32px minmax(0,1fr) auto;gap:8px}.card-action{min-width:52px;padding:7px;font-size:12px}.stage-icon,.chapter-icon,.plan-icon{width:32px;height:36px;font-size:20px}.menu-screen .exam-strip{padding:12px 10px}.menu-screen .exam-mark{width:32px;min-width:32px}}
+
+.home-travel-links{display:grid;gap:5px;padding:14px 0 0;border-top:1px solid #d9e2ec;font-size:13px}.home-travel-links a{display:flex;align-items:center;min-height:44px;color:#1756a9;text-decoration:underline;text-underline-offset:3px}
