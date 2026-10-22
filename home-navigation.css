@@ -2,6 +2,18 @@
 body{background-color:#eaf1f5!important;background-image:linear-gradient(rgba(234,241,245,.72),rgba(234,241,245,.72)),url('./seoul-map-background.svg')!important;background-position:center,center!important;background-size:cover,cover!important;background-repeat:no-repeat!important;background-attachment:fixed!important}
 @media(max-width:640px){body{background-attachment:scroll!important}}
 .organized-home{overflow-wrap:anywhere}
+.seoul-map-open{position:relative;display:block;margin:10px 0 0 auto;min-height:44px;padding:9px 13px;border:1px solid #a9bfd4;border-radius:9px;background:#ffffffeb;color:#1756a9;font-weight:800;cursor:pointer}
+.seoul-map-dialog{width:min(920px,calc(100% - 24px));max-height:90svh;overflow:auto;padding:20px;border:1px solid #cbd8e6;border-radius:16px;background:#fff;color:#102a43;box-shadow:0 20px 80px #102a4340}
+.seoul-map-dialog::backdrop{background:#102a4380}
+.seoul-map-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.seoul-map-heading h2{font-size:20px;margin:0}
+.seoul-map-close{flex:none;min-height:44px;padding:8px 12px;border:1px solid #cbd8e6;border-radius:8px;background:#f2f7fa;color:#102a43;cursor:pointer}
+.seoul-map-dialog p{font-size:14px;line-height:1.7}
+.seoul-map-canvas{height:clamp(260px,46svh,460px);border:1px solid #cbd8e6;border-radius:10px;background:#eaf1f5}
+.seoul-map-places{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.seoul-map-places button,.seoul-map-lesson{min-height:44px;padding:10px;border:1px solid #b6cbe0;border-radius:8px;background:#edf4fb;color:#1756a9;font-weight:800;cursor:pointer}
+.seoul-map-dialog small{display:block;font-size:12px;color:#52677d;line-height:1.7}
+@media(max-width:640px){.seoul-map-dialog{padding:14px}.seoul-map-heading h2{font-size:17px}.seoul-map-places{grid-template-columns:1fr}}
 .purpose-nav{margin:0 0 24px}
 .purpose-nav h2,.home-group h2{font-size:21px;line-height:1.4;margin:0 0 8px;color:#102a43}
 .purpose-nav p,.home-group>p{font-size:14px;line-height:1.8;color:#52677d;margin:0 0 15px}
