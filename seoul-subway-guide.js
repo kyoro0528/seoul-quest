@@ -49,8 +49,18 @@
     const text=document.createElement('p');text.lang='ko';text.textContent=ko;
     const play=document.createElement('button');play.type='button';play.className='phrase-audio';play.textContent='🔊';play.setAttribute('aria-label',ko+'の音声を聞く');
     play.onclick=()=>{if(!('speechSynthesis'in window)){status.textContent='このブラウザは音声再生に対応していません。';return;}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(ko);u.lang='ko-KR';u.rate=.8;const v=speechSynthesis.getVoices().find(v=>v.lang.startsWith('ko'));if(v)u.voice=v;u.onerror=()=>{status.textContent='韓国語音声を再生できませんでした。端末の音声設定をご確認ください。';};u.onend=()=>{status.textContent='再生しました。';};speechSynthesis.speak(u);status.textContent='韓国語を再生しています。';};
-    top.append(text,play);const reading=document.createElement('p');reading.className='phrase-reading';reading.textContent=kana;const translation=document.createElement('p');translation.className='phrase-translation';translation.textContent=jp;card.append(top,reading,translation);document.querySelector('#phraseList').append(card);
+    top.append(text,play);const reading=document.createElement('p');reading.className='phrase-reading';reading.textContent=kana;const translation=document.createElement('p');translation.className='phrase-translation';translation.textContent=jp;const copy=document.createElement('button');copy.type='button';copy.className='copy-text';copy.textContent='韓国語をコピー';copy.onclick=()=>copyText(ko);card.append(translation,top,reading,copy);document.querySelector('#phraseList').append(card);
   });
-  document.querySelector('#toggleTranslations').onclick=e=>{const hidden=document.querySelector('#phraseList').classList.toggle('hide-translations');e.currentTarget.setAttribute('aria-pressed',String(hidden));e.currentTarget.textContent=hidden?'日本語訳を表示する':'日本語訳を隠して練習する';};
+  function copyText(text){
+    const status=document.querySelector('#copyStatus');
+    if(!navigator.clipboard){status.textContent='コピーできませんでした。文字を長押しして選択してください。';return;}
+    navigator.clipboard.writeText(text).then(()=>{status.textContent='コピーしました：'+text;},()=>{status.textContent='コピーできませんでした。文字を長押しして選択してください。';});
+  }
+  document.querySelectorAll('[data-copy]').forEach(button=>button.addEventListener('click',()=>copyText(button.dataset.copy)));
+  document.querySelector('#phraseSearch').addEventListener('input',e=>{
+    const term=e.target.value.trim().toLocaleLowerCase();let count=0;
+    document.querySelectorAll('.phrase-card').forEach(card=>{card.hidden=!card.textContent.toLocaleLowerCase().includes(term);if(!card.hidden)count++;});
+    document.querySelector('#phraseCount').textContent=count?count+'件の表現':'該当する表現がありません。別の言葉で探してください。';
+  });
   window.addEventListener('pagehide',()=>{if('speechSynthesis'in window)speechSynthesis.cancel();});
 })();

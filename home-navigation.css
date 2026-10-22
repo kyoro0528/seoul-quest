@@ -2,6 +2,7 @@
 body{background-color:#eaf1f5!important;background-image:linear-gradient(rgba(234,241,245,.72),rgba(234,241,245,.72)),url('./seoul-map-background.svg')!important;background-position:center,center!important;background-size:cover,cover!important;background-repeat:no-repeat!important;background-attachment:fixed!important}
 @media(max-width:640px){body{background-attachment:scroll!important}}
 .organized-home{overflow-wrap:anywhere}
+.travel-utility-card{display:grid;gap:7px;margin:16px;padding:18px;border:1px solid #b5cadf;border-radius:12px;background:#edf4fb;color:#102a43;text-decoration:none}.travel-utility-card strong{font-size:19px}.travel-utility-card small{color:#52677d}.travel-utility-card>span:last-child{font-weight:800;color:#1756a9}
 .seoul-map-open{position:relative;display:block;margin:10px 0 0 auto;min-height:44px;padding:9px 13px;border:1px solid #a9bfd4;border-radius:9px;background:#ffffffeb;color:#1756a9;font-weight:800;cursor:pointer}
 .seoul-map-dialog{width:min(920px,calc(100% - 24px));max-height:90svh;overflow:auto;padding:20px;border:1px solid #cbd8e6;border-radius:16px;background:#fff;color:#102a43;box-shadow:0 20px 80px #102a4340}
 .seoul-map-dialog::backdrop{background:#102a4380}
