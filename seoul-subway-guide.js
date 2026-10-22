@@ -2,15 +2,31 @@
   'use strict';
   const stations={myeongdong:{name:'明洞駅 · 명동역',lat:37.56099,lon:126.98633},hongdae:{name:'弘大入口駅 · 홍대입구역',lat:37.55719,lon:126.92538},seongsu:{name:'聖水駅 · 성수역',lat:37.54458,lon:127.05598}};
   const target=document.querySelector('#guideMap');
-  document.querySelectorAll('[data-map]').forEach(button=>button.addEventListener('click',()=>{
+  let map,marker,loading,selection=0;
+  function loadMapLibrary(){
+    if(window.L)return Promise.resolve();
+    if(loading)return loading;
+    loading=new Promise((resolve,reject)=>{
+      const css=document.createElement('link');css.rel='stylesheet';css.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';css.integrity='sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=';css.crossOrigin='';
+      const js=document.createElement('script');js.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';js.integrity='sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=';js.crossOrigin='';
+      let a=false,b=false;const timeout=setTimeout(fail,15000);
+      function fail(){clearTimeout(timeout);css.remove();js.remove();reject(new Error('network'));}
+      function ready(){if(a&&b){clearTimeout(timeout);resolve();}}
+      css.onload=()=>{a=true;ready();};js.onload=()=>{b=true;ready();};css.onerror=js.onerror=fail;document.head.append(css,js);
+    }).catch(error=>{loading=null;throw error;});return loading;
+  }
+  document.querySelectorAll('[data-map]').forEach(button=>button.addEventListener('click',async()=>{
+    const current=++selection;
     const s=stations[button.dataset.map];
     document.querySelectorAll('[data-map]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
-    const frame=document.createElement('iframe');frame.title=s.name+'周辺の地図';frame.referrerPolicy='strict-origin-when-cross-origin';
-    const query=new URLSearchParams({bbox:[s.lon-.012,s.lat-.007,s.lon+.012,s.lat+.007].join(','),layer:'mapnik',marker:[s.lat,s.lon].join(',')});
-    frame.src='https://www.openstreetmap.org/export/embed.html?'+query;
-    target.replaceChildren(frame);
-    document.querySelector('#mapStatus').textContent=s.name+'周辺。ドラッグ・＋／−で操作できます。表示できない場合は下の地図リンクをご利用ください。';
     document.querySelector('#externalMap').href=`https://www.openstreetmap.org/?mlat=${s.lat}&mlon=${s.lon}#map=16/${s.lat}/${s.lon}`;
+    const status=document.querySelector('#mapStatus');status.textContent=s.name+'の地図を読み込んでいます…';
+    try{
+      await loadMapLibrary();if(current!==selection)return;
+      if(!map){target.replaceChildren();target.style.display='block';target.setAttribute('aria-label','駅周辺の地図');map=L.map(target,{scrollWheelZoom:false});L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'}).addTo(map).on('tileerror',()=>{status.textContent='地図の一部を読み込めませんでした。下の地図リンクをご利用ください。';});}
+      map.setView([s.lat,s.lon],15);if(marker)marker.remove();marker=L.marker([s.lat,s.lon],{title:s.name,alt:s.name}).addTo(map).bindPopup(s.name).openPopup();map.invalidateSize();
+      status.textContent=s.name+'周辺。ドラッグ・＋／−で操作できます。表示できない場合は下の地図リンクをご利用ください。';
+    }catch(error){status.textContent='地図を読み込めませんでした。もう一度街のボタンを押すか、下の地図リンクをご利用ください。';}
   }));
   const phrases=[
     ['지하철역이 어디예요?','チハチョリョギ オディエヨ？','地下鉄の駅はどこですか？'],
