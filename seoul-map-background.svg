@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="460" viewBox="0 0 1000 460" fill="none">
+  <title>漢江と街並みを描いたソウルのイメージ</title>
+  <defs>
+    <pattern id="blocks" width="83" height="70" patternTransform="rotate(-18)" patternUnits="userSpaceOnUse">
+      <path d="M0 0H83M0 0V70M38 0V70M0 32H83" stroke="#bdccda" stroke-width="1.4"/>
+      <path d="M8 8H30V24H8ZM47 8H74V24H47ZM8 41H30V61H8ZM47 41H74V61H47Z" fill="#e5ecee"/>
+    </pattern>
+    <linearGradient id="water" x1="0" y1="300" x2="1000" y2="330" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#c0dce8"/><stop offset=".6" stop-color="#8fbdd0"/><stop offset="1" stop-color="#b3d3df"/>
+    </linearGradient>
+  </defs>
+  <path fill="#f0f5f5" d="M0 0H1000V460H0z"/>
+  <path fill="url(#blocks)" opacity=".8" d="M0 0H1000V460H0z"/>
+  <path d="M540-15C556 30 520 62 536 97S598 131 585 162C573 193 518 195 516 232" stroke="#d1dfd1" stroke-width="64" stroke-linecap="round"/>
+  <path d="M774-18C765 25 805 46 847 39S912 37 929 3" stroke="#d8e4d5" stroke-width="84"/>
+  <path d="M-42 279C82 235 140 255 248 293C349 329 410 348 489 320C579 289 584 222 681 235C766 247 776 312 857 316C918 319 957 286 1047 291" stroke="#e2ebe1" stroke-width="70" stroke-linecap="round"/>
+  <path d="M-42 279C82 235 140 255 248 293C349 329 410 348 489 320C579 289 584 222 681 235C766 247 776 312 857 316C918 319 957 286 1047 291" stroke="url(#water)" stroke-width="42" stroke-linecap="round"/>
+  <path d="M-42 275C82 231 140 251 248 289C349 325 410 344 489 316C579 285 584 218 681 231C766 243 776 308 857 312C918 315 957 282 1047 287" stroke="#e6f2f7" stroke-width="1.5" opacity=".8"/>
+  <g stroke="#fff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M80 50L320 90L488 72L700 115L995 80"/>
+    <path d="M320-20L348 138L396 235L418 392L450 480"/>
+    <path d="M115 450L248 370L385 228L558 155L783 162L1040 130"/>
+    <path d="M792-20L742 103L703 199L696 299L744 467"/>
+    <path d="M505 440L638 367L828 379L1002 432"/>
+  </g>
+  <g stroke="#acbdc8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity=".75">
+    <path d="M80 50L320 90L488 72L700 115L995 80"/>
+    <path d="M320-20L348 138L396 235L418 392L450 480"/>
+    <path d="M115 450L248 370L385 228L558 155L783 162L1040 130"/>
+    <path d="M792-20L742 103L703 199L696 299L744 467"/>
+    <path d="M505 440L638 367L828 379L1002 432"/>
+  </g>
+  <g stroke="#f9fcfd" stroke-width="8"><path d="M276 272L259 328M432 300L452 351M590 238L612 286M790 279L768 320M902 288L905 337"/></g>
+  <g stroke="#a1bac7" stroke-width="1.3"><path d="M276 272L259 328M432 300L452 351M590 238L612 286M790 279L768 320M902 288L905 337"/></g>
+  <g font-family="system-ui, sans-serif" fill="#5c7a8c">
+    <text x="650" y="52" font-size="14" letter-spacing="6" opacity=".7">SEOUL</text>
+    <text x="469" y="299" font-size="13" letter-spacing="4" transform="rotate(-24 469 299)">한강 · HANGANG</text>
+    <g opacity=".85">
+      <circle cx="310" cy="194" r="14" fill="#f7fbfd"/><circle cx="310" cy="194" r="4" fill="#648da7"/>
+      <text x="330" y="199" font-size="16">弘大</text>
+      <circle cx="620" cy="129" r="14" fill="#f7fbfd"/><circle cx="620" cy="129" r="4" fill="#b67d89"/>
+      <text x="640" y="134" font-size="16">明洞</text>
+      <circle cx="845" cy="225" r="14" fill="#f7fbfd"/><circle cx="845" cy="225" r="4" fill="#648da7"/>
+      <text x="865" y="230" font-size="16">聖水</text>
+    </g>
+  </g>
+</svg>

@@ -24,7 +24,11 @@
 .dashboard::before{content:none;display:none}
 #home .site-intro h1{font-size:27px;line-height:1.4;margin:8px 0}
 #home .site-intro p{font-size:14px;margin:0 0 14px}
-#home .dashboard{padding:16px}
+#home .dashboard{padding:20px 16px 18px;isolation:isolate;background-color:#f4f8fa;background-image:linear-gradient(90deg,rgba(255,255,255,.97) 0%,rgba(255,255,255,.89) 38%,rgba(255,255,255,.3) 100%),url('./seoul-map-background.svg');background-position:center,right center;background-size:cover,auto 100%;background-repeat:no-repeat;border-bottom:1px solid #dce6ed}
+#home .site-intro{position:relative}
+#home .today-start{position:relative}
+#home .organized-home{background:linear-gradient(180deg,#f2f7fa 0%,#f8fafc 95%)}
+#home .purpose-grid a{box-shadow:0 3px 14px #1756a907}
 #home .today-start{margin-bottom:0;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;min-height:56px}
 #home .today-start small{font-size:12px;font-weight:500}
 #home .purpose-nav{margin:0}
