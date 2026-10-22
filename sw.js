@@ -1,5 +1,6 @@
-const CACHE_NAME = 'topik-study-v23';
+const CACHE_NAME = 'topik-study-v24';
 const CORE_FILES = [
+  '/seoul-subway-guide', '/seoul-subway-guide.css', '/seoul-subway-guide.js',
   '/', '/index.html', '/seoul-map.js', '/seoul-map-background.svg', '/home-navigation.css', '/homepage-seo.css', '/seo-reference.css', '/manifest.webmanifest', '/app-icon-192.png',
   '/app-icon-512.png', '/apple-touch-icon.png', '/cafe-scene.png',
   '/vocab.js', '/vocab-extra.js', '/vocab-level2.js',

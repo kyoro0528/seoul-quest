@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- TOPIK Study sitemap / updated 2026-10-21 -->
+<!-- TOPIK Study sitemap / updated 2026-10-22 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://topik-study.pages.dev/seoul-subway-guide</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
   <url>
     <loc>https://topik-study.pages.dev/</loc>
     <lastmod>2026-10-21</lastmod>

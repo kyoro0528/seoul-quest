@@ -5,6 +5,9 @@
   button.textContent = '🗺 ソウルの地図を開く';
   button.setAttribute('aria-haspopup', 'dialog');
   document.querySelector('#home .dashboard').append(button);
+  const guideLink=document.createElement('a');
+  guideLink.href='./seoul-subway-guide';guideLink.className='seoul-map-open';guideLink.textContent='🚇 MAP・地下鉄の日韓ガイド';
+  document.querySelector('#home .dashboard').append(guideLink);
   const dialog = document.createElement('dialog');
   dialog.className = 'seoul-map-dialog';
   dialog.setAttribute('aria-labelledby', 'seoul-map-title');
@@ -80,7 +83,10 @@
         const content=document.createElement('div');
         const title=document.createElement('strong');title.textContent=place.name;
         const b=document.createElement('button');b.className='seoul-map-lesson';b.textContent=place.topic+'を始める';b.onclick=()=>lesson(place);
-        content.append(title,document.createElement('br'),b);
+        const guide=document.createElement('a');
+        guide.href='./seoul-subway-guide#'+({'明洞':'myeongdong','弘大':'hongdae','聖水':'seongsu'}[place.name]);
+        guide.textContent='駅・地下鉄の案内を見る →';guide.style.display='block';guide.style.paddingTop='10px';
+        content.append(title,document.createElement('br'),b,guide);
         L.marker(place.pos,{title:place.name,alt:place.name+'の学習スポット'}).addTo(map).bindPopup(content);
       });
       status.textContent='ピンまたは下の街ボタンからレッスンを始められます。';
