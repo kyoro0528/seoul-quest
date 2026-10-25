@@ -1,6 +1,6 @@
-const CACHE_NAME = 'topik-study-v33';
+const CACHE_NAME = 'topik-study-v34';
 const CORE_FILES = [
-  '/korean-phrase-cards', '/korean-phrase-cards.js?v=33', '/korean-phrase-cards.css?v=33', '/travel-destinations.js?v=33',
+  '/korean-phrase-cards', '/korean-phrase-cards.js?v=34', '/korean-phrase-cards.css?v=34', '/travel-replies.js?v=34', '/travel-destinations.js?v=33',
   '/travel-layout.css',
   '/korea-travel-preparation', '/travel-preparation.js',
   '/seoul-subway-guide', '/seoul-subway-guide.css', '/seoul-subway-guide.js',
