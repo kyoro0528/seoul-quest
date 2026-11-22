@@ -84,3 +84,21 @@ body{background-color:#eaf1f5!important;background-image:linear-gradient(rgba(23
 .learning-menu-card>span{min-width:0}
 .learning-menu-card strong{display:block}
 @media(max-width:360px){#home .purpose-grid strong{font-size:16px}#home .purpose-grid small{font-size:12px}}
+
+/* Desktop layout (D): wide viewports only. Below 1024px nothing changes. */
+@media(min-width:1024px){
+  /* Widen the shell so desktop side space is used instead of left empty. */
+  .shell{width:min(1120px,100%)}
+  /* Home: intro / start panel as a sticky side column, plan area beside it.
+     #home has exactly two children (.dashboard and .plan-area), so this is
+     pure CSS on the existing containers. Only the shown screen is a grid. */
+  #home.show{display:grid;grid-template-columns:340px minmax(0,1fr);gap:20px;align-items:start}
+  #home .dashboard{position:sticky;top:16px}
+  #home .plan-area{margin-top:0}
+  /* Learning-record screen: stats beside a sticky week panel. */
+  #home-continue .continue-dashboard{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:14px;align-items:start}
+  #home-continue .dash-grid{margin-top:10px}
+  #home-continue .week-panel{position:sticky;top:16px;margin-top:10px}
+  /* Catalog / SEO link grids breathe at desktop width. */
+  .seo-link-grid{grid-template-columns:repeat(3,1fr)}
+}
