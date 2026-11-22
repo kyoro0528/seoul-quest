@@ -6,13 +6,14 @@
     full:{id:'full',name:'本番時間模試',minutes:100,listening:30,reading:40,readingFields:{vocabulary:10,grammar:10,reading:15,other:5}}
   };
   function shuffle(items,rng=Math.random){const a=[...items];for(let i=a.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+  function withDistractor(q,pool,rng){if(!q.choices||q.choices.length>=4)return q;const used=new Set(q.choices.map(c=>c[0]));const cands=(pool||[]).filter(x=>x!==q).flatMap(x=>x.choices||[]).filter(c=>!c[3]&&!used.has(c[0]));if(!cands.length)return q;const extra=cands[Math.floor(rng()*cands.length)];return{...q,choices:[...q.choices,extra]}}
   function buildExam(chapters,courseId,rng=Math.random){
     const course=courses[courseId];if(!course)throw Error('模試コースが見つかりません。');
     const byId=Object.fromEntries(chapters.map(x=>[x.id,x]));
     const listening=byId['topik-listening']?.q||[],sources={vocabulary:byId['topik-vocab']?.q||[],grammar:byId['topik-grammar']?.q||[],reading:byId['topik-reading']?.q||[],other:byId['topik-number']?.q||[]};
     if(listening.length<course.listening||Object.entries(course.readingFields).some(([field,count])=>sources[field].length<count))throw Error('模試に必要な問題数が不足しています。');
-    const reading=Object.entries(course.readingFields).flatMap(([field,count])=>shuffle(sources[field],rng).slice(0,count).map(q=>({...q,mockSection:'reading',mockField:field})));
-    return [...shuffle(listening,rng).slice(0,course.listening).map(q=>({...q,mockSection:'listening',mockField:'listening'})),...shuffle(reading,rng)];
+    const reading=Object.entries(course.readingFields).flatMap(([field,count])=>shuffle(sources[field],rng).slice(0,count).map(q=>withDistractor({...q,mockSection:'reading',mockField:field},sources[field],rng)));
+    return [...shuffle(listening,rng).slice(0,course.listening).map(q=>withDistractor({...q,mockSection:'listening',mockField:'listening'},listening,rng)),...shuffle(reading,rng)];
   }
   const score=(correct,total)=>total?Math.round(correct/total*100):0;
   function createRecord({courseId,answers,date,createdAt,id,timedOut=false}){
