@@ -28,6 +28,70 @@ html.rv .rv-item.rv-in{opacity:1;transform:none}
 .purpose-grid a:hover,.home-entry-card:hover,.seo-link:hover,.learning-menu-card:hover{transform:translateY(-3px);box-shadow:0 12px 26px #3613261f}
 .today-start:hover{transform:scale(1.01)}
 }
+</style><style>/* homepage polish (added 2026-11-22): design tokens + quiet premium finish.
+   Placed after the PR #10 motion block so it refines (never replaces) it:
+   entrance/scroll animations, CTA shine and hover lift keep working. */
+:root{
+  --line-soft:#e2eaf1;
+  --tint-blue:#edf4fb;--tint-red:#fdf0f1;--tint-amber:#fdf3e0;--tint-violet:#f2efff;--tint-green:#e9f8f0;
+  --r-card:18px;--r-chip:14px;
+  --sh-card:0 1px 2px #102a4307,0 10px 28px #102a430c;
+  --sh-lift:0 2px 5px #102a430a,0 18px 40px #102a4317;
+  --shadow:0 14px 34px #102a4314;
+}
+/* Header: softer pills, calmer depth */
+.pill{border-radius:99px;padding:8px 11px;background:#fff;box-shadow:0 2px 8px #102a430d}
+/* Hero: type hierarchy + pill badge (existing eyebrow text, restyled) */
+#home .dashboard{background-color:#f5f8fb;background-image:linear-gradient(100deg,rgba(255,255,255,.98) 0%,rgba(255,255,255,.93) 42%,rgba(255,255,255,.4) 100%),url('./seoul-map-background.svg')}
+#home .dashboard:after{content:"";position:absolute;top:46px;left:20px;width:34px;height:3px;border-radius:99px;background:linear-gradient(90deg,var(--kred),var(--kblue))}
+.site-intro .eyebrow{display:inline-block;padding:5px 11px;border:1px solid #d3e4f4;border-radius:99px;background:#eaf2fb;color:var(--kblue);font-size:11px;font-weight:900;letter-spacing:.1em}
+#home .site-intro h1{font-size:clamp(27px,6vw,31px);line-height:1.38;letter-spacing:.01em;margin:13px 0 9px}
+#home .site-intro p{font-size:14.5px;line-height:1.85;color:#52677d;max-width:36em}
+/* Primary CTA + buttons */
+.today-start{border-radius:16px;background:linear-gradient(115deg,#d92b3a,#e85b3e);box-shadow:0 12px 26px #dc354533,inset 0 1px 0 #ffffff30}
+.primary{border-radius:12px;background:linear-gradient(180deg,#1e64ba,var(--kblue));box-shadow:0 8px 20px #1756a92b}
+.menu-back{border-radius:12px;border-color:var(--line-soft);box-shadow:var(--sh-card)}
+/* Cards: one radius, hairline border, soft shadow */
+.home-entry-card{border-radius:var(--r-card);border-color:var(--line-soft);padding:18px;box-shadow:var(--sh-card)}
+.home-entry-card strong{font-size:16px;letter-spacing:.01em}
+.purpose-grid{gap:12px}
+#home .purpose-grid a{border-radius:var(--r-card);border-color:var(--line-soft);padding:18px 16px;box-shadow:var(--sh-card)}
+#home .purpose-grid a>span{display:grid;place-items:center;width:46px;height:46px;border-radius:var(--r-chip);background:var(--tint-blue);font-size:22px;margin-bottom:11px}
+#home .purpose-grid a:nth-child(1)>span{background:var(--tint-green)}
+#home .purpose-grid a:nth-child(2)>span{background:var(--tint-blue)}
+#home .purpose-grid a:nth-child(3)>span{background:var(--tint-amber)}
+#home .purpose-grid a:nth-child(4)>span{background:var(--tint-violet)}
+#home .purpose-grid a:hover{border-color:#b9d2ea;background:#fff;box-shadow:var(--sh-lift)}
+.purpose-grid strong{letter-spacing:.01em}
+.seo-link{border-radius:14px;border-color:var(--line-soft);background:#fff;padding:15px;box-shadow:var(--sh-card)}
+.seo-link:hover{box-shadow:var(--sh-lift)}
+.guide-link{border-radius:16px;border-color:var(--line-soft);padding:16px 15px;box-shadow:var(--sh-card)}
+.guide-link:hover{box-shadow:var(--sh-lift)}
+.home-more{border-radius:16px;border-color:var(--line-soft)}
+.start-paths,.mock-course,.travel-utility-card{border-radius:16px}
+.dash-card,.week-panel,.plan-card{border-color:var(--line-soft);box-shadow:var(--sh-card)}
+.dash-card,.week-panel{border-radius:16px}
+.plan-card{border-radius:16px}
+.card,.intro-card,.record-card,.record-note{border-radius:18px}
+.chapter,.stage,.word,.vocab-link{border-radius:16px}
+.exam-strip{border-radius:16px}
+/* Section headings: small gradient accent bar */
+.purpose-nav h2,.home-group h2,.menu-screen h2{position:relative;padding-left:13px}
+.purpose-nav h2:before,.home-group h2:before,.menu-screen h2:before{content:"";position:absolute;left:0;top:.16em;bottom:.16em;width:4px;border-radius:99px;background:linear-gradient(180deg,var(--kred),var(--kblue))}
+#home .purpose-nav h2{font-size:19px;letter-spacing:.02em}
+#home .plan-area{padding-top:24px}
+/* Footer: quieter */
+.site-legal-footer{color:#8496a9;font-size:12px;line-height:1.8}
+.site-legal-footer a{color:#627d98}
+/* Desktop: balance the two columns so the right column fills the height
+   instead of leaving a large empty band under the cards. */
+@media(min-width:1024px){
+  #home.show{align-items:stretch}
+  #home .plan-area{display:flex}
+  #home .purpose-nav{display:flex;flex-direction:column;flex:1}
+  #home .purpose-grid{flex:1}
+  #home .purpose-grid a{min-height:148px}
+}
 </style></head><body><script>if("IntersectionObserver" in window){document.documentElement.classList.add("rv")}</script><main class="shell">
 <header><div class="brand"><span class="logo">🇰🇷</span><span class="brand-name">韓国語能力試験<small>TOPIK STUDY DESK</small></span></div><div class="stats"><span class="pill" id="streak">🔥 0日</span><span class="pill" id="total">★ 0</span></div></header>
 <section class="screen show" id="home"><div class="dashboard"><div class="site-intro"><span class="eyebrow">無料・登録不要の韓国語学習</span><h1>TOPIK I 1級・2級対策を、毎日少しずつ。</h1><p>無料・登録不要。単語・文法・聞き取り・読解から旅行会話まで学べます。まずは単語10問でレベル確認。</p></div><button class="today-start" id="startToday"><span aria-hidden="true">▶</span>今日の学習を始める<small>単語10問でレベル確認</small></button><div class="home-entry-card hidden" id="firstTimerCard"><strong>初めての方は、まずレベル確認から</strong><p>TOPIK Iの1級・2級対策が、無料・登録不要で学べます。単語10問を解くと、今のレベルが見えてきます。</p><button class="primary" id="firstTimerStart" type="button">単語10問でレベル確認</button></div><div class="home-entry-card hidden" id="continueCard"><strong>続きから始める</strong><p id="continueText"></p><button class="primary" id="continueStart" type="button">続きを始める</button></div></div><div class="plan-area organized-home"><nav class="purpose-nav" aria-labelledby="purposeTitle"><h2 id="purposeTitle">目的から選ぶ</h2><p>学習も、旅行中の困りごとも。使いたいメニューを選んでください。</p><div class="purpose-grid">
