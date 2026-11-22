@@ -34,6 +34,24 @@
     const missed=answers.map((a,n)=>a.correct?null:n+1).filter(Boolean).join(',');
     return {id,createdAt,date,name:`オリジナル模試 ${course.name}`,listening:score(stats.listening.correct,stats.listening.total),reading:score(stats.reading.correct,stats.reading.total),examConditions:courseId==='full'&&!timedOut,missed,note:`自動保存・聞き取り ${stats.listening.correct}/${stats.listening.total}問、読解 ${stats.reading.correct}/${stats.reading.total}問${timedOut?'（時間切れ）':''}`,fields,source:'original-mock',courseId};
   }
-  const api={courses,buildExam,score,createRecord};
+  const levelStandards={total:200,level1:80,level2:140};
+  function judgeLevel(total){
+    if(total>=levelStandards.level2)return{level:2,label:'2級',next:null};
+    if(total>=levelStandards.level1)return{level:1,label:'1級',next:{level:2,label:'2級',min:levelStandards.level2,gap:levelStandards.level2-total}};
+    return{level:0,label:'1級の基準未達',next:{level:1,label:'1級',min:levelStandards.level1,gap:levelStandards.level1-total}};
+  }
+  const courseKey=r=>r&&r.courseId?r.courseId:'manual';
+  function previousAttempt(records,record){
+    if(!record||!Array.isArray(records))return null;
+    const key=courseKey(record);
+    const ordered=records.filter(r=>r&&courseKey(r)===key).sort((a,b)=>String(a.date).localeCompare(String(b.date))||((a.createdAt||0)-(b.createdAt||0)));
+    const idx=ordered.findIndex(r=>r===record||(record.id&&r.id===record.id));
+    return idx>0?ordered[idx-1]:null;
+  }
+  function compareAttempts(current,previous){
+    if(!current||!previous)return null;
+    return{total:(current.listening+current.reading)-(previous.listening+previous.reading),listening:current.listening-previous.listening,reading:current.reading-previous.reading};
+  }
+  const api={courses,buildExam,score,createRecord,levelStandards,judgeLevel,previousAttempt,compareAttempts};
   if(typeof module==='object'&&module.exports)module.exports=api;else root.TopikMockExam=api;
 })(typeof window==='undefined'?globalThis:window);
