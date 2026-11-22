@@ -10,7 +10,7 @@
     'sqWrong', 'studySeconds', 'studyByDay', 'studyCount', 'streak', 'last',
     'topikVocabState', 'topikVocabStateBackup', 'topikGrammarMastered',
     'topikListeningWrong', 'topikReadingWrong', 'topikPracticeWrong',
-    'topikPracticeStats', 'topikDailyHistory', 'topikActivityStats', 'topikExamResults', 'topikSrsV1'
+    'topikPracticeStats', 'topikDailyHistory', 'topikActivityStats', 'topikExamResults', 'topikSrsV1', 'topikListeningState', 'topikReadingState'
   ]);
 
   function isLearningKey(key) {
@@ -48,7 +48,7 @@
             Object.keys(data.history || {}).length > 0 ||
             Boolean(data.streak && data.streak.count);
         }
-        if (key === 'topikSrsV1') {
+        if (key === 'topikSrsV1' || key === 'topikListeningState' || key === 'topikReadingState') {
           return Object.keys(data.items || {}).length > 0;
         }
         return Object.keys(data).length > 0;
