@@ -1,4 +1,4 @@
-const CACHE_NAME = 'topik-study-v41';
+const CACHE_NAME = 'topik-study-v42';
 const CORE_FILES = [
   '/korean-phrase-cards', '/korean-phrase-cards.js?v=36', '/korean-phrase-cards.css?v=36', '/travel-phrase-search.js?v=36', '/travel-replies.js?v=34', '/travel-destinations.js?v=33',
   '/travel-layout.css',
