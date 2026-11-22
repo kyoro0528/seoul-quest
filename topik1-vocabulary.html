@@ -17,7 +17,26 @@
     .daily-start{min-height:58px;background:linear-gradient(110deg,var(--red),#e85b3e);box-shadow:0 9px 22px #d83b4630;font-size:17px;letter-spacing:.02em}.quiz-body{width:min(100%,680px);margin:auto;padding:24px 20px 32px}.choice{min-height:56px;padding:16px;font-size:16px;line-height:1.45}.choice.correct,.choice.wrong{animation:choicePop .28s ease-out}.feedback.show{position:relative;padding:17px;animation:feedbackUp .34s ease-out;box-shadow:0 9px 24px #102a4315}.feedback.show> b:before{content:'✓';display:inline-grid;place-items:center;width:29px;height:29px;margin-right:8px;border-radius:50%;background:var(--green);color:#fff;font-size:17px;vertical-align:middle}.feedback.show.wrong> b:before{content:'!';background:var(--red)}.next.show{min-height:54px;font-size:16px}@keyframes feedbackUp{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}@keyframes choicePop{50%{transform:scale(1.015)}}@media(max-width:520px){.topbar{padding:11px 12px}.brand{font-size:15px}.hero{padding:23px 16px 20px}.hero p{font-size:15px}.daily-card{margin:12px 12px 0;padding:16px}.daily-top h2{font-size:21px}.daily-card p{font-size:14px}.course-option{min-height:50px;font-size:15px}.stats{padding:12px 12px 0}.stat{padding:12px 5px}.stat span{font-size:12px}.section{padding-left:12px;padding-right:12px}.chapter,.lesson,.review,.random,.data-button,.nav{min-height:48px}.quiz-head{padding:15px 14px}.quiz-body{padding:18px 12px 28px}.prompt-type{margin-top:17px;font-size:12px}.question{min-height:68px;margin-bottom:15px}.question.jpq{font-size:24px}.choices{gap:9px}.choice{min-height:58px;padding:15px;font-size:16px}.feedback.show{padding:15px}.feedback .meaning,.feedback .answer-reason{font-size:14px}.option-reason{font-size:13px}.bottom{padding-top:6px}.nav{font-size:12px}}
   [hidden]{display:none!important}#sceneListLink{display:block;text-align:center;text-decoration:none;padding:14px;border:1px solid var(--line);border-radius:10px;min-height:44px;box-sizing:border-box}#quizTitle{overflow-wrap:anywhere}</style>
 <link rel="icon" type="image/png" href="./app-icon-192.png"><link rel="apple-touch-icon" href="./apple-touch-icon.png"><link rel="stylesheet" href="./homepage-seo.css"><script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"TOPIK I 単語トレーニング","url":"https://topik-study.pages.dev/topik1-vocabulary","inLanguage":"ja","learningResourceType":"practice","isAccessibleForFree":true}</script><link rel="stylesheet" href="./seo-reference.css"><style>/* a11y focus (added 2026-11-23) */
-a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:3px solid #1756a9;outline-offset:2px}</style></head>
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:3px solid #1756a9;outline-offset:2px}</style><style>/* design polish (added 2026-11-23): unify with homepage PR #11 tokens */
+:root{--line-soft:#e2eaf1;--r-card:18px;--r-chip:14px;--sh-card:0 1px 2px #102a4307,0 10px 28px #102a430c;--sh-lift:0 2px 5px #102a430a,0 18px 40px #102a4317}
+.stat,.record-card,.chart-card{border-color:var(--line-soft);border-radius:16px;box-shadow:var(--sh-card)}
+.chapter,.lesson,.study-card,.word-row{border-color:var(--line-soft);border-radius:16px;box-shadow:var(--sh-card)}
+.chapter-num{border-radius:var(--r-chip)}
+.daily-card{border-radius:var(--r-card);box-shadow:var(--sh-card)}
+.primary{border-radius:12px;background:linear-gradient(180deg,#1e64ba,var(--blue));box-shadow:0 8px 20px #1767b52b}
+.review,.random{border-radius:12px;box-shadow:0 8px 20px #102a4326}
+.next{border-radius:12px}
+.choice{border-radius:14px}
+.course-option,.search{border-radius:12px}
+.search{border-color:var(--line-soft)}
+.data-button{border-radius:12px;border-color:var(--line-soft)}
+.back{border-radius:12px;border-color:var(--line-soft);box-shadow:var(--sh-card)}
+.feedback{border-radius:14px}
+.again,.outline{border-radius:12px}
+.eyebrow{display:inline-block;padding:5px 11px;border:1px solid #ffffff55;border-radius:99px;background:#ffffff1f}
+.section h2{position:relative;padding-left:13px}.section h2:before{content:"";position:absolute;left:0;top:.16em;bottom:.16em;width:4px;border-radius:99px;background:linear-gradient(180deg,var(--red),var(--blue))}
+@media(hover:hover){.chapter:not(:disabled):hover,.lesson:hover{box-shadow:var(--sh-lift)}}
+</style></head>
 <body>
 <main class="app">
   <header class="topbar"><a class="back" href="./" aria-label="ホームへ戻る">← ホームへ</a><div class="brand">TOPIK I 単語トレーニング<small>10 WORDS · 10 QUESTIONS</small></div></header>
