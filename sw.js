@@ -1,4 +1,4 @@
-const CACHE_NAME = 'topik-study-v43';
+const CACHE_NAME = 'topik-study-v47';
 const CORE_FILES = [
   '/korean-phrase-cards', '/korean-phrase-cards.js?v=36', '/korean-phrase-cards.css?v=36', '/travel-phrase-search.js?v=36', '/travel-replies.js?v=34', '/travel-destinations.js?v=33',
   '/travel-layout.css',
@@ -46,3 +46,4 @@ self.addEventListener('fetch', event => {
       return response;
     })));
 });
+
