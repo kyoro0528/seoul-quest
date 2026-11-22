@@ -6,7 +6,7 @@
     full:{id:'full',name:'本番時間模試',minutes:100,listening:30,reading:40,readingFields:{vocabulary:10,grammar:10,reading:15,other:5}}
   };
   function shuffle(items,rng=Math.random){const a=[...items];for(let i=a.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-  function withDistractor(q,tiers,rng){if(!q.choices||q.choices.length>=4)return q;const used=new Set(q.choices.map(c=>Array.isArray(c)?c[0]:c));for(const pool of tiers){const cands=(pool||[]).filter(x=>x!==q&&(!q.id||x.id!==q.id)).flatMap(x=>x.choices||[]).filter(c=>Array.isArray(c)&&!c[3]&&!used.has(c[0]));if(cands.length){const extra=cands[Math.floor(rng()*cands.length)];return{...q,choices:[...q.choices,extra]}}}return q}
+  function withDistractor(q,tiers,rng){if(!q.choices||q.choices.length>=4)return q;const used=new Set(q.choices.map(c=>Array.isArray(c)?c[0]:c));for(const pool of tiers){const cands=(pool||[]).filter(x=>x!==q&&(!q.id||x.id!==q.id)).flatMap(x=>x.choices||[]).map(c=>Array.isArray(c)?c:[c,'','',0]).filter(c=>!c[3]&&!used.has(c[0]));if(cands.length){const extra=cands[Math.floor(rng()*cands.length)];return{...q,choices:[...q.choices,extra]}}}return q}
   function buildExam(chapters,courseId,rng=Math.random){
     const course=courses[courseId];if(!course)throw Error('模試コースが見つかりません。');
     const byId=Object.fromEntries(chapters.map(x=>[x.id,x]));
