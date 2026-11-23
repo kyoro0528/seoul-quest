@@ -524,6 +524,10 @@
     var el = document.getElementById('accountSyncStatus');
     if (el) el.textContent = text;
   }
+  function clearAcctPending() {
+    var box = document.getElementById('accountSync');
+    if (box) { box.classList.remove('acct-checking'); box.removeAttribute('aria-busy'); }
+  }
   function onLoggedOut() {
     state.user = null;
     if (state.timer) { clearInterval(state.timer); state.timer = null; }
@@ -678,16 +682,20 @@
     if (state.started) return;
     state.started = true;
     showLoginNotice();
+    var pendingTimer = setTimeout(clearAcctPending, 6000);
+    function acctResolved() { clearTimeout(pendingTimer); clearAcctPending(); }
     try {
       var res = await api('/api/auth/me');
-      if (!res.ok) return;
+      if (!res.ok) { acctResolved(); return; }
       var me = await res.json();
-      if (!me || !me.loggedIn) return;
+      if (!me || !me.loggedIn) { acctResolved(); return; }
       state.user = { email: me.email };
     } catch (_) {
+      acctResolved();
       return;
     }
     renderAccount();
+    acctResolved();
     await fullSync();
     state.timer = setInterval(function () { pushDirty(false); }, 30000);
     document.addEventListener('visibilitychange', function () {
