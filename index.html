@@ -136,6 +136,30 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
 #home .today-start{margin-top:32px}
 #home .plan-area{margin-top:20px}
 }
+</style><style>/* design unification (added 2026-11-23): extend the PR #36 video-hero polish
+   to the global header and everything below the hero. Additive overrides only:
+   same tokens as PR #11/#24/#31 (--line-soft, --sh-card/--sh-lift, gradient accent). */
+:root{--line-soft:#e2eaf1;--sh-card:0 1px 2px #102a4307,0 10px 28px #102a430c;--sh-lift:0 2px 5px #102a430a,0 18px 40px #102a4317}
+/* Header: corporate finish — soft depth under the white bar, navy logo chip */
+header{box-shadow:0 10px 24px #102a4308}
+.logo{background:linear-gradient(135deg,#173f6b,#102a43);box-shadow:0 6px 16px #102a4326}
+.brand-name{letter-spacing:.03em}
+.brand-name small{letter-spacing:.16em}
+/* Section rhythm + one heading scale below the hero */
+#home .plan-area{padding-top:30px}
+.purpose-nav{margin-bottom:30px}
+.purpose-nav h2,.home-group h2,.menu-screen h2{font-size:20px;letter-spacing:.02em}
+.home-group{padding:30px 0}
+.menu-screen h2{margin-top:20px;margin-bottom:10px}
+.seo-home{margin-top:30px;padding-top:26px}
+.seo-home h2{position:relative;padding-left:13px;font-size:20px;letter-spacing:.02em}
+.seo-home h2:before{content:"";position:absolute;left:0;top:.16em;bottom:.16em;width:4px;border-radius:99px;background:linear-gradient(180deg,var(--kred),var(--kblue))}
+/* Cards: shared surface + gentle hover lift */
+#home .purpose-grid a,.learning-menu-card,.exam-strip,.seo-link,.guide-link,.cur-unit{transition:box-shadow .18s ease,border-color .18s ease}
+.cur-unit{border-color:var(--line-soft);border-radius:16px;box-shadow:var(--sh-card)}
+.continue-dashboard{border:1px solid var(--line-soft);border-radius:18px;box-shadow:var(--sh-card)}
+@media(hover:hover){.learning-menu-card:hover,.exam-strip:hover,.cur-unit:hover{box-shadow:var(--sh-lift)}}
+@media(prefers-reduced-motion:reduce){#home .purpose-grid a,.learning-menu-card,.exam-strip,.seo-link,.guide-link,.cur-unit{transition:none}}
 </style></head><body><script>if("IntersectionObserver" in window){document.documentElement.classList.add("rv")}</script><main class="shell">
 <header><div class="brand"><span class="logo">🇰🇷</span><span class="brand-name">韓国語能力試験<small>TOPIK STUDY DESK</small></span></div><div class="stats"><span class="pill" id="streak">🔥 0日</span><span class="pill" id="total">★ 0</span></div></header>
 <section class="screen show" id="home"><div class="dashboard"><div class="hero-media" aria-hidden="true"><video class="hero-video" muted loop playsinline preload="none" poster="https://images.pexels.com/videos/32531981/downtown-seoul-gyeongbokgung-gyeongbokgung-palace-korea-32531981.jpeg?auto=compress&cs=tinysrgb&w=1600" data-src="https://videos.pexels.com/video-files/32531981/13873390_1920_1080_30fps.mp4"></video><span class="hero-shade"></span></div><div class="site-intro"><span class="eyebrow">無料・登録不要の韓国語学習</span><h1>TOPIK I 1級・2級対策を、毎日少しずつ。</h1><p>無料・登録不要。単語・文法・聞き取り・読解から旅行会話まで学べます。まずは単語10問でレベル確認。</p></div><button class="today-start" id="startToday"><span aria-hidden="true">▶</span>今日の学習を始める<small>単語10問でレベル確認</small></button><div class="home-entry-card hidden" id="firstTimerCard"><strong>初めての方は、まずレベル確認から</strong><p>TOPIK Iの1級・2級対策が、無料・登録不要で学べます。単語10問を解くと、今のレベルが見えてきます。</p><button class="primary" id="firstTimerStart" type="button">単語10問でレベル確認</button></div><div class="home-entry-card hidden" id="continueCard"><strong>続きから始める</strong><p id="continueText"></p><button class="primary" id="continueStart" type="button">続きを始める</button><p class="continue-cur"><a href="#home-curriculum" id="continueCurriculumLink"></a></p></div><span class="hero-credit">映像提供：Pexels</span></div><div class="plan-area organized-home"><nav class="purpose-nav" aria-labelledby="purposeTitle"><h2 id="purposeTitle">目的から選ぶ</h2><p>学習も、旅行中の困りごとも。使いたいメニューを選んでください。</p><div class="purpose-grid">
