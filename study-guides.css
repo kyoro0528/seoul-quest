@@ -24,3 +24,12 @@ th,td{border-color:var(--line-soft)}
 .related a{border-color:var(--line-soft);border-radius:14px;box-shadow:var(--sh-card)}
 a:focus-visible,summary:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
 @media(hover:hover){.related a:hover{box-shadow:var(--sh-lift)}}
+
+/* design unification (added 2026-11-23): align guide pages with the study-page
+   band scale (PR B). Additive overrides only. */
+.hero{padding:38px 24px 30px}
+.hero h1{font-size:clamp(27px,6vw,38px);letter-spacing:.01em}
+.hero p{font-size:14.5px}
+.content{padding-top:26px}
+section{padding:24px}
+h2{font-size:21px}
