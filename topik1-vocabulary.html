@@ -36,6 +36,12 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
 .eyebrow{display:inline-block;padding:5px 11px;border:1px solid #ffffff55;border-radius:99px;background:#ffffff1f}
 .section h2{position:relative;padding-left:13px}.section h2:before{content:"";position:absolute;left:0;top:.16em;bottom:.16em;width:4px;border-radius:99px;background:linear-gradient(180deg,var(--red),var(--blue))}
 @media(hover:hover){.chapter:not(:disabled):hover,.lesson:hover{box-shadow:var(--sh-lift)}}
+</style><style>/* design unification (added 2026-11-23): slim navy page band + shared tokens,
+   extending PR #11/#24/#31. Additive overrides only. */
+.topbar{box-shadow:0 10px 24px #102a4308}
+.hero{background:linear-gradient(90deg,#dc3545,#1756a9) bottom/100% 4px no-repeat,linear-gradient(130deg,#173f6b,#102a43);border-bottom:0;padding:30px 20px 26px}
+.hero h1{font-size:clamp(27px,6vw,38px);letter-spacing:.01em}
+.hero p{color:#d9e7f5}
 </style></head>
 <body>
 <main class="app">

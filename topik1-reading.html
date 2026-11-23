@@ -15,6 +15,14 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
 select{border-radius:10px;border-color:var(--line-soft)}
 .back{border-radius:12px;border-color:var(--line-soft);box-shadow:var(--sh-card)}
 .hero>span{display:inline-block;padding:5px 11px;border:1px solid #ffffff55;border-radius:99px;background:#ffffff1f}
+</style><style>/* design unification (added 2026-11-23): slim navy page band + shared tokens,
+   extending PR #11/#24/#31. Additive overrides only. */
+.top{box-shadow:0 10px 24px #102a4308}
+.hero{background:linear-gradient(90deg,#dc3545,#1756a9) bottom/100% 4px no-repeat,linear-gradient(130deg,#173f6b,#102a43);border-left:0;border-radius:18px;box-shadow:0 1px 2px #102a4307,0 10px 28px #102a430c;padding:28px 22px}
+.hero h1{font-size:clamp(27px,6vw,38px);letter-spacing:.01em}
+.option{border-radius:14px;border-color:#e2eaf1}
+.primary{border-radius:12px;background:linear-gradient(180deg,#1e64ba,#1756a9);box-shadow:0 8px 20px #1756a92b}
+.secondary{border-radius:12px}
 </style></head>
 <body><div class="page"><header class="top"><a class="brand" href="./">韓国語能力試験 TOPIK 対策<small>TOPIK STUDY</small></a><a class="back" href="./">← ホームへ</a></header><main>
 <section id="intro"><div class="hero"><span>READING PRACTICE</span><h1>TOPIK I 読解130問</h1><p>案内、広告、メッセージ、短文を読んで答えます。日本語訳と解説は解答後に表示されます。</p></div><p class="notice">すべて学習用のオリジナル問題です。公式過去問ではありません。</p><div class="filters"><label>TOPIKの級<select id="level"><option>すべて</option><option>1級</option><option>2級</option></select></label><label>難易度<select id="difficulty"><option>すべて</option><option>基礎</option><option>標準</option><option>応用</option></select></label><p class="count" id="count"></p></div><div class="actions"><button class="primary" id="start">130問を始める</button><button class="secondary" id="review">間違いを復習</button></div></section>

@@ -24,6 +24,15 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
 .feedback{border-radius:12px}
 .back{border-radius:12px;border-color:var(--line-soft);box-shadow:var(--sh-card)}
 .eyebrow{display:inline-block;padding:5px 11px;border:1px solid #ffffff55;border-radius:99px;background:#ffffff1f}
+</style><style>/* design unification (added 2026-11-23): slim navy page band + shared tokens,
+   extending PR #11/#24/#31. Additive overrides only. */
+.topbar{box-shadow:0 10px 24px #102a4308}
+.hero{background:linear-gradient(90deg,#dc3545,#1756a9) bottom/100% 4px no-repeat,linear-gradient(130deg,#173f6b,#102a43);border-left:0;border-radius:18px;box-shadow:0 1px 2px #102a4307,0 10px 28px #102a430c;padding:28px 22px}
+.hero h1{font-size:clamp(27px,6vw,38px);letter-spacing:.01em}
+.card{border-color:#e2eaf1;border-radius:18px;box-shadow:0 1px 2px #102a4307,0 10px 28px #102a430c}
+.option{border-radius:14px;border-color:#e2eaf1}
+.primary{border-radius:12px;background:linear-gradient(180deg,#1e64ba,#1756a9);box-shadow:0 8px 20px #1756a92b}
+.secondary{border-radius:12px}
 </style></head><body><div class="page">
 <header class="topbar"><a class="brand" href="./">韓国語能力試験 TOPIK 対策<small>TOPIK STUDY</small></a><a class="back" href="./">← ホームへ</a></header>
 <main class="content"><section id="intro"><div class="hero"><span class="eyebrow">LISTENING PRACTICE</span><h1>TOPIK I 聞き取り練習40問</h1><p>韓国語音声を聞いて答えましょう。スクリプトと日本語訳は、回答するまで表示されません。</p></div><div class="features"><div class="feature"><b>40問</b><small>オリジナル</small></div><div class="feature"><b>音声</b><small>何度でも再生</small></div><div class="feature"><b>無料</b><small>登録不要</small></div></div><p class="notice">端末の韓国語音声を使用します。音が出ない場合は、消音設定と音量を確認してください。</p><div class="settings"><strong>出題設定</strong><div class="setting-grid"><label>TOPIKの級<select id="levelFilter"><option value="すべて">すべて</option><option value="1級">1級</option><option value="2級">2級</option></select></label><label>難易度<select id="difficultyFilter"><option value="すべて">すべて</option><option value="基礎">基礎</option><option value="標準">標準</option><option value="応用">応用</option></select></label></div><p class="question-count" id="questionCount">40問が対象です</p><label class="exam-toggle"><input type="checkbox" id="examToggle"> 本番モード（音声は各問1回だけ／スクリプトは全問終了後に表示）</label></div><div class="start-actions"><button class="primary" id="start">40問を始める</button><button class="secondary" id="reviewStart">間違いを復習</button></div><div class="seo"><h2>聞き取り対策のポイント</h2><p>最初は数字・時刻・場所・日常の動作を表す語に注目しましょう。聞き取れないときは繰り返し再生し、回答後にスクリプトと音を照らし合わせると効果的です。</p></div></section>

@@ -26,11 +26,18 @@ a:focus-visible{outline:3px solid #1756a9;outline-offset:2px}
 .note{border-color:var(--line-soft);border-radius:var(--r-card);box-shadow:var(--sh-card)}
 .cta{border-radius:16px;background:linear-gradient(180deg,#d63a52,var(--accent));box-shadow:0 10px 24px #c8334933}
 .eyebrow{display:inline-block;padding:5px 11px;border:1px solid #f0c4cc;border-radius:99px;background:#fdf0f1}
+</style><style>/* design unification (added 2026-11-23): slim navy page band + shared tokens,
+   extending PR #11/#24/#31. Additive overrides only. */
+.app{padding-top:0}
+.page-band{margin:0 -20px 24px;padding:34px 20px 28px;color:#fff;background:linear-gradient(90deg,#dc3545,#1756a9) bottom/100% 4px no-repeat,linear-gradient(130deg,#173f6b,#102a43)}
+.page-band .eyebrow{display:inline-block;padding:5px 11px;border:1px solid #ffffff55;border-radius:99px;background:#ffffff1f;color:#fff;letter-spacing:.1em}
+.page-band h1{color:#fff;font-size:clamp(26px,6vw,34px);letter-spacing:.01em;margin:13px 0 10px}
+.page-band p{color:#d9e7f5;margin:0}
 </style></head>
-<body><main class="app">
+<body><main class="app"><div class="page-band">
 <div class="eyebrow">TRAVEL CONVERSATION</div>
 <h1>韓国旅行の会話練習</h1>
-<p>旅行の場面を選んで、聞く・選ぶ・話す練習ができます。各場面5問、音声つき・登録不要・無料です。</p>
+<p>旅行の場面を選んで、聞く・選ぶ・話す練習ができます。各場面5問、音声つき・登録不要・無料です。</p></div>
 <ul>
 <li>空港</li>
 <li>ホテル</li>
