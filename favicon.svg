@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#102a43"/>
+  <text x="32" y="30" font-family="'Noto Sans KR','Noto Sans JP','Hiragino Kaku Gothic ProN','Hiragino Sans',sans-serif" font-size="29" font-weight="900" fill="#ffffff" text-anchor="middle" dominant-baseline="central">한</text>
+  <rect x="15" y="49" width="16" height="4" rx="2" fill="#1756a9"/>
+  <rect x="33" y="49" width="16" height="4" rx="2" fill="#dc3545"/>
+</svg>
