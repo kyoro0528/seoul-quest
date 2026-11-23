@@ -261,5 +261,5 @@ const input=document.getElementById('word-query'),select=document.getElementById
 function filter(){let total=0;const q=input.value.trim().normalize('NFKC').toLowerCase();sections.forEach(section=>{let n=0;const allowed=!select.value||select.value===section.id;section.querySelectorAll('tbody tr').forEach(row=>{const found=allowed&&(!q||(row.textContent+' '+section.querySelector('h2').textContent).normalize('NFKC').toLowerCase().includes(q));row.hidden=!found;if(found)n++;});section.hidden=n===0;total+=n;});count.textContent=total?total+'項目が見つかりました':'該当する単語がありません。条件を変えてください。';}
 input.addEventListener('input',filter);select.addEventListener('change',filter);document.getElementById('finder-reset').addEventListener('click',()=>{input.value='';select.value='';filter();input.focus();});document.querySelectorAll('.category-nav a,.scene-actions a[href^="#category-"]').forEach(a=>a.addEventListener('click',()=>{input.value='';select.value=a.getAttribute('href').slice(1);filter();}));filter();
 })();
-</script></body>
+</script><script src="./back-to-top.js?v=1"></script></body>
 </html>

@@ -33,3 +33,15 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--blue);outline-offs
 .content{padding-top:26px}
 section{padding:24px}
 h2{font-size:21px}
+
+/* pro wave3: experience finish (added 2026-11-23). Additive overrides only:
+   press feedback on guide CTAs/links; the smooth scroll set at the top of
+   this file is disabled again under reduced-motion. */
+html{-webkit-tap-highlight-color:transparent}
+@media (prefers-reduced-motion: no-preference){
+.cta,.related a,.back{transition:transform .12s ease,box-shadow .25s ease}
+.cta:active,.related a:active,.back:active{transform:scale(.98)}
+}
+@media (prefers-reduced-motion: reduce){
+html{scroll-behavior:auto}
+}
