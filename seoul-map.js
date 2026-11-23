@@ -2,11 +2,11 @@
   'use strict';
   const button = document.createElement('button');
   button.className = 'seoul-map-open';
-  button.textContent = '🗺 ソウルの地図を開く';
+  button.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="style="vertical-align:-3px""><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14"/><path d="M15 6v14"/></svg> ソウルの地図を開く';
   button.setAttribute('aria-haspopup', 'dialog');
   document.querySelector('#home .dashboard').append(button);
   const guideLink=document.createElement('a');
-  guideLink.href='./seoul-subway-guide';guideLink.className='seoul-map-open';guideLink.textContent='🚇 MAP・地下鉄の日韓ガイド';
+  guideLink.href='./seoul-subway-guide';guideLink.className='seoul-map-open';guideLink.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="style="vertical-align:-3px""><path d="M5 15.5V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v9.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 5 15.5Z"/><path d="M5 10h14"/><path d="M9 14.5h.01"/><path d="M15 14.5h.01"/><path d="m8.5 21 1.8-3"/><path d="m15.5 21-1.8-3"/></svg> MAP・地下鉄の日韓ガイド';
   document.querySelector('#home .dashboard').append(guideLink);
   const dialog = document.createElement('dialog');
   dialog.className = 'seoul-map-dialog';
