@@ -34,4 +34,4 @@
 <script>
 document.querySelectorAll('[data-audio]').forEach(button=>button.addEventListener('click',()=>{const status=document.getElementById('audioStatus');if(!('speechSynthesis' in window)||!('SpeechSynthesisUtterance' in window)){status.textContent='この端末では音声を再生できません。スクリプトで確認してください。';return;}window.speechSynthesis.cancel();const utterance=new SpeechSynthesisUtterance(button.dataset.audio);utterance.lang='ko-KR';utterance.rate=.78;utterance.onstart=()=>{status.textContent='韓国語音声を再生中です。'};utterance.onend=()=>{status.textContent='再生が終わりました。もう一度聞くこともできます。'};utterance.onerror=()=>{status.textContent='音声を再生できませんでした。スクリプトで確認してください。'};window.speechSynthesis.speak(utterance);if(typeof gtag==='function')gtag('event','audio_play',{content_type:'solving_tips'});}));
 window.addEventListener('pagehide',()=>window.speechSynthesis?.cancel());
-</script><script src="./site-footer.js"></script></body></html>
+</script><script src="./site-footer.js?v=71"></script></body></html>
