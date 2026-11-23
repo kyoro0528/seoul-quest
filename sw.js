@@ -1,4 +1,4 @@
-const CACHE_NAME = 'topik-study-v61';
+const CACHE_NAME = 'topik-study-v62';
 const CORE_FILES = [
   '/korean-phrase-cards', '/korean-phrase-cards.js?v=36', '/korean-phrase-cards.css?v=36', '/travel-phrase-search.js?v=36', '/travel-replies.js?v=34', '/travel-destinations.js?v=33',
   '/travel-layout.css',
@@ -27,6 +27,7 @@ self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
   const url = new URL(event.request.url);
   if (url.pathname.startsWith('/api/')) return;
+  if (url.pathname.endsWith('.mp4') || url.pathname.endsWith('.webm') || event.request.destination === 'video') return;
   if (url.origin !== self.location.origin) return;
 
   if (event.request.mode === 'navigate') {
