@@ -127,5 +127,17 @@ function renderList(){const q=$('#search').value.trim().toLowerCase(),visible=ra
 $$('[data-go="home"]').forEach(b=>b.onclick=()=>{renderHome();show('homeView')});$$('.course-option').forEach(b=>b.onclick=()=>setCourse(b.dataset.minutes));$('#dailyButton').onclick=startDaily;$('#randomButton').onclick=startRandom;$('#reviewButton').onclick=startReview;$('#srsButton').onclick=startSrsReview;$('#quitQuiz').onclick=()=>{if(confirm('テストを終了しますか？')){renderHome();show('homeView')}};$('#nextQuestion').onclick=nextQuestion;$('#retryScene').onclick=()=>{if(activeScene)startScene(activeScene)};$('#retryWrong').onclick=()=>{if(activeScene){beginQuiz([...wrong],'scene-retry');return}const selected=[...wrong],fill=shuffle(currentWords.filter(w=>!selected.some(x=>x.id===w.id))).slice(0,10-selected.length);beginQuiz([...selected,...fill],'retry')};$('#returnChapter').onclick=()=>returnMode==='chapter'?openChapter(currentChapter):(renderHome(),show('homeView'));$('#closeCelebration').onclick=()=>{$('#streakCelebration').classList.remove('show');show('recordsView')};$('#exportData').onclick=exportLearningData;$('#importData').onclick=()=>$('#importFile').click();$('#importFile').onchange=e=>{importLearningData(e.target.files[0]);e.target.value=''};$('#resetData').onclick=resetLearningData;$$('[data-nav]').forEach(b=>b.onclick=()=>b.dataset.nav==='home'?(renderHome(),show('homeView')):b.dataset.nav==='records'?show('recordsView'):startReview());renderDaily();renderHome();const entryParams=new URLSearchParams(location.search);const unitIds=(entryParams.get('ids')||'').split(',').map(v=>v.trim()).filter(Boolean);const unitWords=unitIds.map(id=>raw.find(w=>w.id===id)).filter(Boolean);if(unitWords.length){$('#unitBanner').hidden=false;$('#unitBannerName').textContent=entryParams.get('unit')?'：'+entryParams.get('unit'):'';beginQuiz(unitWords,'unit')}else if(entryParams.get('daily')==='1')startDaily();else if(entryParams.has('scene'))startScene(entryParams.get('scene'));
 </script>
 <script src="./learning-storage.js" data-topik-storage="1"></script><script src="./learning-bootstrap.js"></script><script src="./site-footer.js?v=71"></script>
-</body>
+<style>/* pro wave3: experience finish (added 2026-11-23). Additive overrides only:
+   press feedback and smooth in-page scroll; the existing answer animations
+   are disabled under reduced-motion. */
+html{-webkit-tap-highlight-color:transparent}
+@media (prefers-reduced-motion: no-preference){
+html{scroll-behavior:smooth}
+.choice,.primary,.next,.course-option,.daily-start{transition:transform .12s ease}
+.choice:active,.primary:active,.next:active,.course-option:active,.daily-start:active{transform:scale(.98)}
+}
+@media (prefers-reduced-motion: reduce){
+.choice.correct,.choice.wrong,.feedback.show{animation:none}
+}
+</style></body>
 </html>
