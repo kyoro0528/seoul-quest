@@ -14,6 +14,7 @@ SEO個別ページ生成スクリプト（TOPIK STUDY）
   - topik1-grammar-list.html / topik1-vocabulary-list.html へ
     個別ページへのリンク集セクションを挿入（マーカーコメントで囲む）
   - sitemap.xml へ新規URLを追加
+  - 個別ページの練習導線は直行リンク（単語 ?chapter=N／文法 ?item=gNN）にする
 
 使い方: リポジトリ直下で `python3 tools/generate-seo-pages.py`
 sw.js の CACHE_NAME はリリースごとに手動で上げること（このスクリプトは触らない）。
@@ -377,7 +378,7 @@ def gen_grammar(items):
 <p>例文は声に出して読み、文の中での位置と接続の形を確認しましょう。</p></section>
 <section><h2>間違えやすい点・活用例</h2><p>{esc(note)}</p></section>
 <section><h2>練習する</h2>
-<div class="cta-grid"><a class="cta primary" href="./topik1-grammar">文法ミニ問題で練習する<small>30問・解説・例文つき</small></a><a class="cta secondary" href="./topik1-grammar-list">文法一覧30へ戻る<small>意味・接続・例文を一覧で確認</small></a></div></section>
+<div class="cta-grid"><a class="cta primary" href="./topik1-grammar?item={it['id']}">この項目の問題を解く<small>「{esc(it['title'])}」の1問・解説つき</small></a><a class="cta secondary" href="./topik1-grammar-list">文法一覧30へ戻る<small>意味・接続・例文を一覧で確認</small></a></div></section>
 <section><h2>同じ分野（{esc(it['group'])}）の文法</h2><div class="related">{same}</div>
 <nav class="pager" aria-label="前後の文法">{pager}</nav></section>
 '''
@@ -427,10 +428,10 @@ def gen_chapters(raw):
         ]
         body = f'''
 <section><h2>Chapter {c}の単語（{start}〜{end}語・{level}）</h2>
-<p>単語2000を100語ずつに分けたChapter {c}です。分野は{'、'.join(esc(x) for x in cats)}を含みます。韓国語・読み方・意味を表で確認し、覚えたら単語トレーニングでChapter {c}を選んで問題を解きましょう。</p>
+<p>単語2000を100語ずつに分けたChapter {c}です。分野は{'、'.join(esc(x) for x in cats)}を含みます。韓国語・読み方・意味を表で確認し、覚えたら下のボタンからChapter {c}のトレーニングをそのまま始めましょう。</p>
 <div class="table-wrap"><table class="word-table"><thead><tr><th>No.</th><th>韓国語</th><th>読み方</th><th>意味</th><th>分野</th></tr></thead><tbody>{rows}</tbody></table></div></section>
 <section><h2>このChapterを練習する</h2>
-<div class="cta-grid"><a class="cta primary" href="./topik1-vocabulary">単語トレーニングを開く<small>Chapter {c}を選んで10問ずつ練習</small></a><a class="cta secondary" href="./topik1-vocabulary-list">場面別の基礎単語220を見る<small>食事・買い物など場面ごとに確認</small></a></div>
+<div class="cta-grid"><a class="cta primary" href="./topik1-vocabulary?chapter={c}">Chapter {c}を練習する<small>このChapterが開いた状態で始まる・10問ずつ練習</small></a><a class="cta secondary" href="./topik1-vocabulary-list">場面別の基礎単語220を見る<small>食事・買い物など場面ごとに確認</small></a></div>
 <nav class="pager" aria-label="前後のチャプター">{pager}</nav></section>
 '''
         files.append((path + ".html", frame(
