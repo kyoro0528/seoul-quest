@@ -10,7 +10,7 @@
     'sqWrong', 'studySeconds', 'studyByDay', 'studyCount', 'streak', 'last',
     'topikVocabState', 'topikVocabStateBackup', 'topikGrammarMastered',
     'topikListeningWrong', 'topikReadingWrong', 'topikPracticeWrong',
-    'topikPracticeStats', 'topikDailyHistory', 'topikActivityStats', 'topikExamResults', 'topikSrsV1', 'topikGrammarSrsV1', 'topikListeningState', 'topikReadingState'
+    'topikPracticeStats', 'topikDailyHistory', 'topikActivityStats', 'topikExamResults', 'topikSrsV1', 'topikGrammarSrsV1', 'topikListeningState', 'topikReadingState', 'topikSyncMeta'
   ]);
 
   function isLearningKey(key) {
@@ -34,6 +34,7 @@
   function hasMeaningfulData(items) {
     return Object.entries(items || {}).some(([key, value]) => {
       if (!value) return false;
+      if (key === 'topikSyncMeta') return false;
       if (key.startsWith('best_')) return Number(value) > 0;
       if (['studySeconds', 'studyCount', 'streak'].includes(key)) return Number(value) > 0;
       if (key === 'last') return Boolean(value);
@@ -361,4 +362,340 @@
   });
   setInterval(() => { syncNow().catch(() => {}); }, 2000);
   addEventListener('DOMContentLoaded', () => { ready.then(showRestoreNotice); });
+})();
+
+/* ============================================================
+   アカウント同期（Phase 2c）
+   Googleログイン時のみ動作し、未ログイン時は何もしない（従来どおり
+   端末内保存のみ）。同期はローカルファースト：学習操作は端末に保存
+   され、裏側でクラウドと同期する。競合マージ（設計書§4）はこの
+   クライアント側で項目単位まで実施し、サーバーはキー単位の
+   last-write-wins ストアとして働く。
+   ============================================================ */
+(function () {
+  'use strict';
+  var META_KEY = 'topikSyncMeta';
+  var storage = window.TopikLearningStorage;
+  if (!storage || typeof fetch !== 'function') return;
+
+  var state = { user: null, timer: null, syncing: false, started: false };
+
+  function readMeta() {
+    try { return JSON.parse(localStorage.getItem(META_KEY)) || {}; }
+    catch (_) { return {}; }
+  }
+  function writeMeta(meta) {
+    try { localStorage.setItem(META_KEY, JSON.stringify(meta)); } catch (_) {}
+  }
+  function hashOf(value) {
+    var h = 0x811c9dc5, s = value || '';
+    for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; }
+    return ('0000000' + h.toString(16)).slice(-8);
+  }
+  function parseJson(value, fallback) {
+    try { var parsed = JSON.parse(value); return parsed == null ? fallback : parsed; }
+    catch (_) { return fallback; }
+  }
+  function collectSyncData() {
+    var items = storage.collect(), out = {};
+    Object.keys(items).forEach(function (key) { if (key !== META_KEY) out[key] = items[key]; });
+    return out;
+  }
+
+  /* ---- 項目単位マージ（設計書§4の例外規則）。失敗時は null を返し LWW に落とす ---- */
+  function mergeSrs(localValue, serverValue) {
+    var local = parseJson(localValue, null), server = parseJson(serverValue, null);
+    if (!local || !server || !local.items || !server.items) return null;
+    var items = {}, ids = {};
+    Object.keys(local.items).forEach(function (id) { ids[id] = 1; });
+    Object.keys(server.items).forEach(function (id) { ids[id] = 1; });
+    Object.keys(ids).forEach(function (id) {
+      var a = local.items[id], b = server.items[id];
+      if (!a) { items[id] = b; return; }
+      if (!b) { items[id] = a; return; }
+      var scoreA = (Number(a.r) || 0) + (Number(a.l) || 0);
+      var scoreB = (Number(b.r) || 0) + (Number(b.l) || 0);
+      items[id] = (scoreB > scoreA || (scoreB === scoreA && (Number(b.s) || 0) > (Number(a.s) || 0))) ? b : a;
+    });
+    return JSON.stringify({ version: local.version || 1, items: items });
+  }
+  function mergeState(localValue, serverValue) {
+    var local = parseJson(localValue, null), server = parseJson(serverValue, null);
+    if (!local || !server || !local.items || !server.items) return null;
+    var items = {}, ids = {};
+    Object.keys(local.items).forEach(function (id) { ids[id] = 1; });
+    Object.keys(server.items).forEach(function (id) { ids[id] = 1; });
+    Object.keys(ids).forEach(function (id) {
+      var a = local.items[id] || {}, b = server.items[id] || {};
+      items[id] = {
+        attempts: Math.max(Number(a.attempts) || 0, Number(b.attempts) || 0),
+        correct: Math.max(Number(a.correct) || 0, Number(b.correct) || 0),
+        mastered: Boolean(a.mastered || b.mastered)
+      };
+    });
+    return JSON.stringify({ version: local.version || 1, items: items });
+  }
+  function mergeExamResults(localValue, serverValue) {
+    var local = parseJson(localValue, null), server = parseJson(serverValue, null);
+    if (!local || !server || !Array.isArray(local.records) || !Array.isArray(server.records)) return null;
+    var seen = {}, records = [];
+    server.records.concat(local.records).forEach(function (record) {
+      if (!record) return;
+      var k = record.id ? 'id:' + record.id : 'json:' + JSON.stringify(record);
+      if (!seen[k]) { seen[k] = 1; records.push(record); }
+    });
+    records.sort(function (a, b) { return (Number(a.createdAt) || 0) - (Number(b.createdAt) || 0); });
+    var merged = {};
+    Object.keys(server).forEach(function (k) { merged[k] = server[k]; });
+    Object.keys(local).forEach(function (k) { merged[k] = local[k]; });
+    merged.version = 1;
+    merged.records = records;
+    return JSON.stringify(merged);
+  }
+  function mergeArrayUnion(localValue, serverValue) {
+    var local = parseJson(localValue, null), server = parseJson(serverValue, null);
+    if (!Array.isArray(local) || !Array.isArray(server)) return null;
+    var seen = {}, out = [];
+    server.concat(local).forEach(function (item) {
+      var k = JSON.stringify(item);
+      if (!seen[k]) { seen[k] = 1; out.push(item); }
+    });
+    return JSON.stringify(out);
+  }
+  function mergeDailyMax(localValue, serverValue) {
+    var local = parseJson(localValue, null), server = parseJson(serverValue, null);
+    if (!local || !server || typeof local !== 'object' || typeof server !== 'object' || Array.isArray(local) || Array.isArray(server)) return null;
+    var out = {}, days = {};
+    Object.keys(server).forEach(function (d) { days[d] = 1; });
+    Object.keys(local).forEach(function (d) { days[d] = 1; });
+    Object.keys(days).forEach(function (d) {
+      var a = Number(local[d]), b = Number(server[d]);
+      if (Number.isFinite(a) && Number.isFinite(b)) out[d] = Math.max(a, b);
+      else if (d in local) out[d] = local[d];
+      else out[d] = server[d];
+    });
+    return JSON.stringify(out);
+  }
+  function mergeActivity(localValue, serverValue) {
+    var local = parseJson(localValue, null), server = parseJson(serverValue, null);
+    if (!local || !server || typeof local !== 'object' || typeof server !== 'object') return null;
+    var out = {}, days = {};
+    Object.keys(server).forEach(function (d) { days[d] = 1; });
+    Object.keys(local).forEach(function (d) { days[d] = 1; });
+    Object.keys(days).forEach(function (d) {
+      var a = local[d] || {}, b = server[d] || {}, entry = {};
+      ['answers', 'correct', 'seconds'].forEach(function (field) {
+        entry[field] = Math.max(Number(a[field]) || 0, Number(b[field]) || 0);
+      });
+      out[d] = entry;
+    });
+    return JSON.stringify(out);
+  }
+  function mergeNumberMax(localValue, serverValue) {
+    var a = Number(localValue), b = Number(serverValue);
+    if (!Number.isFinite(a) || !Number.isFinite(b)) return null;
+    return String(Math.max(a, b));
+  }
+  function mergeValues(key, localValue, serverValue) {
+    if (key === 'topikSrsV1' || key === 'topikGrammarSrsV1') return mergeSrs(localValue, serverValue);
+    if (key === 'topikListeningState' || key === 'topikReadingState') return mergeState(localValue, serverValue);
+    if (key === 'topikExamResults') return mergeExamResults(localValue, serverValue);
+    if (key === 'topikGrammarMastered' || key === 'sqWrong' || key === 'topikListeningWrong' ||
+        key === 'topikReadingWrong' || key === 'topikPracticeWrong') return mergeArrayUnion(localValue, serverValue);
+    if (key === 'studyByDay') return mergeDailyMax(localValue, serverValue);
+    if (key === 'topikActivityStats') return mergeActivity(localValue, serverValue);
+    if (key === 'studySeconds' || key === 'studyCount' || key === 'streak' || key.indexOf('best_') === 0) return mergeNumberMax(localValue, serverValue);
+    if (key === 'last') return (typeof localValue === 'string' && typeof serverValue === 'string')
+      ? (localValue >= serverValue ? localValue : serverValue) : null;
+    return null;
+  }
+
+  /* ---- API ---- */
+  function api(path, options) {
+    var opts = { credentials: 'same-origin' };
+    if (options) Object.keys(options).forEach(function (k) { opts[k] = options[k]; });
+    if (opts.body) opts.headers = { 'Content-Type': 'application/json' };
+    return fetch(path, opts);
+  }
+  function syncStatusText() {
+    return '最終同期 ' + new Date().toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
+  }
+  function setSyncStatus(text) {
+    var el = document.getElementById('accountSyncStatus');
+    if (el) el.textContent = text;
+  }
+  function onLoggedOut() {
+    state.user = null;
+    if (state.timer) { clearInterval(state.timer); state.timer = null; }
+    var text = document.getElementById('accountSyncText');
+    if (text) text.textContent = 'ログインの有効期限が切れました。再度ログインすると同期を再開できます。ログインしなくても今まで通り使えます。';
+    var loginBtn = document.getElementById('accountLoginBtn');
+    if (loginBtn) loginBtn.style.display = '';
+    var logoutBtn = document.getElementById('accountLogoutBtn');
+    if (logoutBtn) logoutBtn.remove();
+    setSyncStatus('');
+  }
+
+  async function fullSync() {
+    if (state.syncing || !state.user) return;
+    state.syncing = true;
+    try {
+      var res = await api('/api/sync');
+      if (res.status === 401) { onLoggedOut(); return; }
+      if (!res.ok) { setSyncStatus('同期できませんでした（通信環境を確認してください）'); return; }
+      var data = await res.json();
+      var serverKeys = (data && data.keys) || {};
+      var local = collectSyncData();
+      var meta = readMeta();
+      meta.updatedAt = meta.updatedAt || {};
+      meta.hashes = meta.hashes || {};
+      var firstSync = !meta.lastSyncAt;
+      var now = Date.now();
+      var pushPayload = {}, changedLocal = false, allKeys = {};
+      Object.keys(local).forEach(function (k) { allKeys[k] = 1; });
+      Object.keys(serverKeys).forEach(function (k) { allKeys[k] = 1; });
+      Object.keys(allKeys).forEach(function (key) {
+        var localValue = local[key];
+        var serverEntry = serverKeys[key];
+        var storedTs = Number(meta.updatedAt[key]) || 0;
+        var localTs = storedTs || (firstSync && localValue !== undefined ? now : 0);
+        var mergedValue, mergedTs;
+        if (serverEntry && localValue !== undefined) {
+          var merged = mergeValues(key, localValue, serverEntry.value);
+          if (merged !== null) { mergedValue = merged; mergedTs = Math.max(localTs, serverEntry.updated_at); }
+          else if (localTs >= serverEntry.updated_at) { mergedValue = localValue; mergedTs = localTs; }
+          else { mergedValue = serverEntry.value; mergedTs = serverEntry.updated_at; }
+        } else if (serverEntry) {
+          mergedValue = serverEntry.value; mergedTs = serverEntry.updated_at;
+        } else if (localValue !== undefined) {
+          mergedValue = localValue; mergedTs = localTs || now;
+        } else {
+          return;
+        }
+        if (mergedValue !== localValue) {
+          try { localStorage.setItem(key, mergedValue); changedLocal = true; } catch (_) {}
+        }
+        if (!serverEntry || serverEntry.value !== mergedValue || serverEntry.updated_at < mergedTs) {
+          pushPayload[key] = { value: mergedValue, updated_at: mergedTs };
+        }
+        meta.updatedAt[key] = mergedTs;
+        meta.hashes[key] = hashOf(mergedValue);
+      });
+      if (Object.keys(pushPayload).length) {
+        var pushRes = await api('/api/sync', { method: 'POST', body: JSON.stringify({ keys: pushPayload }) });
+        if (pushRes.status === 401) { onLoggedOut(); return; }
+        if (!pushRes.ok) { setSyncStatus('同期できませんでした（通信環境を確認してください）'); return; }
+      }
+      meta.lastSyncAt = Date.now();
+      meta.email = state.user.email;
+      writeMeta(meta);
+      if (changedLocal) storage.syncNow().catch(function () {});
+      setSyncStatus(syncStatusText());
+    } catch (_) {
+      setSyncStatus('同期できませんでした（通信環境を確認してください）');
+    } finally {
+      state.syncing = false;
+    }
+  }
+
+  async function pushDirty(useKeepalive) {
+    if (!state.user || state.syncing) return;
+    var local = collectSyncData();
+    var meta = readMeta();
+    meta.updatedAt = meta.updatedAt || {};
+    meta.hashes = meta.hashes || {};
+    var payload = {}, dirtyKeys = [];
+    Object.keys(local).forEach(function (key) {
+      if (meta.hashes[key] !== hashOf(local[key])) {
+        var ts = Math.max(Date.now(), Number(meta.updatedAt[key]) || 0);
+        payload[key] = { value: local[key], updated_at: ts };
+        dirtyKeys.push(key);
+      }
+    });
+    if (!dirtyKeys.length) return;
+    state.syncing = true;
+    try {
+      var res = await fetch('/api/sync', {
+        method: 'POST', credentials: 'same-origin', keepalive: !!useKeepalive,
+        headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ keys: payload })
+      });
+      if (res.status === 401) { onLoggedOut(); return; }
+      if (!res.ok) return;
+      var latest = readMeta();
+      latest.updatedAt = latest.updatedAt || {};
+      latest.hashes = latest.hashes || {};
+      dirtyKeys.forEach(function (key) {
+        latest.hashes[key] = hashOf(payload[key].value);
+        latest.updatedAt[key] = payload[key].updated_at;
+      });
+      latest.lastSyncAt = Date.now();
+      writeMeta(latest);
+      setSyncStatus(syncStatusText());
+    } catch (_) {
+      /* 次回の定期実行で再送する */
+    } finally {
+      state.syncing = false;
+    }
+  }
+
+  /* ---- アカウントUI（トップページの #accountSync がある場合のみ） ---- */
+  function renderAccount() {
+    var box = document.getElementById('accountSync');
+    if (!box || !state.user) return;
+    var text = document.getElementById('accountSyncText');
+    if (text) text.textContent = state.user.email + ' でログイン中です。学習記録は自動でクラウドに保存され、別の端末でも続きから学習できます。';
+    var loginBtn = document.getElementById('accountLoginBtn');
+    if (loginBtn) loginBtn.style.display = 'none';
+    if (!document.getElementById('accountSyncStatus')) {
+      var status = document.createElement('p');
+      status.id = 'accountSyncStatus';
+      status.className = 'account-sync-status';
+      box.appendChild(status);
+    }
+    if (!document.getElementById('accountLogoutBtn')) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.id = 'accountLogoutBtn';
+      btn.className = 'home-action';
+      btn.textContent = 'ログアウト';
+      btn.addEventListener('click', async function () {
+        btn.disabled = true;
+        try { await pushDirty(false); } catch (_) {}
+        try { await api('/api/auth/logout', { method: 'POST' }); } catch (_) {}
+        location.reload();
+      });
+      box.appendChild(btn);
+    }
+  }
+  function showLoginNotice() {
+    var login = new URLSearchParams(location.search).get('login');
+    if (login !== 'error') return;
+    var text = document.getElementById('accountSyncText');
+    if (text) text.textContent = 'ログインできませんでした。もう一度お試しください。ログインしなくても今まで通り使えます。';
+  }
+
+  async function init() {
+    if (state.started) return;
+    state.started = true;
+    showLoginNotice();
+    try {
+      var res = await api('/api/auth/me');
+      if (!res.ok) return;
+      var me = await res.json();
+      if (!me || !me.loggedIn) return;
+      state.user = { email: me.email };
+    } catch (_) {
+      return;
+    }
+    renderAccount();
+    await fullSync();
+    state.timer = setInterval(function () { pushDirty(false); }, 30000);
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'hidden') pushDirty(true);
+    });
+    addEventListener('pagehide', function () { pushDirty(true); });
+  }
+
+  if (storage.ready && typeof storage.ready.then === 'function') storage.ready.then(init);
+  else addEventListener('DOMContentLoaded', init);
 })();
