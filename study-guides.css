@@ -45,3 +45,7 @@ html{-webkit-tap-highlight-color:transparent}
 @media (prefers-reduced-motion: reduce){
 html{scroll-behavior:auto}
 }
+
+/* visual rich (added 2026-11-23): guide hero photo + skyline motif (Pexels hotlink, gradient overlay, navy fallback).
+   Additive overrides only: the original rules above stay untouched, so rollback is trivial. */
+.hero{background:url(/seoul-skyline-hero.svg) center bottom/auto 52px repeat-x,linear-gradient(130deg,rgba(23,63,107,.88),rgba(16,42,67,.93)),url("https://images.pexels.com/videos/32531981/downtown-seoul-gyeongbokgung-gyeongbokgung-palace-korea-32531981.jpeg?auto=compress&cs=tinysrgb&w=1200") center/cover no-repeat,linear-gradient(130deg,#173f6b,#102a43)}
