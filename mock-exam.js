@@ -3,7 +3,8 @@
   const courses={
     quick10:{id:'quick10',name:'10分模試',minutes:10,listening:4,reading:6,readingFields:{vocabulary:2,grammar:1,reading:2,other:1}},
     standard20:{id:'standard20',name:'20分模試',minutes:20,listening:8,reading:12,readingFields:{vocabulary:3,grammar:3,reading:4,other:2}},
-    full:{id:'full',name:'本番時間模試',minutes:100,listening:30,reading:40,readingFields:{vocabulary:10,grammar:10,reading:15,other:5}}
+    full:{id:'full',name:'本番時間模試',minutes:100,listening:30,reading:40,readingFields:{vocabulary:10,grammar:10,reading:15,other:5}},
+    honban:{id:'honban',name:'本番モード',minutes:100,listening:30,reading:40,readingFields:{vocabulary:10,grammar:10,reading:15,other:5},sectionMinutes:{listening:40,reading:60}}
   };
   function shuffle(items,rng=Math.random){const a=[...items];for(let i=a.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
   function withDistractor(q,tiers,rng){if(!q.choices||q.choices.length>=4)return q;const used=new Set(q.choices.map(c=>Array.isArray(c)?c[0]:c));for(const pool of tiers){const cands=(pool||[]).filter(x=>x!==q&&(!q.id||x.id!==q.id)).flatMap(x=>x.choices||[]).map(c=>Array.isArray(c)?c:[c,'','',0]).filter(c=>!c[3]&&!used.has(c[0]));if(cands.length){const extra=cands[Math.floor(rng()*cands.length)];return{...q,choices:[...q.choices,extra]}}}return q}
@@ -32,7 +33,7 @@
     const fields={vocabulary:{total:0,wrong:0},grammar:{total:0,wrong:0},listening:{total:0,wrong:0},reading:{total:0,wrong:0},other:{total:0,wrong:0}};
     answers.forEach(a=>{const field=fields[a.field]||fields.other;field.total++;if(!a.correct)field.wrong++});
     const missed=answers.map((a,n)=>a.correct?null:n+1).filter(Boolean).join(',');
-    return {id,createdAt,date,name:`オリジナル模試 ${course.name}`,listening:score(stats.listening.correct,stats.listening.total),reading:score(stats.reading.correct,stats.reading.total),examConditions:courseId==='full'&&!timedOut,missed,note:`自動保存・聞き取り ${stats.listening.correct}/${stats.listening.total}問、読解 ${stats.reading.correct}/${stats.reading.total}問${timedOut?'（時間切れ）':''}`,fields,source:'original-mock',courseId};
+    return {id,createdAt,date,name:`オリジナル模試 ${course.name}`,listening:score(stats.listening.correct,stats.listening.total),reading:score(stats.reading.correct,stats.reading.total),examConditions:(courseId==='full'&&!timedOut)||courseId==='honban',missed,note:`自動保存・聞き取り ${stats.listening.correct}/${stats.listening.total}問、読解 ${stats.reading.correct}/${stats.reading.total}問${timedOut?'（時間切れ）':''}`,fields,source:'original-mock',courseId};
   }
   const levelStandards={total:200,level1:80,level2:140};
   function judgeLevel(total){
