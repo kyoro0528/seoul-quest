@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="TOPIK STUDYのマスコット「ホヤ」。縞模様がハングルの子音の形をした虎">
+  <title>ホヤ（호야）</title>
+  <!-- body -->
+  <path d="M52 200v-22c0-17 21-30 48-30s48 13 48 30v22z" fill="#ee9426"/>
+  <ellipse cx="100" cy="185" rx="27" ry="14" fill="#fff3df"/>
+  <!-- belly stripe: ㅇ -->
+  <circle cx="100" cy="184" r="6.5" fill="none" stroke="#102a43" stroke-width="4.5" opacity=".8"/>
+  <!-- ears -->
+  <circle cx="54" cy="48" r="19" fill="#f6a83c"/>
+  <circle cx="146" cy="48" r="19" fill="#f6a83c"/>
+  <circle cx="54" cy="48" r="9.5" fill="#ffe0bd"/>
+  <circle cx="146" cy="48" r="9.5" fill="#ffe0bd"/>
+  <!-- head -->
+  <circle cx="100" cy="106" r="70" fill="#f6a83c"/>
+  <!-- muzzle -->
+  <ellipse cx="100" cy="131" rx="35" ry="25" fill="#fff7ea"/>
+  <!-- stripes drawn as Hangul consonants: ㄱ ㅁ ㄴ (forehead), ㄷ ㅂ (cheeks) -->
+  <g fill="none" stroke="#102a43" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity=".88">
+    <path d="M58 52h18v18"/>
+    <path d="M89 46h22v22H89z"/>
+    <path d="M124 52v18h18"/>
+    <path d="M33 98v7M33 98h20v18H33" stroke-width="6"/>
+    <path d="M147 98h20v18h-20zM147 107h20" stroke-width="6"/>
+  </g>
+  <!-- cheeks -->
+  <ellipse cx="57" cy="126" rx="8" ry="4.5" fill="#f0917a" opacity=".5"/>
+  <ellipse cx="143" cy="126" rx="8" ry="4.5" fill="#f0917a" opacity=".5"/>
+  <!-- eyes -->
+  <circle cx="73" cy="106" r="5.5" fill="#102a43"/>
+  <circle cx="127" cy="106" r="5.5" fill="#102a43"/>
+  <circle cx="71.3" cy="104.3" r="1.7" fill="#ffffff"/>
+  <circle cx="125.3" cy="104.3" r="1.7" fill="#ffffff"/>
+  <!-- nose and mouth -->
+  <path d="M92 117h16l-8 10z" fill="#d84b5f" stroke="#d84b5f" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M100 128v4m0 0q-5 6-12 3m12-3q5 6 12 3" fill="none" stroke="#102a43" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- front paws -->
+  <ellipse cx="47" cy="193" rx="11" ry="7" fill="#f6a83c"/>
+  <ellipse cx="153" cy="193" rx="11" ry="7" fill="#f6a83c"/>
+</svg>

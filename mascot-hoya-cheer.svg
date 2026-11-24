@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="TOPIK STUDYのマスコット「ホヤ」の応援ポーズ。縞模様がハングルの子音の形をした虎">
+  <title>ホヤ（호야）・応援ポーズ</title>
+  <!-- body -->
+  <path d="M52 200v-22c0-17 21-30 48-30s48 13 48 30v22z" fill="#ee9426"/>
+  <ellipse cx="100" cy="185" rx="27" ry="14" fill="#fff3df"/>
+  <!-- belly stripe: ㅇ -->
+  <circle cx="100" cy="184" r="6.5" fill="none" stroke="#102a43" stroke-width="4.5" opacity=".8"/>
+  <!-- raised arms -->
+  <path d="M46 140q-20-8-24-38" fill="none" stroke="#f6a83c" stroke-width="17" stroke-linecap="round"/>
+  <path d="M154 140q20-8 24-38" fill="none" stroke="#f6a83c" stroke-width="17" stroke-linecap="round"/>
+  <circle cx="21" cy="98" r="8" fill="#fff3df"/>
+  <circle cx="179" cy="98" r="8" fill="#fff3df"/>
+  <!-- sparkles -->
+  <path d="M20 30l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#f2b84b"/>
+  <path d="M180 30l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#f2b84b"/>
+  <!-- ears -->
+  <circle cx="54" cy="48" r="19" fill="#f6a83c"/>
+  <circle cx="146" cy="48" r="19" fill="#f6a83c"/>
+  <circle cx="54" cy="48" r="9.5" fill="#ffe0bd"/>
+  <circle cx="146" cy="48" r="9.5" fill="#ffe0bd"/>
+  <!-- head -->
+  <circle cx="100" cy="106" r="70" fill="#f6a83c"/>
+  <!-- muzzle -->
+  <ellipse cx="100" cy="131" rx="35" ry="25" fill="#fff7ea"/>
+  <!-- stripes drawn as Hangul consonants: ㄱ ㅁ ㄴ (forehead), ㄷ ㅂ (cheeks) -->
+  <g fill="none" stroke="#102a43" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity=".88">
+    <path d="M58 52h18v18"/>
+    <path d="M89 46h22v22H89z"/>
+    <path d="M124 52v18h18"/>
+    <path d="M33 98v7M33 98h20v18H33" stroke-width="6"/>
+    <path d="M147 98h20v18h-20zM147 107h20" stroke-width="6"/>
+  </g>
+  <!-- cheeks -->
+  <ellipse cx="57" cy="126" rx="8" ry="4.5" fill="#f0917a" opacity=".6"/>
+  <ellipse cx="143" cy="126" rx="8" ry="4.5" fill="#f0917a" opacity=".6"/>
+  <!-- happy closed eyes -->
+  <path d="M63 108q10-11 20 0M117 108q10-11 20 0" fill="none" stroke="#102a43" stroke-width="5.5" stroke-linecap="round"/>
+  <!-- nose and open smile -->
+  <path d="M92 117h16l-8 10z" fill="#d84b5f" stroke="#d84b5f" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M88 128h24c0 10-5 15-12 15s-12-5-12-15z" fill="#8c3a2b"/>
+  <ellipse cx="100" cy="138" rx="6" ry="3.2" fill="#f0917a"/>
+  <!-- front paws -->
+  <ellipse cx="47" cy="193" rx="11" ry="7" fill="#f6a83c"/>
+  <ellipse cx="153" cy="193" rx="11" ry="7" fill="#f6a83c"/>
+</svg>

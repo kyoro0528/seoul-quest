@@ -45,5 +45,33 @@
       num._rvRaf = root.requestAnimationFrame(step);
     }
   }
-  root.ResultViz = { paint: paint };
+  /* hoya(wrap, key, gap): mascot line on a result card. key is one of
+     'pass2' | 'pass1' | 'none' (mock levels) or 'great' | 'good' | 'low'
+     (practice rates) -- all outcomes the caller already computed. Lines are
+     static text; gap only fills the pass1 encouragement. Also swaps the
+     mascot pose (cheering on pass2/great) and unhides the block. */
+  var HOYA_LINES = {
+    pass2: 'やったね、2級の圏内！逃げなかったごほうびだね。',
+    pass1: '1級の圏内だね。あとGAP点で2級、一緒にもうひとがんばり！',
+    none: '大丈夫。ボクは神話で100日もたずに逃げた虎だけど、戻ってきたよ。少しずつ進もう。',
+    great: 'すごい！この調子なら、逃げる理由がないね。',
+    good: 'いい感じだね。間違えたところだけ、もう一回見てみよう。',
+    low: '今日はここまででも大丈夫。ボクも最初は逃げたけど、戻ってくれば続けられるよ。'
+  };
+  function hoya(wrap, key, gap) {
+    if (!wrap) return;
+    var text = HOYA_LINES[key] || '';
+    if (key === 'pass1') text = text.replace('GAP', String(Math.max(0, Number(gap) || 0)));
+    var line = wrap.querySelector('.hoya-line');
+    if (line) line.textContent = text;
+    var img = wrap.querySelector('.hoya-img');
+    if (img) {
+      var file = (key === 'pass2' || key === 'great') ? 'mascot-hoya-cheer.svg' : 'mascot-hoya.svg';
+      var src = img.getAttribute('src') || '';
+      var next = src.replace(/mascot-hoya(-cheer)?\.svg/, file);
+      if (next && next !== src) img.setAttribute('src', next);
+    }
+    wrap.hidden = !text;
+  }
+  root.ResultViz = { paint: paint, hoya: hoya };
 })(typeof window === 'undefined' ? globalThis : window);
