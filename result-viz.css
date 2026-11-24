@@ -4,6 +4,7 @@
 .rv-ring-wrap{position:relative;width:150px;height:150px;margin:8px auto 2px;flex:none}
 .rv-ring-wrap.sm{width:118px;height:118px}
 .rv-ring-wrap.left{margin:8px 0 2px}
+.score.rv-ring-wrap{margin:8px auto 2px}
 .rv-ring{display:block;width:100%;height:100%}
 .rv-ring circle{fill:none;stroke-width:11}
 .rv-ring .rv-track{stroke:#e3ebf2}
