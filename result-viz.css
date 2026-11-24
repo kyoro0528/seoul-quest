@@ -25,3 +25,15 @@
 }
 /* vocab result badge becomes a ring: drop the old filled-circle look */
 .result-badge.rv-ring-wrap{background:transparent;border:none}
+
+/* hoya mascot on result cards (added 2026-11-24): decorative img + one-line
+   speech bubble. The bob animation exists only for no-preference users. */
+.hoya{display:flex;align-items:center;gap:12px;justify-content:center;margin:14px auto 2px;max-width:430px;text-align:left}
+.hoya[hidden]{display:none}
+.hoya.left{margin:14px 0 2px;justify-content:flex-start}
+.hoya-img{width:64px;height:64px;flex:none}
+.hoya-line{margin:0;font-size:14px;line-height:1.65;color:#52677d;background:#f2f7fb;border:1px solid #d9e2ec;border-radius:12px;padding:9px 13px}
+@media (prefers-reduced-motion: no-preference){
+  .hoya-img{animation:hoya-bob 3.4s ease-in-out infinite}
+}
+@keyframes hoya-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
