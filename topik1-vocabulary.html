@@ -44,7 +44,46 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
 .hero p{color:#d9e7f5}
 </style><meta property="og:site_name" content="TOPIK STUDY"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="TOPIK I 単語・表現2000｜1級・2級を10問ずつ無料学習"><meta name="twitter:description" content="TOPIK Iの1級・2級向け韓国語2000項目を10問ずつ無料で学習。4択テスト、音声、カタカナ読み、苦手復習、学習記録に対応しています。"><meta name="twitter:image" content="https://images.pexels.com/videos/32531981/downtown-seoul-gyeongbokgung-gyeongbokgung-palace-korea-32531981.jpeg?auto=compress&cs=tinysrgb&w=1600"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap"><style>/* pro wave1: typography (Noto Sans JP + type scale) */body{font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic UI","Yu Gothic",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.65;}h1{line-height:1.35;letter-spacing:.02em}h2{line-height:1.45;letter-spacing:.02em}h3{line-height:1.5;letter-spacing:.02em}.pill,.exam-timer,.streak-number,.dash-value,.record-big,.score,.mock-time{font-variant-numeric:tabular-nums}</style><style>/* visual rich (added 2026-11-23): hero skyline motif layer only (no photos in quiz flows) */
 .hero{background:linear-gradient(90deg,#dc3545,#1756a9) bottom/100% 4px no-repeat,url(/seoul-skyline-hero.svg) center bottom/auto 44px repeat-x,linear-gradient(130deg,#173f6b,#102a43)}
-</style><link rel="stylesheet" href="./result-viz.css?v=4"></head>
+</style><link rel="stylesheet" href="./result-viz.css?v=4">
+<style>
+/* editorial study design (added 2026-11-24): extend the homepage's post-PR #66/#67
+   language to the study pages. Additive overrides only: no markup, hooks,
+   question rendering or scripts are touched. */
+/* 1. editorial header: the field's Hangul word as a large watermark,
+      tracked gold label with a hairline, hairline accent rule kept at the base. */
+.hero{position:relative;overflow:hidden}
+.hero>*{position:relative;z-index:1}
+.hero::after{content:"단어"/"";position:absolute;right:12px;top:50%;transform:translateY(-50%);z-index:0;font-size:clamp(54px,12vw,88px);font-weight:900;line-height:1;letter-spacing:.04em;color:rgba(255,207,135,.15);pointer-events:none}
+.hero h1{font-weight:900}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;padding:0;border:0;border-radius:0;background:none;color:#ffcf87;letter-spacing:.22em}
+.eyebrow::before{content:"";flex:none;width:26px;height:1px;background:#ffcf87}
+
+/* 2. de-card the static areas: ruled rows and hairline bands on the surface */
+.stats{gap:0;padding:20px 16px 4px}
+.stat{background:transparent;border:0;border-radius:0;box-shadow:none;padding:4px 8px}
+.stat+.stat{border-left:1px solid var(--line)}
+.daily-card{border-radius:0;box-shadow:none}
+.chapters{gap:0}
+.chapter{background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;box-shadow:none;padding:14px 4px}
+.chapter:not(:disabled):hover{box-shadow:none}
+.lessons{gap:0}
+.lesson{background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;box-shadow:none;padding:13px 4px}
+.lesson:hover{box-shadow:none}
+.study-grid{gap:0}
+.study-card{background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;box-shadow:none}
+.word-list{gap:0}
+.word-row{background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;box-shadow:none;padding:13px 4px}
+.record-grid{gap:0 18px}
+.record-card{background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;box-shadow:none;padding:17px 2px}
+.record-card.accent{background:var(--navy);border-color:var(--navy);padding-left:12px;padding-right:12px}
+.chart-card{background:transparent;border:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);border-radius:0;box-shadow:none;padding:18px 2px}
+/* 3. quiz area: surface-only flattening; choices become ruled rows
+      (state colours still come from the existing .correct/.wrong rules) */
+.choices{gap:0}
+.choice{border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent}
+.feedback{border-radius:0}
+.feedback.show{box-shadow:none}
+</style></head>
 <body>
 <main class="app">
   <header class="topbar"><a class="back" href="./" aria-label="ホームへ戻る">← ホームへ</a><div class="brand">TOPIK I 単語トレーニング<small>10 WORDS · 10 QUESTIONS</small></div></header>

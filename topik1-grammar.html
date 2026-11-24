@@ -55,6 +55,35 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
 .option{border-radius:14px}
 </style><meta property="og:site_name" content="TOPIK STUDY"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="TOPIK I 頻出文法30｜意味・例文・問題で1級・2級対策"><meta name="twitter:description" content="TOPIK Iの1級・2級対策に必要な初級韓国語文法30項目を無料で学習。意味・作り方・例文・音声・ミニ問題つきで、助詞や活用を基礎から復習できます。"><meta name="twitter:image" content="https://images.pexels.com/videos/32531981/downtown-seoul-gyeongbokgung-gyeongbokgung-palace-korea-32531981.jpeg?auto=compress&cs=tinysrgb&w=1600"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap"><style>/* pro wave1: typography (Noto Sans JP + type scale) */body{font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic UI","Yu Gothic",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.65;}h1{line-height:1.35;letter-spacing:.02em}h2{line-height:1.45;letter-spacing:.02em}h3{line-height:1.5;letter-spacing:.02em}.pill,.exam-timer,.streak-number,.dash-value,.record-big,.score,.mock-time{font-variant-numeric:tabular-nums}</style><style>/* pro wave1: svg icons */.p1-nav a span svg{display:block}</style><style>/* visual rich (added 2026-11-23): hero skyline motif layer only (no photos in quiz flows) */
 .hero{background:linear-gradient(90deg,#dc3545,#1756a9) bottom/100% 4px no-repeat,url(/seoul-skyline-hero.svg) center bottom/auto 44px repeat-x,linear-gradient(130deg,#173f6b,#102a43)}
+</style>
+<style>
+/* editorial study design (added 2026-11-24): extend the homepage's post-PR #66/#67
+   language to the study pages. Additive overrides only: no markup, hooks,
+   question rendering or scripts are touched. */
+/* 1. editorial header: the field's Hangul word as a large watermark,
+      tracked gold label with a hairline, hairline accent rule kept at the base. */
+.hero{position:relative;overflow:hidden}
+.hero>*{position:relative;z-index:1}
+.hero::after{content:"문법"/"";position:absolute;right:12px;top:50%;transform:translateY(-50%);z-index:0;font-size:clamp(54px,12vw,88px);font-weight:900;line-height:1;letter-spacing:.04em;color:rgba(255,207,135,.15);pointer-events:none}
+.hero h1{font-weight:900}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;padding:0;border:0;border-radius:0;background:none;color:#ffcf87;letter-spacing:.22em}
+.eyebrow::before{content:"";flex:none;width:26px;height:1px;background:#ffcf87}
+
+/* 2. de-card the static areas: ruled rows and hairline bands on the surface */
+.dashboard{gap:0}
+.dashboard .stat{background:transparent;border:0;border-radius:0;box-shadow:none;padding:8px 12px}
+.dashboard .stat+.stat{border-left:1px solid var(--line)}
+.srs-panel{background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;box-shadow:none;padding:14px 2px}
+.toc{background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;box-shadow:none;padding:6px 0 12px}
+.toc-item{background:transparent}
+.list{gap:0}
+.card{background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;box-shadow:none}
+.card-head{padding:16px 2px}
+.card .body{padding:0 2px 16px}
+.related{background:transparent;border:0;border-top:1px solid var(--line);border-radius:0;box-shadow:none;padding:16px 2px 0}
+.learning-detail{background:transparent;border:0;border-top:1px solid var(--line);border-radius:0;padding:20px 2px}
+/* 3. in-card quiz options: surface only (borders/radius), hooks untouched */
+.option{border-radius:10px}
 </style></head>
 <body><div class="page">
   <header class="topbar"><a class="brand" href="./">韓国語能力試験 TOPIK 対策<small>TOPIK STUDY</small></a><a class="back" href="./">← ホームへ</a></header>
