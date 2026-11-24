@@ -322,7 +322,8 @@ def frame(title, desc, path, jsonlds, tag, h1, hero_p, crumb, body):
 <nav class="breadcrumb" aria-label="パンくずリスト">{crumb}</nav>
 {body}
 </main></div>
-<script src="./site-footer.js?v=71"></script></body></html>
+<script src="./site-footer.js?v=71"></script>
+<script src="./back-to-top.js?v=1"></script></body></html>
 ''')
 
 
