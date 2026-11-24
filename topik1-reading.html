@@ -25,7 +25,38 @@ select{border-radius:10px;border-color:var(--line-soft)}
 .secondary{border-radius:12px}
 </style><meta property="og:site_name" content="TOPIK STUDY"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="TOPIK I 読解問題130問｜韓国語1級・2級の無料試験対策"><meta name="twitter:description" content="TOPIK Iの読解対策用オリジナル問題130問。案内、広告、メッセージ、短文を級・難易度別に無料で練習し、正解の根拠と他の選択肢が違う理由まで確認できます。"><meta name="twitter:image" content="https://images.pexels.com/videos/32531981/downtown-seoul-gyeongbokgung-gyeongbokgung-palace-korea-32531981.jpeg?auto=compress&cs=tinysrgb&w=1600"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap"><style>/* pro wave1: typography (Noto Sans JP + type scale) */body{font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic UI","Yu Gothic",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.65;}h1{line-height:1.35;letter-spacing:.02em}h2{line-height:1.45;letter-spacing:.02em}h3{line-height:1.5;letter-spacing:.02em}.pill,.exam-timer,.streak-number,.dash-value,.record-big,.score,.mock-time{font-variant-numeric:tabular-nums}</style><style>/* pro wave1: svg icons */.p1-nav a span svg{display:block}</style><style>/* visual rich (added 2026-11-23): hero skyline motif layer only (no photos in quiz flows) */
 .hero{background:linear-gradient(90deg,#dc3545,#1756a9) bottom/100% 4px no-repeat,url(/seoul-skyline-hero.svg) center bottom/auto 44px repeat-x,linear-gradient(130deg,#173f6b,#102a43)}
-</style><link rel="stylesheet" href="./result-viz.css?v=4"></head>
+</style><link rel="stylesheet" href="./result-viz.css?v=4">
+<style>
+/* editorial study design (added 2026-11-24): extend the homepage's post-PR #66/#67
+   language to the study pages. Additive overrides only: no markup, hooks,
+   question rendering or scripts are touched. */
+/* 1. editorial header: the field's Hangul word as a large watermark,
+      tracked gold label with a hairline, hairline accent rule kept at the base. */
+.hero{position:relative;overflow:hidden}
+.hero>*{position:relative;z-index:1}
+.hero::after{content:"읽기"/"";position:absolute;right:12px;top:50%;transform:translateY(-50%);z-index:0;font-size:clamp(54px,12vw,88px);font-weight:900;line-height:1;letter-spacing:.04em;color:rgba(255,207,135,.15);pointer-events:none}
+.hero h1{font-weight:900}
+.hero>span{display:inline-flex;align-items:center;gap:10px;padding:0;border:0;border-radius:0;background:none;color:#ffcf87;letter-spacing:.22em}
+.hero>span::before{content:"";flex:none;width:26px;height:1px;background:#ffcf87}
+
+/* the hero becomes a full-width band at the top of the page column,
+   like the other study pages (it was a rounded card inside the content) */
+.hero{margin:-22px -16px 0;border-left:0;border-radius:0;box-shadow:none;padding:30px 22px 26px}
+/* 2. de-card the static areas */
+.notice{border:0;border-radius:0;box-shadow:none}
+.filters{background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;box-shadow:none;padding:16px 2px}
+.learning-detail{background:transparent;border:0;border-top:1px solid var(--line);border-radius:0;padding:20px 2px}
+/* 3. quiz area: hairline containment instead of the heavy shadow;
+      choices become ruled rows (state colours still come from the
+      existing .correct/.wrong rules) */
+.card{border:1px solid var(--line);border-radius:14px;box-shadow:none}
+.options{gap:0}
+.option{border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;padding:14px 6px}
+.option.correct{border-bottom-color:var(--green)}
+.option.wrong{border-bottom-color:var(--red)}
+.feedback{border-radius:0}
+.result{border:1px solid var(--line);border-radius:14px;box-shadow:none}
+</style></head>
 <body><div class="page"><header class="top"><a class="brand" href="./">韓国語能力試験 TOPIK 対策<small>TOPIK STUDY</small></a><a class="back" href="./">← ホームへ</a></header><main>
 <section id="intro"><div class="hero"><span>READING PRACTICE</span><h1>TOPIK I 読解130問</h1><p>案内、広告、メッセージ、短文を読んで答えます。日本語訳と解説は解答後に表示されます。</p></div><p class="notice">すべて学習用のオリジナル問題です。公式過去問ではありません。</p><div class="filters"><label>TOPIKの級<select id="level"><option>すべて</option><option>1級</option><option>2級</option></select></label><label>難易度<select id="difficulty"><option>すべて</option><option>基礎</option><option>標準</option><option>応用</option></select></label><p class="count" id="count"></p></div><div class="actions"><button class="primary" id="start">130問を始める</button><button class="secondary" id="review">間違いを復習</button></div></section>
 <div id="unitBanner" hidden style="margin:0 0 12px;padding:10px 12px;border:1px solid #b5cadf;border-radius:10px;background:#edf4fb;color:#102a43;font-size:13px"><strong>単元確認モード</strong><span id="unitBannerName"></span> <a href="./#home-curriculum" style="color:#1756a9;font-weight:800">カリキュラムに戻る</a></div>
