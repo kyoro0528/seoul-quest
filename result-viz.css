@@ -18,6 +18,7 @@
 .rv-delta.up{color:#12703d;background:#e6f5ec}
 .rv-delta.down{color:#b42318;background:#fdecea}
 .rv-delta.flat{color:#52677d;background:#edf2f6}
+.rv-badge[hidden],.rv-delta[hidden]{display:none}
 @media (prefers-reduced-motion: no-preference){
   .rv-ring .rv-arc{transition:stroke-dashoffset 1s cubic-bezier(.22,.8,.32,1)}
 }
