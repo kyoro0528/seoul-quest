@@ -1,22 +1,22 @@
 /* 試験日から逆算プラン (/study-plan) — 学習ページの editorial ファミリー。
    dictation.css を土台に、ネイビーバンド＋金トラッキングラベル＋
    透かし「계획」（計画）＋罫線でそろえる。 */
-:root{--ink:#102a43;--muted:#52677d;--line:#d8e3ed;--line-soft:#e2eaf1;--bg:#edf3f8;--paper:#fff;--accent:#c83349;--blue:#1756a9;--gold:#ffcf87;--green:#16834a}
+:root{--ink:#0B2239;--muted:#43586A;--line:#E2DCCF;--line-soft:#EDE8DC;--bg:#FAF8F3;--paper:#fff;--accent:#BE3144;--blue:#17456E;--gold:#EFD493;--green:#16834a}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic UI","Yu Gothic",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.65}
-.app{width:min(100%,780px);min-height:100vh;margin:auto;background:#f8fafc;box-shadow:0 0 50px #102a4315;padding:0 20px calc(48px + env(safe-area-inset-bottom))}
-.page-band{position:relative;overflow:hidden;margin:0 -20px 24px;padding:34px 20px 28px;color:#fff;background:linear-gradient(90deg,#dc3545,#1756a9) bottom/100% 4px no-repeat,linear-gradient(130deg,#173f6b,#102a43)}
+.app{width:min(100%,780px);min-height:100vh;margin:auto;background:#FDFBF7;box-shadow:0 0 50px #0B223915;padding:0 20px calc(48px + env(safe-area-inset-bottom))}
+.page-band{position:relative;overflow:hidden;margin:0 -20px 24px;padding:34px 20px 28px;color:#fff;background:linear-gradient(90deg,#C2A054,#10314F) bottom/100% 4px no-repeat,linear-gradient(130deg,#17456E,#0B2239)}
 .page-band::after{content:"계획";position:absolute;right:10px;bottom:-14px;font-size:72px;font-weight:900;line-height:1;color:rgba(255,207,135,.15);pointer-events:none;white-space:nowrap}
 .page-band .eyebrow{display:inline-block;padding:0;color:var(--gold);font-size:12px;font-weight:900;letter-spacing:.26em}
 .page-band h1{color:#fff;font-size:clamp(26px,6vw,34px);font-weight:900;line-height:1.35;letter-spacing:.01em;margin:13px 0 10px}
-.page-band p{color:#d9e7f5;margin:0;font-size:15px;line-height:1.8}
-.how{margin:0 0 18px;padding:13px 15px;border:1px solid var(--line-soft);border-radius:16px;background:#fff;box-shadow:0 1px 2px #102a4307,0 10px 28px #102a430c;font-size:14px;line-height:1.8}
+.page-band p{color:#DCE5EE;margin:0;font-size:15px;line-height:1.8}
+.how{margin:0 0 18px;padding:13px 15px;border:1px solid var(--line-soft);border-radius:16px;background:#fff;box-shadow:0 1px 2px #0B223907,0 10px 28px #0B22390c;font-size:14px;line-height:1.8}
 .how b{color:var(--blue)}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 6px}
-.chip{min-height:44px;padding:9px 16px;border:1px solid #b8cdd8;border-radius:999px;background:#fff;color:var(--ink);font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.chip{min-height:44px;padding:9px 16px;border:1px solid #C9D8E8;border-radius:999px;background:#fff;color:var(--ink);font:inherit;font-size:14px;font-weight:700;cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
 .count{margin:10px 2px 14px;font-size:15px;font-weight:700;color:var(--ink)}
-.panel{margin:0 0 22px;padding:18px;border:1px solid var(--line-soft);border-radius:16px;background:#fff;box-shadow:0 1px 2px #102a4307,0 10px 28px #102a430c}
+.panel{margin:0 0 22px;padding:18px;border:1px solid var(--line-soft);border-radius:16px;background:#fff;box-shadow:0 1px 2px #0B223907,0 10px 28px #0B22390c}
 .panel[hidden]{display:none}
 .status{margin:0 0 10px;font-size:15px;line-height:1.8}
 .daily-line{margin:0 0 8px;font-size:15px;font-weight:700;color:var(--blue);line-height:1.8}
@@ -31,7 +31,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans JP","
 .unit-row.done{opacity:.75}
 .unit-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px}
 .unit-head strong{font-size:15.5px}
-.unit-badge{font-size:11.5px;font-weight:900;color:var(--blue);border:1px solid #b8cdd8;border-radius:999px;padding:1px 8px}
+.unit-badge{font-size:11.5px;font-weight:900;color:var(--blue);border:1px solid #C9D8E8;border-radius:999px;padding:1px 8px}
 .unit-range{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
 .unit-state{font-size:12.5px;font-weight:900;color:var(--green)}
 .unit-rem{margin:6px 0 0;font-size:14px;line-height:1.7}
