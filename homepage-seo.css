@@ -3,15 +3,15 @@
 .seo-home h3{margin:20px 0 7px;font-size:16px;color:var(--ink)}
 .seo-home p{margin:0;color:var(--muted);font-size:14px;line-height:1.8}
 .seo-link-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0 20px}
-.seo-link{display:block;padding:13px;border:1px solid var(--line);border-radius:9px;background:#f8fafc;color:var(--ink);text-decoration:none}
+.seo-link{display:block;padding:13px;border:1px solid var(--line);border-radius:9px;background:#FDFBF7;color:var(--ink);text-decoration:none}
 .seo-link strong{display:block;font-size:14px}
 .seo-link small{display:block;margin-top:4px;color:var(--muted);font-size:11px;line-height:1.5}
-.seo-link:hover{border-color:var(--kblue);background:#edf4fb}
-.seo-facts{padding:16px;border-left:4px solid var(--kblue);border-radius:8px;background:#edf4fb}
+.seo-link:hover{border-color:var(--kblue);background:#EEF2F6}
+.seo-facts{padding:16px;border-left:4px solid var(--kblue);border-radius:8px;background:#EEF2F6}
 .seo-facts p+p{margin-top:9px}
 .seo-faq details{padding:12px 0;border-top:1px solid var(--line)}
 .seo-faq summary{cursor:pointer;color:var(--ink);font-size:14px;font-weight:900}
 .seo-faq details p{margin-top:7px;font-size:13px}
 @media(max-width:430px){.seo-link-grid{grid-template-columns:1fr}}
 
-.learning-intro{margin:20px 0;padding:18px;border:1px solid #d9e2ec;border-radius:12px;background:#fff;color:#102a43;font-size:14px;line-height:1.85;overflow-wrap:anywhere}.learning-intro h2{font-size:20px;line-height:1.5;margin:0 0 12px}.learning-intro h3{font-size:16px;margin:18px 0 8px}.learning-intro p{margin:9px 0}.learning-intro a{color:#1756a9;text-underline-offset:3px}.learning-intro li+li{margin-top:8px}.learning-intro details{margin-top:12px}.learning-intro summary{cursor:pointer;min-height:44px;padding:10px 0;font-weight:700}.learning-intro nav{display:flex;flex-wrap:wrap;gap:8px 16px}.learning-intro nav a{padding:8px 0}.learning-intro [lang=ko]{font-size:16px}
+.learning-intro{margin:20px 0;padding:18px;border:1px solid #E2DCCF;border-radius:12px;background:#fff;color:#0B2239;font-size:14px;line-height:1.85;overflow-wrap:anywhere}.learning-intro h2{font-size:20px;line-height:1.5;margin:0 0 12px}.learning-intro h3{font-size:16px;margin:18px 0 8px}.learning-intro p{margin:9px 0}.learning-intro a{color:#17456E;text-underline-offset:3px}.learning-intro li+li{margin-top:8px}.learning-intro details{margin-top:12px}.learning-intro summary{cursor:pointer;min-height:44px;padding:10px 0;font-weight:700}.learning-intro nav{display:flex;flex-wrap:wrap;gap:8px 16px}.learning-intro nav a{padding:8px 0}.learning-intro [lang=ko]{font-size:16px}

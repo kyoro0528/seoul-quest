@@ -1,24 +1,24 @@
 /* result viz: shared score ring / level badge / delta chip (added 2026-11-24)
    Presentation only. Colors follow the site tokens used on the exam side
-   (#1756a9 blue / #16834a green / muted gray). */
+   (#17456E blue / #16834a green / muted gray). */
 .rv-ring-wrap{position:relative;width:150px;height:150px;margin:8px auto 2px;flex:none}
 .rv-ring-wrap.sm{width:118px;height:118px}
 .rv-ring-wrap.left{margin:8px 0 2px}
 .score.rv-ring-wrap{margin:8px auto 2px}
 .rv-ring{display:block;width:100%;height:100%}
 .rv-ring circle{fill:none;stroke-width:11}
-.rv-ring .rv-track{stroke:#e3ebf2}
-.rv-ring .rv-arc{stroke:var(--rv-accent,#1756a9);stroke-linecap:round}
+.rv-ring .rv-track{stroke:#EFEAE0}
+.rv-ring .rv-arc{stroke:var(--rv-accent,#10314F);stroke-linecap:round}
 .rv-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 .rv-num{position:absolute;inset:0;display:grid;place-items:center}
 .rv-badge{display:inline-block;margin:10px auto 0;padding:7px 18px;border-radius:99px;color:#fff;font-weight:1000;font-size:15px;line-height:1.45}
 .rv-badge.lv-pass2{background:#16834a}
-.rv-badge.lv-pass1{background:#1756a9}
-.rv-badge.lv-none{background:#8a9ba8}
+.rv-badge.lv-pass1{background:#10314F}
+.rv-badge.lv-none{background:#5D7183}
 .rv-delta{display:inline-block;margin:8px auto 0;padding:5px 13px;border-radius:99px;font-weight:1000;font-size:13px;font-variant-numeric:tabular-nums}
 .rv-delta.up{color:#12703d;background:#e6f5ec}
 .rv-delta.down{color:#b42318;background:#fdecea}
-.rv-delta.flat{color:#52677d;background:#edf2f6}
+.rv-delta.flat{color:#43586A;background:#EFEAE0}
 .rv-badge[hidden],.rv-delta[hidden]{display:none}
 @media (prefers-reduced-motion: no-preference){
   .rv-ring .rv-arc{transition:stroke-dashoffset 1s cubic-bezier(.22,.8,.32,1)}
@@ -32,7 +32,7 @@
 .hoya[hidden]{display:none}
 .hoya.left{margin:14px 0 2px;justify-content:flex-start}
 .hoya-img{width:64px;height:64px;flex:none}
-.hoya-line{margin:0;font-size:14px;line-height:1.65;color:#52677d;background:#f2f7fb;border:1px solid #d9e2ec;border-radius:12px;padding:9px 13px}
+.hoya-line{margin:0;font-size:14px;line-height:1.65;color:#43586A;background:#F7F3E9;border:1px solid #E2DCCF;border-radius:12px;padding:9px 13px}
 @media (prefers-reduced-motion: no-preference){
   .hoya-img{animation:hoya-bob 3.4s ease-in-out infinite}
 }

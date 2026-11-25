@@ -1,0 +1,52 @@
+/* ============================================================
+   TOPIK STUDY — shared design system (site-wide rollout, 2026-11-25)
+   Generalizes the homepage sample layer (home-design.css, PR #81/#82)
+   to every page. Token values are IDENTICAL to the homepage tokens
+   (--hd-*), exposed here as --ds-* on :root so any page can use them.
+   This file is linked LAST in <head> by rolled-out pages. It carries:
+     1. the shared tokens,
+     2. small cross-page base polish (font smoothing, selection),
+     3. overrides for the JS-injected shared footer (site-footer.js),
+        whose <style> is appended to <head> at runtime — hence the
+        extra `body` specificity on those selectors.
+   Page-specific recoloring lives in each page's own styles (their
+   --blue/--red/--gold/--bg/--line variables were remapped to these
+   token values during the rollout). Functional colors are NOT
+   touched here: correct/incorrect feedback (green/red), overdue
+   and danger alerts, and the mock exam's honban-mode red remain
+   semantic. Data-viz pairs are navy + gold-family.
+   ============================================================ */
+
+:root{
+  --ds-navy-950:#081A2C; --ds-navy-900:#0B2239; --ds-navy-800:#10314F;
+  --ds-navy-700:#17456E; --ds-blue:#1E5B9E;
+  --ds-gold:#C2A054; --ds-gold-lt:#EFD493; --ds-gold-dk:#8A6D2F;
+  --ds-red:#BE3144; --ds-red-dk:#9E2432;
+  --ds-bg:#FAF8F3; --ds-surface:#FFFFFF;
+  --ds-ink:#142635; --ds-text-2:#43586A; --ds-muted:#5D7183;
+  --ds-line:#E2DCCF; --ds-line-soft:#EDE8DC; --ds-track:#EFEAE0;
+  --ds-r-sm:12px; --ds-r-md:16px; --ds-r-lg:20px;
+  --ds-sh-card:0 1px 2px rgba(11,34,57,.05),0 12px 32px -12px rgba(11,34,57,.14);
+  --ds-sh-lift:0 2px 4px rgba(11,34,57,.06),0 22px 44px -16px rgba(11,34,57,.22);
+}
+
+/* ---------- cross-page base polish ---------- */
+body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+::selection{background:#F3ECDA}
+
+/* ---------- shared footer (injected by site-footer.js) ----------
+   The injected stylesheet uses #1756a9 / #d9e2ec / #52677d etc.
+   `body` prefix outranks its single-class selectors. */
+body .site-legal-footer{
+  border-top:1px solid var(--ds-line);
+  color:var(--ds-text-2);
+}
+body .site-legal-footer .foot-brand strong{color:var(--ds-ink)}
+body .site-legal-footer .foot-brand span{color:var(--ds-muted)}
+body .site-legal-footer .study-links{border-bottom:1px solid var(--ds-line-soft)}
+body .site-legal-footer .foot-group h3{color:var(--ds-gold-dk);letter-spacing:.14em}
+body .site-legal-footer .foot-group a{color:var(--ds-navy-700)}
+body .site-legal-footer .foot-note strong{color:var(--ds-ink)}
+body .site-legal-footer .foot-legal{border-top:1px solid var(--ds-line-soft)}
+body .site-legal-footer .foot-legal a{color:var(--ds-navy-700)}
+body .site-legal-footer .foot-copy{color:var(--ds-muted)}
