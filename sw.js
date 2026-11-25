@@ -1,4 +1,4 @@
-const CACHE_NAME = 'topik-study-v103';
+const CACHE_NAME = 'topik-study-v104';
 const CORE_FILES = [
   '/korean-phrase-cards', '/korean-phrase-cards.js?v=36', '/korean-phrase-cards.css?v=36', '/travel-phrase-search.js?v=36', '/travel-replies.js?v=34', '/travel-destinations.js?v=33',
   '/travel-layout.css',
@@ -11,7 +11,7 @@ const CORE_FILES = [
   '/topik1-solving-tips', '/topik1-practice', '/topik1-grammar', '/topik1-reading',
   '/topik1-listening', '/topik-guide', '/topik1-exam-results', '/exam-results.js?v=1', '/study-guides.css?v=2', '/topik-schedule-2027', '/speaking-practice', '/speaking-phrases.js?v=1', '/speaking-practice.js?v=2', '/speaking-practice.css?v=1',
   '/dictation', '/dictation-items.js?v=1', '/dictation.js?v=1', '/dictation.css?v=1',
-  '/study-plan', '/study-plan.js?v=1', '/study-plan.css?v=1'
+  '/study-plan', '/study-plan.js?v=1', '/study-plan.css?v=1', '/home-design.css?v=1'
 ];
 
 self.addEventListener('install', event => {

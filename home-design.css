@@ -1,0 +1,336 @@
+/* ============================================================
+   TOPIK STUDY — Homepage design system (sample, added 2026-11-25)
+   Scope: this file is linked ONLY from index.html, and every rule
+   is additionally prefixed with body.home-design, so no other
+   page can be affected. Existing IDs / JS hooks are untouched;
+   this layer is CSS-only refinement over the current markup.
+   ------------------------------------------------------------
+   TOKENS
+   Palette
+     --hd-navy-950 #081A2C  deepest ink navy (hero base)
+     --hd-navy-900 #0B2239  primary navy
+     --hd-navy-800 #10314F  primary button / headings accent
+     --hd-navy-700 #17456E  hover navy
+     --hd-blue     #1E5B9E  data blue (forecast / bars)
+     --hd-gold     #C2A054  accent gold (sparing)
+     --hd-gold-lt  #EFD493  gold on dark (hero Korean line)
+     --hd-gold-dk  #8A6D2F  gold text on light (eyebrows)
+     --hd-red      #BE3144  refined accent red
+     --hd-red-dk   #9E2432  red gradient end
+     --hd-bg       #FAF8F3  warm off-white page background
+     --hd-surface  #FFFFFF  card surface
+     --hd-ink      #142635  text primary
+     --hd-text-2   #43586A  text secondary  (7.0:1 on bg)
+     --hd-muted    #5D7183  text muted      (5.0:1 on bg)
+     --hd-line     #E2DCCF  border (warm hairline)
+     --hd-line-soft#EDE8DC  soft hairline
+     --hd-track    #EFEAE0  data-viz track
+   Type scale (base 16)
+     display  clamp(34px, 7.4vw, 52px) / 800 / lh 1.3
+     h2       22px / 800 / ls .01em
+     h3       15px / 700
+     body     14.5px / 1.75
+     caption  12px / muted
+     eyebrow  11px / 700 / ls .14em
+     numerals font-variant-numeric: tabular-nums
+   Radius   --hd-r-sm 12px / --hd-r-md 16px / --hd-r-lg 20px / pill 999px
+   Shadow   --hd-sh-card: 0 1px 2px rgba(11,34,57,.05),
+                          0 12px 32px -12px rgba(11,34,57,.14)
+            --hd-sh-lift: 0 2px 4px rgba(11,34,57,.06),
+                          0 22px 44px -16px rgba(11,34,57,.22)
+   Motion   160ms ease (hover/focus), none under reduced-motion
+   ============================================================ */
+
+body.home-design{
+  --hd-navy-950:#081A2C; --hd-navy-900:#0B2239; --hd-navy-800:#10314F;
+  --hd-navy-700:#17456E; --hd-blue:#1E5B9E;
+  --hd-gold:#C2A054; --hd-gold-lt:#EFD493; --hd-gold-dk:#8A6D2F;
+  --hd-red:#BE3144; --hd-red-dk:#9E2432;
+  --hd-bg:#FAF8F3; --hd-surface:#FFFFFF;
+  --hd-ink:#142635; --hd-text-2:#43586A; --hd-muted:#5D7183;
+  --hd-line:#E2DCCF; --hd-line-soft:#EDE8DC; --hd-track:#EFEAE0;
+  --hd-r-sm:12px; --hd-r-md:16px; --hd-r-lg:20px;
+  --hd-sh-card:0 1px 2px rgba(11,34,57,.05),0 12px 32px -12px rgba(11,34,57,.14);
+  --hd-sh-lift:0 2px 4px rgba(11,34,57,.06),0 22px 44px -16px rgba(11,34,57,.22);
+  background:var(--hd-bg);
+}
+
+/* ---------- base: home screens only ---------- */
+body.home-design #home,
+body.home-design #home-beginner,
+body.home-design #home-topik,
+body.home-design #home-curriculum,
+body.home-design #home-continue,
+body.home-design #home-catalog{
+  background:var(--hd-bg);
+  color:var(--hd-ink);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+body.home-design #home p,
+body.home-design #home-beginner p,
+body.home-design #home-topik p,
+body.home-design #home-curriculum p,
+body.home-design #home-continue p,
+body.home-design #home-catalog p{line-height:1.75}
+
+/* section headings: one scale, gold rule instead of red/blue gradient */
+body.home-design .menu-screen h2,
+body.home-design .stats-band h2,
+body.home-design .bento h2{
+  font-size:22px;font-weight:800;letter-spacing:.01em;color:var(--hd-ink);
+}
+body.home-design .menu-screen h2:before,
+body.home-design .purpose-nav h2:before,
+body.home-design .home-group h2:before,
+body.home-design .stats-band h2:before,
+body.home-design .bento h2:before{
+  background:linear-gradient(180deg,var(--hd-gold),var(--hd-navy-800));
+  width:4px;border-radius:99px;
+}
+body.home-design .section-lead,
+body.home-design .stats-band .stats-lead,
+body.home-design .bento .bento-lead{color:var(--hd-text-2);font-size:13.5px;line-height:1.75}
+
+/* eyebrows / labels */
+body.home-design .eyebrow{
+  background:#F3ECDA;color:var(--hd-gold-dk);
+  letter-spacing:.14em;font-size:11px;font-weight:700;
+  padding:6px 11px;border-radius:999px;
+}
+
+/* ---------- buttons & interactive surfaces ---------- */
+body.home-design #home .primary,
+body.home-design #home-beginner .primary,
+body.home-design #home-topik .primary,
+body.home-design #home-curriculum .primary,
+body.home-design #home-continue .primary,
+body.home-design #home-catalog .primary{
+  background:linear-gradient(180deg,var(--hd-navy-800),var(--hd-navy-900));
+  border:1px solid var(--hd-navy-950);
+  border-radius:var(--hd-r-sm);
+  box-shadow:var(--hd-sh-card);
+  min-height:52px;
+  transition:box-shadow .16s ease,transform .16s ease,background .16s ease;
+}
+body.home-design .today-start{
+  background:linear-gradient(120deg,var(--hd-red),var(--hd-red-dk));
+  border:1px solid #7E1D29;
+  border-radius:var(--hd-r-sm);
+  box-shadow:0 1px 2px rgba(126,29,41,.25),0 14px 30px -12px rgba(158,36,50,.5);
+  letter-spacing:.02em;
+  transition:box-shadow .16s ease,transform .16s ease;
+}
+body.home-design .menu-button,
+body.home-design .chapter,
+body.home-design .word,
+body.home-design .vocab-link,
+body.home-design .home-entry-card,
+body.home-design .cur-unit{
+  background:var(--hd-surface);
+  border:1px solid var(--hd-line);
+  border-radius:var(--hd-r-md);
+  box-shadow:var(--hd-sh-card);
+  transition:box-shadow .16s ease,border-color .16s ease,transform .16s ease;
+}
+body.home-design .chapter{border:1px solid var(--hd-line)}
+body.home-design .cur-unit.current{
+  border-color:var(--hd-navy-700);
+  box-shadow:0 0 0 1px var(--hd-navy-700),var(--hd-sh-card);
+}
+body.home-design .cur-unit.done{border-color:#BFD8C8;background:#F7FBF7}
+body.home-design .cur-badge{background:#EAF0F7;color:var(--hd-navy-800)}
+body.home-design .cur-badge.lv2{background:#FBEDED;color:var(--hd-red-dk)}
+body.home-design .cur-map::before{background:#E4DECF}
+body.home-design .cur-map::after{background:var(--hd-navy-800)}
+body.home-design .cur-node{border-color:#CBD6C9}
+@media(hover:hover){
+  body.home-design .menu-button:hover,
+  body.home-design .chapter:hover,
+  body.home-design .vocab-link:hover,
+  body.home-design a.home-entry-card:hover,
+  body.home-design .bento-tile:hover{
+    box-shadow:var(--hd-sh-lift);border-color:#CFC6AE;transform:translateY(-1px);
+  }
+  body.home-design #home .primary:hover,
+  body.home-design #home-continue .primary:hover{
+    box-shadow:var(--hd-sh-lift);transform:translateY(-1px);
+  }
+  body.home-design .today-start:hover{
+    box-shadow:0 2px 4px rgba(126,29,41,.25),0 20px 40px -14px rgba(158,36,50,.55);
+    transform:translateY(-1px);
+  }
+}
+body.home-design a:focus-visible,
+body.home-design button:focus-visible,
+body.home-design summary:focus-visible,
+body.home-design [tabindex]:focus-visible{
+  outline:3px solid var(--hd-blue);outline-offset:2px;
+}
+
+/* ruled lists / link rows */
+body.home-design .guide-link{
+  border:1px solid var(--hd-line);border-left:3px solid var(--hd-gold);
+  border-radius:var(--hd-r-sm);background:var(--hd-surface);
+  padding:15px 16px;box-shadow:var(--hd-sh-card);
+  transition:box-shadow .16s ease,border-color .16s ease;
+}
+body.home-design .guide-link small{color:var(--hd-text-2)}
+body.home-design .guide-link b{color:var(--hd-red)}
+body.home-design .exam-stat{
+  background:#F5F1E6;border:1px solid var(--hd-line-soft);
+  border-radius:var(--hd-r-md);padding:14px;
+}
+body.home-design .exam-stat strong{font-size:21px;font-weight:800;font-variant-numeric:tabular-nums}
+body.home-design .exam-stat small{color:var(--hd-text-2)}
+body.home-design .level-line{border-color:var(--hd-line);border-radius:var(--hd-r-sm)}
+body.home-design .level-line b{color:var(--hd-red-dk)}
+
+/* ---------- hero ---------- */
+body.home-design #home .dashboard{
+  background-color:var(--hd-navy-950);
+  padding-top:64px;padding-bottom:72px;
+}
+body.home-design #home .hero-shade{
+  background:
+    linear-gradient(180deg,rgba(8,26,44,.55) 0%,rgba(8,26,44,.22) 42%,rgba(8,26,44,.78) 100%),
+    linear-gradient(90deg,rgba(8,26,44,.5) 0%,rgba(8,26,44,0) 62%);
+}
+body.home-design #home .site-intro .eyebrow{
+  background:rgba(8,26,44,.38);border:1px solid rgba(239,212,147,.5);
+  color:var(--hd-gold-lt);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+}
+body.home-design #home .site-intro h1{
+  font-size:clamp(34px,7.4vw,52px);font-weight:800;line-height:1.3;letter-spacing:.01em;
+}
+body.home-design #home .site-intro h1 .h1-ko{
+  color:var(--hd-gold-lt);letter-spacing:.34em;font-weight:800;
+}
+body.home-design #home .site-intro p{color:#E8EEF4;line-height:1.85}
+body.home-design #home .hero-chips li{
+  background:rgba(8,26,44,.34);border:1px solid rgba(255,255,255,.3);
+  padding:8px 14px;font-size:12.5px;
+}
+body.home-design #home .hero-chips strong{font-variant-numeric:tabular-nums;font-weight:800}
+body.home-design #home .scroll-cue{border-color:rgba(239,212,147,.55)}
+
+/* marquee band: deep navy, single gold hairline */
+body.home-design .ko-marquee{
+  background:var(--hd-navy-950);
+  border-bottom:2px solid transparent;
+  background-image:linear-gradient(var(--hd-navy-950),var(--hd-navy-950)),
+    linear-gradient(90deg,transparent,var(--hd-gold),transparent);
+  background-origin:padding-box,border-box;
+  background-clip:padding-box,border-box;
+}
+body.home-design .mq-item i{color:#B9C9D8}
+
+/* ---------- stats band & bento ---------- */
+body.home-design .stats-band,body.home-design .bento{padding-top:36px}
+body.home-design .stats-grid li{
+  background:var(--hd-surface);border:1px solid var(--hd-line);
+  border-radius:var(--hd-r-md);box-shadow:var(--hd-sh-card);padding:16px 8px 14px;
+}
+body.home-design .stats-num{color:var(--hd-navy-900);font-weight:800}
+body.home-design .stats-label{color:var(--hd-text-2)}
+body.home-design .stats-note{color:var(--hd-muted)}
+body.home-design .hoya-cameo{
+  background:var(--hd-surface);border:1px solid var(--hd-line);
+  border-radius:var(--hd-r-md);box-shadow:var(--hd-sh-card);
+}
+body.home-design .bento-tile{
+  background:var(--hd-surface);border:1px solid var(--hd-line);
+  border-radius:var(--hd-r-lg);box-shadow:var(--hd-sh-card);
+  transition:box-shadow .16s ease,border-color .16s ease,transform .16s ease;
+}
+body.home-design .bento-tile small{color:var(--hd-text-2)}
+body.home-design .bento-tile .card-action{color:var(--hd-navy-700);font-weight:700}
+body.home-design .viz-srs span{background:linear-gradient(180deg,#5B84B4,var(--hd-navy-800))}
+
+/* ---------- dashboard panels (records screen) ---------- */
+body.home-design .heatmap-panel,
+body.home-design .forecast-panel{
+  background:var(--hd-surface);border:1px solid var(--hd-line);
+  border-radius:var(--hd-r-lg);box-shadow:var(--hd-sh-card);
+  padding:18px;margin-top:14px;
+}
+body.home-design .heatmap-head strong,
+body.home-design .forecast-head strong{font-size:15px;font-weight:800;color:var(--hd-ink)}
+body.home-design .heatmap-head span,
+body.home-design .forecast-head span{color:var(--hd-text-2);font-variant-numeric:tabular-nums}
+body.home-design .hm-cell{border-radius:3px;background:#E9E4D6}
+body.home-design .hm-cell.lv1{background:#C9D8E8}
+body.home-design .hm-cell.lv2{background:#93B1D2}
+body.home-design .hm-cell.lv3{background:#527CA9}
+body.home-design .hm-cell.lv4{background:var(--hd-navy-800)}
+body.home-design .hm-cell.today{outline:2px solid var(--hd-red);outline-offset:-1px}
+body.home-design .heatmap-legend,body.home-design .heatmap-note{color:var(--hd-muted)}
+
+/* forecast bars: rounded track, navy/red segments, tabular numerals */
+body.home-design .fc-bar{background:var(--hd-track);border-radius:6px}
+body.home-design .fc-bar .fc-v{background:var(--hd-blue)}
+body.home-design .fc-bar .fc-g{background:var(--hd-red)}
+body.home-design .fc-num{color:var(--hd-ink);font-variant-numeric:tabular-nums}
+body.home-design .fc-day{color:var(--hd-text-2)}
+body.home-design .fc-date{color:var(--hd-muted)}
+body.home-design .fc-col.today .fc-bar{outline:2px solid var(--hd-red);outline-offset:-1px}
+body.home-design .fc-col.today .fc-day{color:var(--hd-red-dk)}
+body.home-design .fc-overdue{
+  background:#FBF1F2;border:1px solid #EFC9CE;border-radius:var(--hd-r-sm);
+  padding:10px 12px;line-height:1.7;
+}
+body.home-design .fc-legend{color:var(--hd-text-2)}
+body.home-design .fc-calm{color:var(--hd-text-2)}
+
+/* weakness report: warm hairlines, refined bars */
+body.home-design .weak-report{
+  border-top:1px solid var(--hd-line);border-bottom:1px solid var(--hd-line);
+  padding-top:18px;
+}
+body.home-design .weak-head strong{font-size:16px;font-weight:800}
+body.home-design .weak-head span{color:var(--hd-text-2)}
+body.home-design .weak-sec h3{font-size:13.5px;font-weight:700;letter-spacing:.04em}
+body.home-design .weak-row{border-top:1px solid var(--hd-line-soft);padding:9px 0}
+body.home-design .weak-bar{background:var(--hd-track);height:9px}
+body.home-design .weak-bar i{background:var(--hd-blue)}
+body.home-design .weak-row.weakest .weak-bar i{background:var(--hd-red)}
+body.home-design .weak-val{font-variant-numeric:tabular-nums;color:var(--hd-ink)}
+body.home-design .weak-lack{color:var(--hd-text-2)}
+body.home-design .weak-units li,
+body.home-design .weak-missed li,
+body.home-design .weak-plan-list li{border-top:1px solid var(--hd-line-soft)}
+body.home-design .weak-unit-state{border-color:var(--hd-line);color:var(--hd-text-2)}
+body.home-design .weak-unit-state.doing{color:var(--hd-navy-700);border-color:var(--hd-navy-700)}
+body.home-design .weak-unit-state.done{background:var(--hd-navy-800);border-color:var(--hd-navy-800)}
+body.home-design .weak-unit-parts,body.home-design .weak-missed li span{color:var(--hd-text-2)}
+
+/* today recommendation: quiet ruled block, refined buttons */
+body.home-design .today-reco{border-top:1px solid var(--hd-line);border-bottom:1px solid var(--hd-line)}
+body.home-design .reco-btn{
+  border-radius:999px;transition:box-shadow .16s ease,border-color .16s ease,transform .16s ease;
+}
+
+/* trial quiz (beginner screen) inherits card/button refinement above;
+   its feedback colors stay semantic */
+body.home-design #trialQuiz .trial-card,
+body.home-design .trial-card{
+  border:1px solid var(--hd-line);border-radius:var(--hd-r-lg);box-shadow:var(--hd-sh-card);
+}
+
+/* bottom nav: warm hairline, navy active pill */
+body.home-design .bottom-nav{
+  border-top:1px solid var(--hd-line);background:rgba(255,255,255,.96);
+  box-shadow:0 -6px 24px rgba(11,34,57,.08);
+}
+body.home-design .nav-btn{color:var(--hd-text-2);border-radius:10px;transition:background .16s ease,color .16s ease}
+body.home-design .nav-btn.active{background:#F3ECDA;color:var(--hd-navy-900)}
+
+/* ---------- motion safety ---------- */
+@media(prefers-reduced-motion:reduce){
+  body.home-design .menu-button,body.home-design .chapter,
+  body.home-design .vocab-link,body.home-design .bento-tile,
+  body.home-design .today-start,body.home-design .guide-link,
+  body.home-design .reco-btn,body.home-design .nav-btn{transition:none}
+  body.home-design .menu-button:hover,body.home-design .chapter:hover,
+  body.home-design .bento-tile:hover{transform:none}
+}
