@@ -152,6 +152,13 @@
   </url>
 
   <url>
+    <loc>https://topik-study.pages.dev/dictation</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
     <loc>https://topik-study.pages.dev/topik-schedule-2027</loc>
     <lastmod>2026-11-23</lastmod>
     <changefreq>monthly</changefreq>
