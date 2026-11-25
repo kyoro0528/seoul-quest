@@ -267,12 +267,12 @@ FONT_BLOCK = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
               'h1{line-height:1.35;letter-spacing:.02em}h2{line-height:1.45;letter-spacing:.02em}'
               'h3{line-height:1.5;letter-spacing:.02em}</style>')
 PAGE_CSS = ('<style>.word-table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.7}'
-            '.word-table th,.word-table td{padding:9px 10px;border:1px solid #bcccdc;text-align:left;vertical-align:top}'
-            '.word-table thead{background:#edf4fb}.word-table .ko{font-weight:900;color:#102a43;white-space:nowrap}'
+            '.word-table th,.word-table td{padding:9px 10px;border:1px solid #c9d8e8;text-align:left;vertical-align:top}'
+            '.word-table thead{background:#f7f3e9}.word-table .ko{font-weight:900;color:#0b2239;white-space:nowrap}'
             '.pager{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}.pager a{padding:10px 14px;'
-            'border:1px solid #bcccdc;border-radius:999px;background:#fff;color:#1756a9;font-weight:800;text-decoration:none}'
-            '.example-box{padding:18px;background:#fff;border:1px solid #d9e2ec;border-radius:12px}'
-            '.example-box .ko{font-size:19px;font-weight:900;color:#102a43}.example-box .jp{color:#627d98;margin-top:4px}</style>')
+            'border:1px solid #c9d8e8;border-radius:999px;background:#fff;color:#17456e;font-weight:800;text-decoration:none}'
+            '.example-box{padding:18px;background:#fff;border:1px solid #e2dccf;border-radius:12px}'
+            '.example-box .ko{font-size:19px;font-weight:900;color:#0b2239}.example-box .jp{color:#5d7183;margin-top:4px}</style>')
 
 
 def head(title, desc, path, jsonlds):
@@ -299,9 +299,9 @@ def head(title, desc, path, jsonlds):
 <meta name="twitter:title" content="{esc(title)}">
 <meta name="twitter:description" content="{esc(desc)}">
 <meta name="twitter:image" content="{OG_IMAGE}">
-<meta name="theme-color" content="#102a43">
-<link rel="stylesheet" href="./study-guides.css?v=2">
-<link rel="stylesheet" href="./next-learning.css">
+<meta name="theme-color" content="#0b2239">
+<link rel="stylesheet" href="./study-guides.css?v=3">
+<link rel="stylesheet" href="./next-learning.css?v=1">
 <link rel="icon" type="image/svg+xml" href="./favicon.svg"><link rel="icon" type="image/png" href="./app-icon-192.png">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-KNXR84DQ9V"></script>
@@ -309,6 +309,7 @@ def head(title, desc, path, jsonlds):
 {ld}
 {FONT_BLOCK}
 {PAGE_CSS}
+<link rel="stylesheet" href="./design-system.css?v=1">
 </head>
 '''
 
