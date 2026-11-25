@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#102a43">
+<title>ディクテーション｜聞き取り書き取り練習</title>
+<meta name="description" content="韓国語の音声を聞いて、そのまま書き取るディクテーション練習。聞き取り38文と旅行会話75フレーズから1回5問、文字単位で比べて100点満点で採点します。登録不要・無料。">
+<link rel="canonical" href="https://topik-study.pages.dev/dictation">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ディクテーション｜聞き取り書き取り練習">
+<meta property="og:description" content="聞こえた韓国語をそのまま書き取る練習。聞き取り38文＋旅行会話75フレーズから1回5問、文字単位で採点します。">
+<meta property="og:url" content="https://topik-study.pages.dev/dictation"><meta property="og:image" content="https://images.pexels.com/videos/32531981/downtown-seoul-gyeongbokgung-gyeongbokgung-palace-korea-32531981.jpeg?auto=compress&cs=tinysrgb&w=1600"><meta property="og:image:width" content="1600"><meta property="og:image:height" content="900"><meta property="og:image:alt" content="景福宮とソウルの街並み">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg"><link rel="icon" href="./app-icon-192.png">
+<link rel="stylesheet" href="./dictation.css?v=1">
+<link rel="stylesheet" href="./result-viz.css?v=4">
+<meta property="og:site_name" content="TOPIK STUDY"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="ディクテーション｜聞き取り書き取り練習"><meta name="twitter:description" content="聞こえた韓国語をそのまま書き取る練習。聞き取り38文＋旅行会話75フレーズから1回5問、文字単位で採点します。"><meta name="twitter:image" content="https://images.pexels.com/videos/32531981/downtown-seoul-gyeongbokgung-gyeongbokgung-palace-korea-32531981.jpeg?auto=compress&cs=tinysrgb&w=1600"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap">
+</head>
+<body><main class="app"><div class="page-band">
+<div class="eyebrow">DICTATION</div>
+<h1>ディクテーション</h1>
+<p>聞こえた韓国語を、そのまま書き取る練習です。聞き取る力と、音と文字を結びつける力が一緒に育ちます。</p></div>
+<p class="how"><b>使い方</b>　① 文章の種類を選ぶ → ②「聞く」で音声を再生（何度でも聞けます。「ゆっくり」ボタンもあります）→ ③ 聞こえた文を入力して「答え合わせ」。1回5問で、文字単位で比べて100点満点で採点します。</p>
+<div class="chips" role="group" aria-label="文章の種類を選ぶ">
+<button type="button" class="chip" data-tier="sentences" aria-pressed="true">文章（聞き取り）</button>
+<button type="button" class="chip" data-tier="phrases" aria-pressed="false">短文（旅行会話）</button>
+</div>
+<p class="count" id="tierCount" aria-live="polite">聞き取り問題の文 38件から5問出題します</p>
+<div class="btn-row">
+<button type="button" class="btn" id="startBtn">練習を始める（5問）</button>
+</div>
+<noscript><p class="empty">ディクテーションにはJavaScriptが必要です。JavaScriptを有効にしてください。</p></noscript>
+<section class="panel" id="quizPanel" hidden aria-labelledby="quizCounter">
+<div class="progress-line"><span class="counter" id="quizCounter">1 / 5</span><div class="progress" aria-hidden="true"><i id="quizBar"></i></div></div>
+<div class="btn-row">
+<button type="button" class="btn" id="playBtn">聞く</button>
+<button type="button" class="btn secondary" id="playSlowBtn">ゆっくり聞く</button>
+</div>
+<label class="input-hint" for="answerInput">聞こえた文を韓国語で入力してください</label>
+<textarea class="answer-input" id="answerInput" lang="ko" rows="3" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="ここに入力"></textarea>
+<p class="input-hint">Enterキーでも答え合わせできます（改行は Shift+Enter）。</p>
+<div class="btn-row" style="margin-top:14px">
+<button type="button" class="btn" id="submitBtn">答え合わせ</button>
+</div>
+<p class="status" id="status" aria-live="polite"></p>
+<div class="result" id="itemResult" hidden>
+<div class="score-line"><span class="score-num" id="scoreNum"></span><span class="score-cap">点（100点満点・目安）</span></div>
+<p class="diff" id="diffWrap" lang="ko" aria-label="正解との違い"></p>
+<p class="diff-key">赤い字はちがう音、破線は聞き取れなかった音です。赤い字の注釈には、あなたが書いた音が入っています。</p>
+<p class="correct-ko" id="correctKo" lang="ko"></p>
+<p class="correct-ja" id="correctJa"></p>
+<p class="your-answer" id="yourAnswerLine">あなたの答え：<q id="yourAnswer" lang="ko"></q></p>
+<div class="btn-row" style="margin-top:14px">
+<button type="button" class="btn" id="nextBtn">次の問題へ</button>
+</div>
+</div>
+</section>
+<section class="panel" id="resultPanel" hidden aria-labelledby="resultTitle">
+<h2 id="resultTitle" style="margin:0 0 6px;font-size:22px;font-weight:900">結果</h2>
+<div class="score-line"><span class="score-num" id="avgNum"></span><span class="score-cap">点（5問の平均・目安）</span></div>
+<div class="hoya" id="resultHoya" hidden>
+<img class="hoya-img" src="./mascot-hoya.svg" alt="" aria-hidden="true" width="64" height="64">
+<p class="hoya-line"></p>
+</div>
+<ul class="review-list" id="reviewList"></ul>
+<div class="btn-row" style="margin-top:16px">
+<button type="button" class="btn" id="retryBtn">もう一度5問</button>
+<button type="button" class="btn secondary" id="changeTierBtn">種類を変える</button>
+</div>
+</section>
+<section class="notes" aria-label="ディクテーションについての注意">
+<p>音声は端末の韓国語音声（TTS）を使います。声の質や読み方は端末によって変わります。</p>
+<p>スコアは練習の目安で、合否や成績とは関係ありません。</p>
+<p>この練習の結果は学習記録に保存されません。</p>
+</section>
+<a class="sub" href="./topik1-listening">聞き取り練習（40問）へ →</a>
+<a class="sub" href="./">トップページへ戻る</a>
+</main>
+<script src="./result-viz.js?v=2"></script>
+<script src="./dictation-items.js?v=1"></script>
+<script src="./dictation.js?v=1"></script>
+</body></html>
