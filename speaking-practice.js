@@ -194,7 +194,7 @@
   function playModel() {
     if (!current) return;
     if (!('speechSynthesis' in window)) {
-      setStatus('この端末では音声を利用できません。画面を見せて伝えてください。');
+      setStatus('この端末では音声を利用できません。音声なしでも、フレーズを見ながら音読する練習ができます。');
       return;
     }
     window.speechSynthesis.cancel();
@@ -202,7 +202,7 @@
     u.lang = 'ko-KR';
     u.rate = .85;
     u.onerror = function () {
-      setStatus('音声を再生できませんでした。画面を見せて伝えてください。');
+      setStatus('音声を再生できませんでした。端末の音量やマナーモードを確認して、もう一度押してください。');
     };
     window.speechSynthesis.speak(u);
     setStatus('お手本を再生しています。音量・マナーモードも確認してください。');
