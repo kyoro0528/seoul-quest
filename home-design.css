@@ -140,7 +140,7 @@ body.home-design .cur-unit.current{
 }
 body.home-design .cur-unit.done{border-color:#BFD8C8;background:#F7FBF7}
 body.home-design .cur-badge{background:#EAF0F7;color:var(--hd-navy-800)}
-body.home-design .cur-badge.lv2{background:#FBEDED;color:var(--hd-red-dk)}
+body.home-design .cur-badge.lv2{background:#F3ECDA;color:var(--hd-navy-900)}
 body.home-design .cur-map::before{background:#E4DECF}
 body.home-design .cur-map::after{background:var(--hd-navy-800)}
 body.home-design .cur-node{border-color:#CBD6C9}
@@ -176,7 +176,7 @@ body.home-design .guide-link{
   transition:box-shadow .16s ease,border-color .16s ease;
 }
 body.home-design .guide-link small{color:var(--hd-text-2)}
-body.home-design .guide-link b{color:var(--hd-red)}
+body.home-design .guide-link b{color:var(--hd-navy-700)}
 body.home-design .exam-stat{
   background:#F5F1E6;border:1px solid var(--hd-line-soft);
   border-radius:var(--hd-r-md);padding:14px;
@@ -184,7 +184,7 @@ body.home-design .exam-stat{
 body.home-design .exam-stat strong{font-size:21px;font-weight:800;font-variant-numeric:tabular-nums}
 body.home-design .exam-stat small{color:var(--hd-text-2)}
 body.home-design .level-line{border-color:var(--hd-line);border-radius:var(--hd-r-sm)}
-body.home-design .level-line b{color:var(--hd-red-dk)}
+body.home-design .level-line b{color:var(--hd-navy-800)}
 
 /* ---------- hero ---------- */
 body.home-design #home .dashboard{
@@ -269,7 +269,7 @@ body.home-design .heatmap-legend,body.home-design .heatmap-note{color:var(--hd-m
 /* forecast bars: rounded track, navy/red segments, tabular numerals */
 body.home-design .fc-bar{background:var(--hd-track);border-radius:6px}
 body.home-design .fc-bar .fc-v{background:var(--hd-blue)}
-body.home-design .fc-bar .fc-g{background:var(--hd-red)}
+body.home-design .fc-bar .fc-g{background:var(--hd-gold-dk)}
 body.home-design .fc-num{color:var(--hd-ink);font-variant-numeric:tabular-nums}
 body.home-design .fc-day{color:var(--hd-text-2)}
 body.home-design .fc-date{color:var(--hd-muted)}
@@ -293,7 +293,7 @@ body.home-design .weak-sec h3{font-size:13.5px;font-weight:700;letter-spacing:.0
 body.home-design .weak-row{border-top:1px solid var(--hd-line-soft);padding:9px 0}
 body.home-design .weak-bar{background:var(--hd-track);height:9px}
 body.home-design .weak-bar i{background:var(--hd-blue)}
-body.home-design .weak-row.weakest .weak-bar i{background:var(--hd-red)}
+body.home-design .weak-row.weakest .weak-bar i{background:var(--hd-gold-dk)}
 body.home-design .weak-val{font-variant-numeric:tabular-nums;color:var(--hd-ink)}
 body.home-design .weak-lack{color:var(--hd-text-2)}
 body.home-design .weak-units li,
@@ -324,6 +324,64 @@ body.home-design .bottom-nav{
 }
 body.home-design .nav-btn{color:var(--hd-text-2);border-radius:10px;transition:background .16s ease,color .16s ease}
 body.home-design .nav-btn.active{background:#F3ECDA;color:var(--hd-navy-900)}
+
+/* ---------- v105 fixes: dark-band legibility, leftover vivid-blue
+   buttons, decorative red -> navy/gold (functional red is kept:
+   today outlines, overdue panel, quiz right/wrong feedback) --- */
+/* stats band sits on deep navy (#0d2440): light text treatment
+   (white 15.63:1, #A9C3DC 8.58:1 on that navy) */
+body.home-design .stats-band h2{color:#fff}
+body.home-design .stats-band .stats-lead,
+body.home-design .stats-band .stats-note{color:#A9C3DC}
+/* hoya cameo inside the navy band: a composed strip on the plane
+   itself (hairline rule above, white message). The v104 card
+   treatment made it a white card whose base text colour is also
+   white, so the message was invisible. */
+body.home-design .stats-band .hoya-cameo{
+  background:transparent;border:0;border-top:1px solid rgba(255,255,255,.18);
+  border-radius:0;box-shadow:none;padding:16px 2px 0;margin-top:20px;
+}
+body.home-design .stats-band .hoya-cameo p{color:#fff}
+/* hero CTA: solid deep red at full opacity (white 5.66:1 on it) */
+body.home-design #home .today-start{
+  background:linear-gradient(120deg,var(--hd-red),var(--hd-red-dk));
+  color:#fff;opacity:1;
+}
+/* home-action buttons (dashboard recommendations, Google login,
+   learning records): flat #1756a9 in home-navigation.css missed
+   by the v104 layer -> primary navy like .primary */
+body.home-design .home-action{
+  background:linear-gradient(180deg,var(--hd-navy-800),var(--hd-navy-900));
+  border-color:var(--hd-navy-950);
+  box-shadow:var(--hd-sh-card);
+  transition:box-shadow .16s ease,transform .12s ease;
+}
+@media(hover:hover){
+  body.home-design .home-action:hover{box-shadow:var(--hd-sh-lift)}
+}
+/* dashboard review-file button (base fill was var(--kblue)) */
+body.home-design #home-continue .review button{
+  background:linear-gradient(180deg,var(--hd-navy-800),var(--hd-navy-900));
+  border:1px solid var(--hd-navy-950);color:#fff;
+}
+/* trial quiz: navy primary actions, navy link, gold-tint chip */
+body.home-design .trial-next,
+body.home-design .trial-cta{
+  background:linear-gradient(180deg,var(--hd-navy-800),var(--hd-navy-900));
+  border:1px solid var(--hd-navy-950);
+}
+body.home-design .trial-sub{color:var(--hd-navy-700)}
+body.home-design .trial-progress{background:#F3ECDA;color:var(--hd-navy-900)}
+/* decorative red accents -> navy/gold tokens */
+body.home-design .exam-countdown b{color:var(--hd-navy-700)}
+body.home-design .seo-home h2:before{
+  background:linear-gradient(180deg,var(--hd-gold),var(--hd-navy-800));
+}
+/* forecast legend swatches carry inline styles in the markup, so
+   !important is required to retint them to the token colours
+   (vocab = data blue, grammar = deep gold, matching the bars) */
+body.home-design .fc-legend i:nth-of-type(1){background:var(--hd-blue)!important}
+body.home-design .fc-legend i:nth-of-type(2){background:var(--hd-gold-dk)!important}
 
 /* ---------- motion safety ---------- */
 @media(prefers-reduced-motion:reduce){
