@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#102a43">
+<title>発音チェック｜旅行会話を話して練習</title>
+<meta name="description" content="韓国旅行の会話75フレーズを声に出して練習。お手本を聞いて話すと、ブラウザが聞き取った言葉と比べて100点満点で採点します。登録不要・無料。">
+<link rel="canonical" href="https://topik-study.pages.dev/speaking-practice">
+<meta property="og:type" content="website">
+<meta property="og:title" content="発音チェック｜旅行会話を話して練習">
+<meta property="og:description" content="旅行会話75フレーズを声に出して練習。お手本の韓国語を聞いて話すと、聞き取り結果と比べて採点します。">
+<meta property="og:url" content="https://topik-study.pages.dev/speaking-practice"><meta property="og:image" content="https://images.pexels.com/videos/32531981/downtown-seoul-gyeongbokgung-gyeongbokgung-palace-korea-32531981.jpeg?auto=compress&cs=tinysrgb&w=1600"><meta property="og:image:width" content="1600"><meta property="og:image:height" content="900"><meta property="og:image:alt" content="景福宮とソウルの街並み">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg"><link rel="icon" href="./app-icon-192.png">
+<link rel="stylesheet" href="./speaking-practice.css?v=1">
+<link rel="stylesheet" href="./result-viz.css?v=4">
+<meta property="og:site_name" content="TOPIK STUDY"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="発音チェック｜旅行会話を話して練習"><meta name="twitter:description" content="旅行会話75フレーズを声に出して練習。お手本の韓国語を聞いて話すと、聞き取り結果と比べて採点します。"><meta name="twitter:image" content="https://images.pexels.com/videos/32531981/downtown-seoul-gyeongbokgung-gyeongbokgung-palace-korea-32531981.jpeg?auto=compress&cs=tinysrgb&w=1600"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap">
+</head>
+<body><main class="app"><div class="page-band">
+<div class="eyebrow">SPEAKING PRACTICE</div>
+<h1>発音チェック</h1>
+<p>旅行会話のフレーズを声に出して練習します。お手本を聞いて、同じように話してみましょう。</p></div>
+<p class="how"><b>使い方</b>　① フレーズを選ぶ → ②「お手本を聞く」で韓国語を確認 → ③「話してみる」で声に出す。ブラウザが聞き取った言葉とお手本を比べて、100点満点で採点します。</p>
+<div class="chips" role="group" aria-label="場面で絞り込む">
+<button type="button" class="chip" data-category="すべて" aria-pressed="true">すべて</button>
+<button type="button" class="chip" data-category="交通" aria-pressed="false">交通</button>
+<button type="button" class="chip" data-category="飲食店" aria-pressed="false">飲食店</button>
+<button type="button" class="chip" data-category="買い物" aria-pressed="false">買い物</button>
+<button type="button" class="chip" data-category="ホテル" aria-pressed="false">ホテル</button>
+<button type="button" class="chip" data-category="困ったとき" aria-pressed="false">困ったとき</button>
+</div>
+<p class="count" id="phraseCount" aria-live="polite">75件の表現</p>
+<ul class="phrase-list" id="phraseList"></ul>
+<p class="empty" id="emptyList" hidden>条件に合う表現がありません。「すべて」で探してください。</p>
+<noscript><p class="empty">発音チェックにはJavaScriptが必要です。JavaScriptを有効にしてください。</p></noscript>
+<section class="panel" id="practicePanel" hidden aria-labelledby="practiceKo">
+<p class="mode-label" id="modeLabel">音声認識モード</p>
+<h2 class="ko-big" id="practiceKo" lang="ko" tabindex="-1"></h2>
+<p class="ja-sub" id="practiceJa"></p>
+<div class="btn-row">
+<button type="button" class="btn" id="playModel">お手本を聞く</button>
+<button type="button" class="btn" id="speakBtn">話してみる</button>
+</div>
+<div class="btn-row" id="recordRow" hidden>
+<button type="button" class="btn" id="recordBtn">録音する</button>
+<button type="button" class="btn secondary" id="playRecordBtn" disabled>自分の声を聞く</button>
+</div>
+<audio id="recordAudio" controls hidden></audio>
+<p class="status" id="status" aria-live="polite"></p>
+<div class="result" id="resultWrap" hidden>
+<div class="score-line"><span class="score-num" id="scoreNum"></span><span class="score-cap">点（100点満点・目安）</span></div>
+<p class="heard" id="heardLine" hidden>聞き取れた言葉：<q id="heardText" lang="ko"></q></p>
+<p class="diff" id="diffWrap" lang="ko" aria-label="お手本との違い"></p>
+<p class="diff-key">赤い字はちがう音、破線は聞き取れなかった音です。赤い字の注釈には、聞き取れた音が入っています。</p>
+<div class="hoya" id="resultHoya" hidden>
+<img class="hoya-img" src="./mascot-hoya.svg" alt="" aria-hidden="true" width="64" height="64">
+<p class="hoya-line"></p>
+</div>
+</div>
+<div class="btn-row" style="margin-top:14px">
+<button type="button" class="btn secondary" id="closePanel">別のフレーズを選ぶ</button>
+</div>
+</section>
+<section class="notes" aria-label="発音チェックについての注意">
+<p>認識の精度はブラウザや端末によって変わります。スコアは練習の目安で、合否や成績とは関係ありません。</p>
+<p>音声はこのサイトに保存されません。認識も録音も、この端末の中で行います。</p>
+<p>マイクの許可が必要です。許可しない場合も、お手本を聞いて音読する練習ができます。</p>
+</section>
+<a class="sub" href="./korean-phrase-cards">会話カードで意味を確認する →</a>
+<a class="sub" href="./">トップページへ戻る</a>
+</main>
+<script src="./result-viz.js?v=2"></script>
+<script src="./speaking-phrases.js?v=1"></script>
+<script src="./speaking-practice.js?v=1"></script>
+</body></html>
