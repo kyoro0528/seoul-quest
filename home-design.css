@@ -276,9 +276,10 @@ body.home-design .fc-date{color:var(--hd-muted)}
 body.home-design .fc-col.today .fc-bar{outline:2px solid var(--hd-red);outline-offset:-1px}
 body.home-design .fc-col.today .fc-day{color:var(--hd-red-dk)}
 body.home-design .fc-overdue{
-  background:#FBF1F2;border:1px solid #EFC9CE;border-radius:var(--hd-r-sm);
-  padding:10px 12px;line-height:1.7;
+  background:#FBF1F2;border:1px solid var(--hd-red);border-radius:var(--hd-r-sm);
+  padding:10px 12px;line-height:1.7;color:var(--hd-red);
 }
+body.home-design .fc-overdue a{color:var(--hd-red);font-weight:700;text-underline-offset:3px}
 body.home-design .fc-legend{color:var(--hd-text-2)}
 body.home-design .fc-calm{color:var(--hd-text-2)}
 
