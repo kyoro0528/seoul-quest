@@ -300,7 +300,7 @@ def head(title, desc, path, jsonlds):
 <meta name="twitter:description" content="{esc(desc)}">
 <meta name="twitter:image" content="{OG_IMAGE}">
 <meta name="theme-color" content="#0b2239">
-<link rel="stylesheet" href="./study-guides.css?v=3">
+<link rel="stylesheet" href="./study-guides.css?v=4">
 <link rel="stylesheet" href="./next-learning.css?v=1">
 <link rel="icon" type="image/svg+xml" href="./favicon.svg"><link rel="icon" type="image/png" href="./app-icon-192.png">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
@@ -309,7 +309,7 @@ def head(title, desc, path, jsonlds):
 {ld}
 {FONT_BLOCK}
 {PAGE_CSS}
-<link rel="stylesheet" href="./design-system.css?v=1">
+<link rel="stylesheet" href="./design-system.css?v=2">
 </head>
 '''
 

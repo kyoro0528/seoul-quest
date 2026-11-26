@@ -21,7 +21,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans JP","
 .status{margin:0 0 10px;font-size:15px;line-height:1.8}
 .daily-line{margin:0 0 8px;font-size:15px;font-weight:700;color:var(--blue);line-height:1.8}
 .mock-line{margin:0 0 6px;font-size:14px;line-height:1.8;color:var(--ink)}
-.mode-note{margin:0 0 14px;padding:13px 15px;border:1px solid #f0c9cf;border-left:4px solid var(--accent);border-radius:12px;background:#fdf3f4;font-size:14px;line-height:1.85}
+.mode-note{margin:0 0 14px;padding:13px 15px;border:1px solid #E8D9AE;border-left:4px solid #C2A054;border-radius:12px;background:#FBF6E9;font-size:14px;line-height:1.85}
 .prio-list{margin:0;padding-left:22px;font-size:14.5px;line-height:1.85}
 .prio-list li{margin:0 0 10px}
 .prio-list a{color:var(--blue);font-weight:700}
@@ -40,4 +40,4 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans JP","
 .notes p{margin:0 0 8px}
 .notes a{color:var(--blue)}
 .sub{display:block;text-align:center;color:var(--blue);text-decoration:none;font-weight:700;font-size:14px;padding:8px}
-.empty{margin:0 0 14px;font-size:14px;color:var(--accent)}
+.empty{margin:0 0 14px;font-size:14px;color:var(--blue)}
