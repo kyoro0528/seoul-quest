@@ -50,3 +50,35 @@ body .site-legal-footer .foot-note strong{color:var(--ds-ink)}
 body .site-legal-footer .foot-legal{border-top:1px solid var(--ds-line-soft)}
 body .site-legal-footer .foot-legal a{color:var(--ds-navy-700)}
 body .site-legal-footer .foot-copy{color:var(--ds-muted)}
+
+/* ---------- v109 palette sweep: shared footer goes navy ----------
+   Full-width navy gradient; inner column kept at 960px via padding.
+   Skyline silhouette recoloured to a gold gradient via CSS mask
+   (fallback: inverted silhouette at low opacity). */
+body .site-legal-footer{
+  background:linear-gradient(180deg,var(--ds-navy-800),var(--ds-navy-950));
+  border-top:2px solid var(--ds-gold);
+  color:#DCE5EE;
+  max-width:none;
+  margin-left:0;margin-right:0;
+  padding-left:max(20px,calc(50% - 460px));
+  padding-right:max(20px,calc(50% - 460px));
+}
+body .site-legal-footer .foot-brand strong{color:#fff}
+body .site-legal-footer .foot-brand span{color:#B9C9DA}
+body .site-legal-footer .study-links{border-bottom:1px solid rgba(220,229,238,.16)}
+body .site-legal-footer .foot-group h3{color:var(--ds-gold-lt);letter-spacing:.14em}
+body .site-legal-footer .foot-group a{color:#DCE5EE}
+body .site-legal-footer .foot-note strong{color:#fff}
+body .site-legal-footer .foot-legal{border-top:1px solid rgba(220,229,238,.16)}
+body .site-legal-footer .foot-legal a{color:#DCE5EE}
+body .site-legal-footer .foot-copy{color:#B9C9DA}
+body .site-legal-footer .foot-skyline{filter:brightness(0) invert(1);opacity:.28}
+@supports ((-webkit-mask-image:url(x)) or (mask-image:url(x))){
+  body .site-legal-footer .foot-skyline{
+    filter:none;opacity:1;
+    background:linear-gradient(180deg,var(--ds-gold-lt),var(--ds-gold));
+    -webkit-mask:url(/seoul-skyline.svg) center bottom/auto 52px repeat-x;
+    mask:url(/seoul-skyline.svg) center bottom/auto 52px repeat-x;
+  }
+}

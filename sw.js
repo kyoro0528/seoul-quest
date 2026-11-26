@@ -1,4 +1,4 @@
-const CACHE_NAME = 'topik-study-v108';
+const CACHE_NAME = 'topik-study-v109';
 const CORE_FILES = [
   '/korean-phrase-cards', '/korean-phrase-cards.js?v=36', '/korean-phrase-cards.css?v=37', '/travel-phrase-search.js?v=36', '/travel-replies.js?v=34', '/travel-destinations.js?v=33',
   '/travel-layout.css?v=1',
@@ -9,9 +9,9 @@ const CORE_FILES = [
   '/vocab.js', '/vocab-extra.js', '/vocab-level2.js',
   '/study-explanations.js', '/roadmap-questions.js', '/mock-exam.js?v=42', '/result-viz.css?v=5', '/result-viz.js?v=2', '/exam-pdf.js', '/site-footer.js?v=77', '/back-to-top.js?v=1', '/learning-storage.js', '/learning-bootstrap.js', '/topik1-vocabulary',
   '/topik1-solving-tips', '/topik1-practice', '/topik1-grammar', '/topik1-reading',
-  '/topik1-listening', '/topik-guide', '/topik1-exam-results', '/exam-results.js?v=2', '/study-guides.css?v=3', '/next-learning.css?v=1', '/topik-schedule-2027', '/speaking-practice', '/speaking-phrases.js?v=1', '/speaking-practice.js?v=2', '/speaking-practice.css?v=2',
+  '/topik1-listening', '/topik-guide', '/topik1-exam-results', '/exam-results.js?v=2', '/study-guides.css?v=4', '/next-learning.css?v=1', '/topik-schedule-2027', '/speaking-practice', '/speaking-phrases.js?v=1', '/speaking-practice.js?v=2', '/speaking-practice.css?v=2',
   '/dictation', '/dictation-items.js?v=1', '/dictation.js?v=1', '/dictation.css?v=2',
-  '/study-plan', '/study-plan.js?v=1', '/study-plan.css?v=2', '/home-design.css?v=2', '/design-system.css?v=1'
+  '/study-plan', '/study-plan.js?v=1', '/study-plan.css?v=2', '/home-design.css?v=3', '/design-system.css?v=2'
 ];
 
 self.addEventListener('install', event => {

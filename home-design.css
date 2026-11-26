@@ -392,3 +392,29 @@ body.home-design .fc-legend i:nth-of-type(2){background:var(--hd-gold-dk)!import
   body.home-design .menu-button:hover,body.home-design .chapter:hover,
   body.home-design .bento-tile:hover{transform:none}
 }
+
+/* ---------- v109 palette sweep: gold CTA, gold today markers,
+   decorative red -> navy/gold (functional red kept: overdue panel,
+   quiz right/wrong feedback, honban-mode danger) ---------- */
+body.home-design header:before{background:linear-gradient(90deg,#10314F 0 48%,#fff 48% 52%,#C2A054 52%)}
+body.home-design .today-start,
+body.home-design #home .today-start{
+  background:linear-gradient(120deg,var(--hd-gold-lt),var(--hd-gold));
+  border:1px solid var(--hd-gold-dk);color:var(--hd-navy-950);
+  box-shadow:0 1px 2px rgba(138,109,47,.22),0 14px 30px -12px rgba(194,160,84,.55);
+}
+@media(hover:hover){
+  body.home-design .today-start:hover{
+    box-shadow:0 2px 4px rgba(138,109,47,.22),0 20px 40px -14px rgba(194,160,84,.6);
+  }
+}
+body.home-design .hm-cell.today{outline:2px solid var(--hd-gold-dk)}
+body.home-design .fc-col.today .fc-bar{outline:2px solid var(--hd-gold-dk)}
+body.home-design .fc-col.today .fc-day{color:var(--hd-gold-dk)}
+body.home-design .day-bar.active i{background:var(--hd-gold-dk)}
+body.home-design .exam-strip{border-left-color:var(--hd-gold)}
+body.home-design .past-paper-launch{border-left-color:var(--hd-gold)}
+body.home-design .plan-card:nth-child(even):before{background:var(--hd-gold);box-shadow:0 0 0 1px var(--hd-gold)}
+body.home-design .plan-card .go{color:var(--hd-gold-dk)}
+body.home-design .mock-go{color:var(--hd-gold-dk)}
+body.home-design .vocab-strip .exam-mark{color:var(--hd-gold-lt)}
